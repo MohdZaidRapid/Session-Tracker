@@ -20,24 +20,84 @@ input CreateBlogInput {
   title: String!
 }
 
+input GetAllSessionDto {
+  """Input sort order"""
+  sort: Float
+}
+
+type GetSessionByIdDef {
+  """description of the session"""
+  description: String
+
+  """image of the session"""
+  headerImage: String
+
+  """owner of the session"""
+  owner: String
+
+  """title of the session"""
+  title: String
+
+  """video of the session"""
+  video: String
+}
+
+input GetSessionByIdDto {
+  """Input sort order"""
+  id: String
+}
+
+type MessageDef {
+  """title of the session"""
+  message: String
+
+  """success true/false"""
+  success: Boolean
+}
+
 type Mutation {
   createBlog(createBlogInput: CreateBlogInput!): Blog!
-  session(input: SessionDto!): SessionDef!
+  createSession(input: SessionDto!): MessageDef!
+  getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
 }
 
 type Query {
+  allSessions(input: GetAllSessionDto!): SessionDataDef!
   blog(_id: String!): Blog!
 }
 
+type SessionDataDef {
+  """Array of data of session of users"""
+  allSessions: [SessionDef!]!
+}
+
 type SessionDef {
-  """Title of the contents"""
+  """image of the session"""
+  headerImage: String
+
+  """owner of the session"""
+  owner: String
+
+  """title of the session"""
   title: String
 }
 
 input SessionDto {
-  """Title of the contents"""
-  title: String
+  """description of the session"""
+  description: String
+
+  """header image of the session"""
+  headerImage: String!
+
+  """Owner  of the session"""
+  owner: String!
+
+  """title of the session"""
+  title: String!
+
+  """Video  of the session"""
+  video: String
 }
 
 input UpdateBlogInput {

@@ -1,19 +1,42 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { SessionDto } from './dto/session.dto';
+import {
+  GetAllSessionDto,
+  GetSessionByIdDto,
+  SessionDto,
+} from './dto/session.dto';
 import { SessionsService } from './sessions.service';
-import { SessionDef } from './typeDef/resolver-type';
+import {
+  GetSessionByIdDef,
+  MessageDef,
+  SessionDataDef,
+  SessionDef,
+} from './typeDef/resolver-type';
 
-@Resolver(() => SessionDef)
+@Resolver(() => [])
 export class SessionsResolver {
   constructor(private sessionService: SessionsService) {}
 
-  @Mutation(() => SessionDef, { name: 'session' })
+  @Mutation(() => MessageDef, { name: 'createSession' })
   async createSession(@Args('input') sessionDto: SessionDto) {
     try {
-      const data = await this.sessionService.createSession(sessionDto);
-      return data;
+      return await this.sessionService.createSession(sessionDto);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
+  }
+
+  @Query(() => SessionDataDef, { name: 'allSessions' })
+  async getAllSessions(@Args('input') getAllSessionDto: GetAllSessionDto) {
+    try {
+      return await this.sessionService.getAllSessions(getAllSessionDto);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Mutation(() => GetSessionByIdDef, { name: 'getSessionById' })
+  async getSessionById(@Args('input') getSessionByIdDto: GetSessionByIdDto) {
+    const data = await this.sessionService.getSessionById(getSessionByIdDto);
+    return data;
   }
 }
