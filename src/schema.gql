@@ -22,11 +22,22 @@ input CreateBlogInput {
 
 type Mutation {
   createBlog(createBlogInput: CreateBlogInput!): Blog!
+  session(input: SessionDto!): SessionDef!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
 }
 
 type Query {
   blog(_id: String!): Blog!
+}
+
+type SessionDef {
+  """Title of the contents"""
+  title: String
+}
+
+input SessionDto {
+  """Title of the contents"""
+  title: String
 }
 
 input UpdateBlogInput {

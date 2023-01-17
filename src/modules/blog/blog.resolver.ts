@@ -16,7 +16,6 @@ export class BlogResolver {
 
   @Query(() => [Blog], { name: 'blog' })
   findAll() {
-    console.log ("Hui");
     return this.blogService.findAll();
   }
 
