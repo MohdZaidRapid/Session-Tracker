@@ -4,14 +4,16 @@ import { Blog } from './entities/blog.entity';
 //import { Blog } from './blog.schema';
 import { CreateBlogInput } from './dto/create-blog.input';
 import { UpdateBlogInput } from './dto/update-blog.input';
+import { MessageDef } from '../sessions/typeDef/resolver-type';
 
 @Resolver(() => Blog)
 export class BlogResolver {
   constructor(private readonly blogService: BlogService) {}
 
-  @Mutation(() => Blog)
-  createBlog(@Args('createBlogInput') createBlogInput: CreateBlogInput) {
-    return this.blogService.create(createBlogInput);
+  @Mutation(() => MessageDef)
+  async createBlog(@Args('createBlog') createBlogInput: CreateBlogInput) {
+    const data = await this.blogService.create(createBlogInput);
+    return data;
   }
 
   @Query(() => [Blog], { name: 'blog' })

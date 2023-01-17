@@ -9,44 +9,45 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class BlogService {
   constructor(
-    @InjectModel(Blog.name)
+    @InjectModel('blog')
     private readonly blogModel: Model<Blog>,
   ) {}
 
-  create(createBlogInput: CreateBlogInput) {
-    try{
-      const blog = new this.blogModel(createBlogInput);
-      return blog.save();
-    }
-    catch (error) {
-      return new Error(error.message)
+  async create(createBlogInput: CreateBlogInput) {
+    try {
+      const blog = await this.blogModel.create(createBlogInput);
+      await blog.save();
+      return {
+        message: 'blog created successfully',
+        success: true,
+      };
+    } catch (error) {
+      return new Error(error.message);
     }
   }
 
   async findAll() {
-    try{
+    try {
       const blog = await this.blogModel.find();
 
       if (!blog) {
-        return "Blog not found"
+        return 'Blog not found';
       }
       return blog;
-    }
-    catch (error) {
-      return new Error(error.message)
+    } catch (error) {
+      return new Error(error.message);
     }
   }
 
   async findOne(id: string) {
-    try{
+    try {
       const blog = await this.blogModel.findOne({ _id: id }).exec();
-    if (!blog) {
-      return "Blog not found"
-    }
-    return blog;
-    }
-    catch (error) {
-      return new Error(error.message)
+      if (!blog) {
+        return 'Blog not found';
+      }
+      return blog;
+    } catch (error) {
+      return new Error(error.message);
     }
   }
 

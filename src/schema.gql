@@ -13,11 +13,24 @@ type Blog {
 }
 
 input CreateBlogInput {
-  """Blog Description"""
-  description: String!
+  """bannerImage of the blog"""
+  bannerImage: String
 
-  """Blog Title"""
-  title: String!
+  """category of the blog"""
+  category: String
+
+  """Content of the blog"""
+  content: String
+
+  """description of the blog"""
+  description: String
+  images: [String!]!
+
+  """subContent of the blog"""
+  subContent: [SubContent!]
+
+  """title of the blog"""
+  title: String
 }
 
 input GetAllSessionDto {
@@ -56,7 +69,7 @@ type MessageDef {
 }
 
 type Mutation {
-  createBlog(createBlogInput: CreateBlogInput!): Blog!
+  createBlog(createBlog: CreateBlogInput!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
@@ -100,12 +113,30 @@ input SessionDto {
   video: String
 }
 
+input SubContent {
+  """SubContent of blog"""
+  title: String!
+}
+
 input UpdateBlogInput {
   _id: String!
 
-  """Blog Description"""
-  description: String
+  """bannerImage of the blog"""
+  bannerImage: String
 
-  """Blog Title"""
+  """category of the blog"""
+  category: String
+
+  """Content of the blog"""
+  content: String
+
+  """description of the blog"""
+  description: String
+  images: [String!]
+
+  """subContent of the blog"""
+  subContent: [SubContent!]
+
+  """title of the blog"""
   title: String
 }
