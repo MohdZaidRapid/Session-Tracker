@@ -11,15 +11,18 @@ export const BlogSchema = new mongoose.Schema<Blog>(
     subContent: [
       {
         title: String,
+        content: String,
+        images: [String],
       },
     ],
-    images: [String],
-    comments: [{
-      name: String,
-      email: String,
-      message: String,
-      date: { type: Date, default: Date.now },
-    }]
+    comments: [
+      {
+        name: String,
+        email: String,
+        message: String,
+        date: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true },
 );

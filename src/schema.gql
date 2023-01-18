@@ -32,14 +32,14 @@ type BlogByIdDef {
   """category of the blog"""
   category: String
 
+  """subContent of the blog"""
+  comments: [CommentData!]
+
   """date on which blog is updated"""
   createdAt: DateTime
 
   """description of the blog"""
   description: String
-
-  """subContent of the blog"""
-  images: [String!]
 
   """subContent of the blog"""
   subContent: [SubContentData!]
@@ -48,14 +48,28 @@ type BlogByIdDef {
   title: String
 }
 
+type CommentData {
+  """id of the session"""
+  date: DateTime
+
+  """id of the session"""
+  email: String
+
+  """id of the session"""
+  message: String
+
+  """id of the session"""
+  name: String
+}
+
 input CommentsDto {
   """added email of Blog user"""
   email: String!
 
-  """added id of Blog id"""
+  """id of Blog """
   id: String!
 
-  """added email of Blog user"""
+  """added message of Blog user"""
   message: String!
 
   """added name of user"""
@@ -77,17 +91,11 @@ input CreateBlogDto {
   """category of the blog"""
   category: String
 
-  """Content of the blog"""
-  content: String!
-
   """description of the blog"""
   description: String
 
-  """images array"""
-  images: [String!]
-
   """subContent of the blog"""
-  subContent: [SubContent!]
+  subContent: [SubContent!]!
 
   """title of the blog"""
   title: String!
@@ -195,11 +203,23 @@ input SessionDto {
 }
 
 input SubContent {
-  """SubContent of blog"""
+  """Content of the blog"""
+  content: String!
+
+  """images array"""
+  images: [String!]
+
+  """title of blog"""
   title: String!
 }
 
 type SubContentData {
+  """id of the session"""
+  content: String
+
+  """subContent of the blog"""
+  images: [String!]
+
   """id of the session"""
   title: String
 }

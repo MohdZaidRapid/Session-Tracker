@@ -37,6 +37,41 @@ export class Blog {
 }
 
 @ObjectType()
+export class CommentData {
+  @Field({
+    nullable: true,
+    description: 'id of the session',
+  })
+  @IsOptional()
+  @IsString()
+  readonly name: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of the session',
+  })
+  @IsOptional()
+  @IsString()
+  readonly email: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of the session',
+  })
+  @IsOptional()
+  @IsString()
+  readonly message: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of the session',
+  })
+  @IsOptional()
+  @IsString()
+  readonly date: Date;
+}
+
+@ObjectType()
 export class SubContentData {
   @Field({
     nullable: true,
@@ -45,6 +80,22 @@ export class SubContentData {
   @IsOptional()
   @IsString()
   readonly title: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of the session',
+  })
+  @IsOptional()
+  @IsString()
+  readonly content: string;
+
+  @Field(() => [String], {
+    nullable: true,
+    description: 'subContent of the blog',
+  })
+  @IsString()
+  @IsOptional()
+  readonly images: string[];
 }
 
 @ObjectType()
@@ -89,13 +140,13 @@ export class BlogByIdDef {
   @IsOptional()
   readonly subContent: SubContentData[];
 
-  @Field(() => [String], {
+  @Field(() => [CommentData], {
     nullable: true,
     description: 'subContent of the blog',
   })
   @IsString()
   @IsOptional()
-  readonly images: string[];
+  readonly comments: CommentData[];
 }
 
 @ObjectType()

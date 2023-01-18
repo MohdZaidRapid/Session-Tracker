@@ -67,7 +67,7 @@ export class BlogService {
 
   async findOne({ id }) {
     try {
-      const blog = await this.blogModel.findOne({ _id: id });
+      const blog = await this.blogModel.findById(id);
       if (!blog) {
         throw new NotFoundException('No Blog found with this id');
       }
