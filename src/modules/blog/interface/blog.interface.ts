@@ -9,9 +9,10 @@ export interface Blog extends Document {
   subContent: [
     {
       title: string;
+      content: string;
+      images: [string];
     },
   ];
-  images: [string];
   comments: [
     {
       name: string;

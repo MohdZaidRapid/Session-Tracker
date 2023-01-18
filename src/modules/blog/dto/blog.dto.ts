@@ -17,10 +17,19 @@ export class CreateContentDto {
 
 @InputType()
 export class SubContent {
-  @Field({ description: 'SubContent of blog' })
-  @IsOptional()
+  @Field({ nullable: false, description: 'title of blog' })
+  @IsNotEmpty()
   @IsString()
   title: string;
+
+  @Field(() => String, { nullable: false, description: 'Content of the blog' })
+  @MinLength(10)
+  content: string;
+
+  @Field(() => [String], { nullable: true, description: 'images array' })
+  @IsOptional()
+  @IsArray()
+  images: string[];
 }
 @InputType()
 export class CreateBlogDto {
@@ -51,21 +60,10 @@ export class CreateBlogDto {
   description: string;
 
   @Field(() => [SubContent], {
-    nullable: true,
+    nullable: false,
     description: 'subContent of the blog',
   })
-  @IsArray()
-  @IsOptional()
   subContent: SubContent[];
-
-  @Field(() => String, { nullable: false, description: 'Content of the blog' })
-  @MinLength(10)
-  content: string;
-
-  @Field(() => [String], { nullable: true, description: 'images array' })
-  @IsOptional()
-  @IsArray()
-  images: string[];
 }
 
 @InputType()
@@ -83,7 +81,7 @@ export class GetBlogByIdDto {
 export class CommentsDto {
   @Field({
     nullable: false,
-    description: 'added id of Blog id',
+    description: 'id of Blog ',
   })
   @IsNotEmpty()
   @IsString()
@@ -107,7 +105,7 @@ export class CommentsDto {
 
   @Field({
     nullable: false,
-    description: 'added email of Blog user',
+    description: 'added message of Blog user',
   })
   @IsNotEmpty()
   @IsString()
