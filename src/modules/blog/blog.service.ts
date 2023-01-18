@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBlogInput } from './dto/create-blog.input';
-import { UpdateBlogInput } from './dto/update-blog.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateBlogDto } from './dto/blog.dto';
+import { UpdateBlogInput } from './dto/update-dto';
 import { Model } from 'mongoose';
-//import { Blog } from './blog.schema';
-import { Blog } from './entities/blog.entity';
 import { InjectModel } from '@nestjs/mongoose';
+import { Blog } from './interface/blog.interface';
 
 @Injectable()
 export class BlogService {
@@ -13,9 +12,9 @@ export class BlogService {
     private readonly blogModel: Model<Blog>,
   ) {}
 
-  async create(createBlogInput: CreateBlogInput) {
+  async create(createBlogDto: CreateBlogDto) {
     try {
-      const blog = await this.blogModel.create(createBlogInput);
+      const blog = await this.blogModel.create(createBlogDto);
       await blog.save();
       return {
         message: 'blog created successfully',
@@ -26,12 +25,12 @@ export class BlogService {
     }
   }
 
-  async findAll() {
+  async findAllBlog() {
     try {
       const blog = await this.blogModel.find();
 
       if (!blog) {
-        return 'Blog not found';
+        throw new NotFoundException('Blog not found');
       }
       return blog;
     } catch (error) {
@@ -39,9 +38,9 @@ export class BlogService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne({ id }) {
     try {
-      const blog = await this.blogModel.findOne({ _id: id }).exec();
+      const blog = await this.blogModel.findOne({ _id: id });
       if (!blog) {
         return 'Blog not found';
       }

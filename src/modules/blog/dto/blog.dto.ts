@@ -9,7 +9,7 @@ export class SubContent {
   title: string;
 }
 @InputType()
-export class CreateBlogInput {
+export class CreateBlogDto {
   @Field(() => String, { nullable: true, description: 'title of the blog' })
   @IsOptional()
   @IsString()
@@ -48,8 +48,19 @@ export class CreateBlogInput {
   @MinLength(10)
   content: string;
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true, description: 'images array' })
   @IsOptional()
   @IsArray()
   images: string[];
+}
+
+@InputType()
+export class GetBlogByIdDto {
+  @Field({
+    nullable: true,
+    description: 'id of the blog',
+  })
+  @IsString()
+  @IsOptional()
+  id: string;
 }

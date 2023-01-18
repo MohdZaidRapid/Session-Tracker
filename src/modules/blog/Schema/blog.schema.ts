@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Blog } from '../interface/blog.interface';
 
-export const SessionSchema = new mongoose.Schema<Blog>(
+export const BlogSchema = new mongoose.Schema<Blog>(
   {
     title: String,
     bannerImage: String,

@@ -5,6 +5,12 @@ import { IsArray, IsString } from 'class-validator';
 export class SessionDef {
   @Field({
     nullable: true,
+    description: '_id of the session',
+  })
+  @IsString()
+  _id: string;
+  @Field({
+    nullable: true,
     description: 'title of the session',
   })
   @IsString()

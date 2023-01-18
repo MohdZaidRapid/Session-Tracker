@@ -3,16 +3,52 @@
 # ------------------------------------------------------
 
 type Blog {
-  _id: String!
+  """id of the session"""
+  _id: String
 
-  """Blog Description"""
-  description: String!
+  """bannerImage of the blog"""
+  bannerImage: String
 
-  """Blog Title"""
-  title: String!
+  """category of the blog"""
+  category: String
+
+  """date on which blog is updated"""
+  createdAt: DateTime
+
+  """description of the blog"""
+  description: String
+
+  """title of the blog"""
+  title: String
 }
 
-input CreateBlogInput {
+type BlogByIdDef {
+  """id of the session"""
+  _id: String
+
+  """bannerImage of the blog"""
+  bannerImage: String
+
+  """category of the blog"""
+  category: String
+
+  """date on which blog is updated"""
+  createdAt: DateTime
+
+  """description of the blog"""
+  description: String
+
+  """subContent of the blog"""
+  images: [String!]
+
+  """subContent of the blog"""
+  subContent: [SubContentData!]
+
+  """title of the blog"""
+  title: String
+}
+
+input CreateBlogDto {
   """bannerImage of the blog"""
   bannerImage: String
 
@@ -24,7 +60,9 @@ input CreateBlogInput {
 
   """description of the blog"""
   description: String
-  images: [String!]!
+
+  """images array"""
+  images: [String!]
 
   """subContent of the blog"""
   subContent: [SubContent!]
@@ -33,9 +71,19 @@ input CreateBlogInput {
   title: String
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 input GetAllSessionDto {
   """Input sort order"""
   sort: Float
+}
+
+input GetBlogByIdDto {
+  """id of the blog"""
+  id: String
 }
 
 type GetSessionByIdDef {
@@ -69,7 +117,7 @@ type MessageDef {
 }
 
 type Mutation {
-  createBlog(createBlog: CreateBlogInput!): MessageDef!
+  createBlog(createBlog: CreateBlogDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
@@ -77,7 +125,8 @@ type Mutation {
 
 type Query {
   allSessions(input: GetAllSessionDto!): SessionDataDef!
-  blog(_id: String!): Blog!
+  getAllblog: [Blog!]!
+  getBlogById(input: GetBlogByIdDto!): BlogByIdDef!
 }
 
 type SessionDataDef {
@@ -86,6 +135,9 @@ type SessionDataDef {
 }
 
 type SessionDef {
+  """_id of the session"""
+  _id: String
+
   """image of the session"""
   headerImage: String
 
@@ -118,6 +170,11 @@ input SubContent {
   title: String!
 }
 
+type SubContentData {
+  """id of the session"""
+  title: String
+}
+
 input UpdateBlogInput {
   _id: String!
 
@@ -132,6 +189,8 @@ input UpdateBlogInput {
 
   """description of the blog"""
   description: String
+
+  """images array"""
   images: [String!]
 
   """subContent of the blog"""
