@@ -76,4 +76,17 @@ export class BlogService {
       return new Error(error.message);
     }
   }
+
+  async addComment({ id, name, email, message }) {
+    await this.blogModel.findOneAndUpdate(
+      { _id: id },
+      { $push: { comments: { name, email, message } } },
+      { new: true },
+    );
+
+    return {
+      message: 'comment added successfully',
+      success: true,
+    };
+  }
 }

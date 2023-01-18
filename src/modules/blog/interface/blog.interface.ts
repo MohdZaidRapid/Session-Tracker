@@ -12,4 +12,12 @@ export interface Blog extends Document {
     },
   ];
   images: [string];
+  comments: [
+    {
+      name: string;
+      email: string;
+      message: string;
+      date: Date;
+    },
+  ];
 }

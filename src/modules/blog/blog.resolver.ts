@@ -5,6 +5,7 @@ import {
   CreateContentDto,
   CreateBlogDto,
   GetBlogByIdDto,
+  CommentsDto,
 } from './dto/blog.dto';
 import { UpdateBlogInput } from './dto/update-dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
@@ -42,5 +43,10 @@ export class BlogResolver {
   @Query(() => BlogByIdDef, { name: 'getBlogById' })
   findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
     return this.blogService.findOne(getBlogByIdDto);
+  }
+
+  @Mutation(() => MessageDef, { name: 'addComment' })
+  async addComment(@Args('input') commentsDto: CommentsDto) {
+    return await this.blogService.addComment(commentsDto);
   }
 }
