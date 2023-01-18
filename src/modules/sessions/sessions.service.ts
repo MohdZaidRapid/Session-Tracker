@@ -7,6 +7,16 @@ import { Session } from './interfaces/session.interface';
 export class SessionsService {
   constructor(@InjectModel('Session') private sessionModel: Model<Session>) {}
 
+  /**
+   * @description createSession for
+   * @param createSessionDto {title: string;
+    description: string;
+    headerImage: string;
+    owner: string;
+    video: string}
+   * @returns {message success}
+   */
+  // MohdZaid
   async createSession(createSessionDto) {
     try {
       let session = await this.sessionModel.create(createSessionDto);
@@ -26,14 +36,26 @@ export class SessionsService {
     }
   }
 
-  async getAllSessions(getAllSessionDto) {
-    let allSessions = await this.sessionModel.find();
+  /**
+   * @description getAllSession return an array of object
+   * @param getAllSessionDto {sort 1 or -1}
+   * @returns {_id headerImage owner title}
+   */
+  //author MohdZaid
+  async getAllSessions({ sort }) {
+    let allSessions = await this.sessionModel.find().sort({ sort: sort });
     if (!allSessions || allSessions.length <= 0) {
-      throw new NotFoundException('No session are found');
+      throw new NotFoundException('No sessions are found');
     }
     return { allSessions };
   }
 
+ /**
+   * @description getAllSession return an  object
+   * @param getAllSessionDto {id of the session}
+   * @returns {_id headerImage owner title}
+   */
+  //author MohdZaid
   async getSessionById({ id }) {
     const session = await this.sessionModel.findById(id);
     if (!session) {

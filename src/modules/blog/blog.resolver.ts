@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { BlogService } from './blog.service';
 
 import {
@@ -7,7 +7,6 @@ import {
   GetBlogByIdDto,
   CommentsDto,
 } from './dto/blog.dto';
-import { UpdateBlogInput } from './dto/update-dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
 
