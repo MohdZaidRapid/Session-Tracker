@@ -147,6 +147,14 @@ export class BlogByIdDef {
   @IsString()
   @IsOptional()
   readonly comments: CommentData[];
+
+  @Field({
+    nullable: true,
+    description: 'owner of the blog',
+  })
+  @IsOptional()
+  @IsString()
+  owner: string;
 }
 
 @ObjectType()

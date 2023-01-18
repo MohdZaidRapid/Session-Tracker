@@ -46,6 +46,14 @@ export class CreateBlogDto {
   @IsNotEmpty()
   bannerImage: string;
 
+  @Field({
+    nullable: false,
+    description: 'owner of the blog',
+  })
+  @IsString()
+  @IsNotEmpty()
+  owner: string;
+
   @Field({ nullable: true, description: 'category of the blog' })
   @IsString()
   @IsOptional()

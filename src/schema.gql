@@ -41,6 +41,9 @@ type BlogByIdDef {
   """description of the blog"""
   description: String
 
+  """owner of the blog"""
+  owner: String
+
   """subContent of the blog"""
   subContent: [SubContentData!]
 
@@ -93,6 +96,9 @@ input CreateBlogDto {
 
   """description of the blog"""
   description: String
+
+  """owner of the blog"""
+  owner: String!
 
   """subContent of the blog"""
   subContent: [SubContent!]!

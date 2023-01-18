@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Blog } from './interface/blog.interface';
 import { Content } from './interface/contents.interface';
 
-@Injectable()
+@Injectable() 
 export class BlogService {
   constructor(
     @InjectModel('blog')
