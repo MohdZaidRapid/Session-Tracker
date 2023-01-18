@@ -1,7 +1,11 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { BlogService } from './blog.service';
 
-import { CreateBlogDto, GetBlogByIdDto } from './dto/blog.dto';
+import {
+  CreateContentDto,
+  CreateBlogDto,
+  GetBlogByIdDto,
+} from './dto/blog.dto';
 import { UpdateBlogInput } from './dto/update-dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef } from './typeDef/resolver-type';
@@ -10,6 +14,13 @@ import { Blog, BlogByIdDef } from './typeDef/resolver-type';
 export class BlogResolver {
   constructor(private readonly blogService: BlogService) {}
 
+  @Mutation(() => MessageDef)
+  async createContent(
+    @Args('createContent') createContentDto: CreateContentDto
+  ) {
+    const data = await this.blogService.createContent(createContentDto);
+    return data;
+  }
   @Mutation(() => MessageDef)
   async createBlog(@Args('createBlog') createBlogDto: CreateBlogDto) {
     const data = await this.blogService.create(createBlogDto);

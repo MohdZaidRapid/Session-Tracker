@@ -9,31 +9,31 @@ export class Blog {
   })
   @IsString()
   @IsNotEmpty()
-  _id: string;
+readonly  _id: string;
 
   @Field({ nullable: true, description: 'title of the blog' })
   @IsString()
   @IsOptional()
-  title: string;
+readonly  title: string;
 
   @Field({ nullable: true, description: 'bannerImage of the blog' })
   @IsString()
   @IsOptional()
-  bannerImage: string;
+readonly  bannerImage: string;
 
   @Field({ nullable: true, description: 'category of the blog' })
   @IsString()
   @IsOptional()
-  category: string;
+ readonly category: string;
 
   @Field({ nullable: true, description: 'description of the blog' })
   @IsString()
   @IsOptional()
-  description: string;
+readonly  description: string;
 
   @Field({ nullable: true, description: 'date on which blog is updated' })
   @IsOptional()
-  createdAt: Date;
+ readonly createdAt: Date;
 }
 
 @ObjectType()
@@ -44,7 +44,7 @@ export class SubContentData {
   })
   @IsOptional()
   @IsString()
-  title: string;
+ readonly title: string;
 }
 
 @ObjectType()
@@ -55,31 +55,31 @@ export class BlogByIdDef {
   })
   @IsString()
   @IsNotEmpty()
-  _id: string;
+  readonly _id: string;
 
   @Field({ nullable: true, description: 'title of the blog' })
   @IsString()
   @IsOptional()
-  title: string;
+  readonly title: string;
 
   @Field({ nullable: true, description: 'bannerImage of the blog' })
   @IsString()
   @IsOptional()
-  bannerImage: string;
+  readonly bannerImage: string;
 
   @Field({ nullable: true, description: 'category of the blog' })
   @IsString()
   @IsOptional()
-  category: string;
+  readonly category: string;
 
   @Field({ nullable: true, description: 'description of the blog' })
   @IsString()
   @IsOptional()
-  description: string;
+  readonly description: string;
 
   @Field({ nullable: true, description: 'date on which blog is updated' })
   @IsOptional()
-  createdAt: Date;
+  readonly createdAt: Date;
 
   @Field(() => [SubContentData], {
     nullable: true,
@@ -87,7 +87,7 @@ export class BlogByIdDef {
   })
   @IsArray()
   @IsOptional()
-  subContent: SubContentData[];
+  readonly subContent: SubContentData[];
 
   @Field(() => [String], {
     nullable: true,
@@ -95,5 +95,12 @@ export class BlogByIdDef {
   })
   @IsString()
   @IsOptional()
-  images: string[];
+  readonly images: string[];
+}
+
+@ObjectType()
+export class ContentDef {
+  @Field({ description: 'title Of the content ' })
+  @IsOptional()
+  readonly title: string;
 }

@@ -2,6 +2,14 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 import { IsArray, IsOptional, IsString, MinLength } from 'class-validator';
 
 @InputType()
+export class CreateContentDto {
+  @Field({ description: 'title Of the content ' })
+  @IsOptional()
+  @IsString()
+  title: string;
+}
+
+@InputType()
 export class SubContent {
   @Field({ description: 'SubContent of blog' })
   @IsOptional()

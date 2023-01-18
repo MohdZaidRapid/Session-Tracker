@@ -29,11 +29,6 @@ import { SessionsModule } from './modules/sessions/sessions.module';
         uri: config.get('DB_URL'),
       }),
     }),
-    // MongooseModule.forRoot('mongodb://localhost:27017/nest', {
-    //   useUnifiedTopology: true,
-    //   useNewUrlParser: true,
-    // }),
-
     BlogModule,
     SessionsModule,
   ],
