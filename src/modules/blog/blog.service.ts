@@ -30,6 +30,15 @@ export class BlogService {
       throw new Error(error.message);
     }
   }
+
+  async listAllContent() {
+    try {
+      const content = await this.contentModel.find();
+      return content;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
   async create(createBlogDto: CreateBlogDto) {
     try {
       const blog = await this.blogModel.create(createBlogDto);
@@ -47,7 +56,7 @@ export class BlogService {
     try {
       const blog = await this.blogModel.find();
 
-      if (!blog) {
+      if (!blog || blog.length <= 0) {
         throw new NotFoundException('Blog not found');
       }
       return blog;
@@ -66,13 +75,5 @@ export class BlogService {
     } catch (error) {
       return new Error(error.message);
     }
-  }
-
-  update(id: string, updateBlogInput: UpdateBlogInput) {
-    return `This action updates a #${id} blog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} blog`;
   }
 }

@@ -48,15 +48,23 @@ type BlogByIdDef {
   title: String
 }
 
+type ContentDef {
+  """_id Of the content """
+  _id: String!
+
+  """title Of the content """
+  title: String!
+}
+
 input CreateBlogDto {
   """bannerImage of the blog"""
-  bannerImage: String
+  bannerImage: String!
 
   """category of the blog"""
   category: String
 
   """Content of the blog"""
-  content: String
+  content: String!
 
   """description of the blog"""
   description: String
@@ -68,7 +76,7 @@ input CreateBlogDto {
   subContent: [SubContent!]
 
   """title of the blog"""
-  title: String
+  title: String!
 }
 
 input CreateContentDto {
@@ -88,7 +96,7 @@ input GetAllSessionDto {
 
 input GetBlogByIdDto {
   """id of the blog"""
-  id: String
+  id: String!
 }
 
 type GetSessionByIdDef {
@@ -126,13 +134,13 @@ type Mutation {
   createContent(createContent: CreateContentDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
-  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
 }
 
 type Query {
   allSessions(input: GetAllSessionDto!): SessionDataDef!
   getAllblog: [Blog!]!
   getBlogById(input: GetBlogByIdDto!): BlogByIdDef!
+  listAllContent: [ContentDef!]!
 }
 
 type SessionDataDef {
@@ -178,30 +186,5 @@ input SubContent {
 
 type SubContentData {
   """id of the session"""
-  title: String
-}
-
-input UpdateBlogInput {
-  _id: String!
-
-  """bannerImage of the blog"""
-  bannerImage: String
-
-  """category of the blog"""
-  category: String
-
-  """Content of the blog"""
-  content: String
-
-  """description of the blog"""
-  description: String
-
-  """images array"""
-  images: [String!]
-
-  """subContent of the blog"""
-  subContent: [SubContent!]
-
-  """title of the blog"""
   title: String
 }

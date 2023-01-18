@@ -8,7 +8,7 @@ import {
 } from './dto/blog.dto';
 import { UpdateBlogInput } from './dto/update-dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
-import { Blog, BlogByIdDef } from './typeDef/resolver-type';
+import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
 
 @Resolver(() => Blog)
 export class BlogResolver {
@@ -16,11 +16,18 @@ export class BlogResolver {
 
   @Mutation(() => MessageDef)
   async createContent(
-    @Args('createContent') createContentDto: CreateContentDto
+    @Args('createContent') createContentDto: CreateContentDto,
   ) {
     const data = await this.blogService.createContent(createContentDto);
     return data;
   }
+
+  @Query(() => [ContentDef], { name: 'listAllContent' })
+  async listAllContent() {
+    const data = await this.blogService.listAllContent();
+    return data;
+  }
+
   @Mutation(() => MessageDef)
   async createBlog(@Args('createBlog') createBlogDto: CreateBlogDto) {
     const data = await this.blogService.create(createBlogDto);
@@ -36,18 +43,4 @@ export class BlogResolver {
   findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
     return this.blogService.findOne(getBlogByIdDto);
   }
-
-  @Mutation(() => Blog)
-  updateBlog(@Args('updateBlogInput') updateBlogInput: UpdateBlogInput) {
-    return this.blogService.update(updateBlogInput._id, updateBlogInput);
-  }
-
-  /*
-  
-
-  @Mutation(() => Blog)
-  removeBlog(@Args('id', { type: () => Int }) id: number) {
-    return this.blogService.remove(id);
-  }
-  */
 }

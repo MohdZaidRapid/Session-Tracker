@@ -9,31 +9,31 @@ export class Blog {
   })
   @IsString()
   @IsNotEmpty()
-readonly  _id: string;
+  readonly _id: string;
 
   @Field({ nullable: true, description: 'title of the blog' })
   @IsString()
   @IsOptional()
-readonly  title: string;
+  readonly title: string;
 
   @Field({ nullable: true, description: 'bannerImage of the blog' })
   @IsString()
   @IsOptional()
-readonly  bannerImage: string;
+  readonly bannerImage: string;
 
   @Field({ nullable: true, description: 'category of the blog' })
   @IsString()
   @IsOptional()
- readonly category: string;
+  readonly category: string;
 
   @Field({ nullable: true, description: 'description of the blog' })
   @IsString()
   @IsOptional()
-readonly  description: string;
+  readonly description: string;
 
   @Field({ nullable: true, description: 'date on which blog is updated' })
   @IsOptional()
- readonly createdAt: Date;
+  readonly createdAt: Date;
 }
 
 @ObjectType()
@@ -44,7 +44,7 @@ export class SubContentData {
   })
   @IsOptional()
   @IsString()
- readonly title: string;
+  readonly title: string;
 }
 
 @ObjectType()
@@ -100,6 +100,10 @@ export class BlogByIdDef {
 
 @ObjectType()
 export class ContentDef {
+  @Field({ description: '_id Of the content ' })
+  @IsOptional()
+  readonly _id: string;
+
   @Field({ description: 'title Of the content ' })
   @IsOptional()
   readonly title: string;

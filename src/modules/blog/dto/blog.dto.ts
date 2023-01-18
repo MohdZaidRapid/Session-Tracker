@@ -1,10 +1,16 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsArray, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateContentDto {
-  @Field({ description: 'title Of the content ' })
-  @IsOptional()
+  @Field({ nullable: false, description: 'title Of the content ' })
+  @IsNotEmpty()
   @IsString()
   title: string;
 }
@@ -18,17 +24,17 @@ export class SubContent {
 }
 @InputType()
 export class CreateBlogDto {
-  @Field(() => String, { nullable: true, description: 'title of the blog' })
-  @IsOptional()
+  @Field(() => String, { nullable: false, description: 'title of the blog' })
+  @IsNotEmpty()
   @IsString()
   title: string;
 
   @Field({
-    nullable: true,
+    nullable: false,
     description: 'bannerImage of the blog',
   })
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   bannerImage: string;
 
   @Field({ nullable: true, description: 'category of the blog' })
@@ -52,7 +58,7 @@ export class CreateBlogDto {
   @IsOptional()
   subContent: SubContent[];
 
-  @Field(() => String, { nullable: true, description: 'Content of the blog' })
+  @Field(() => String, { nullable: false, description: 'Content of the blog' })
   @MinLength(10)
   content: string;
 
@@ -65,10 +71,10 @@ export class CreateBlogDto {
 @InputType()
 export class GetBlogByIdDto {
   @Field({
-    nullable: true,
+    nullable: false,
     description: 'id of the blog',
   })
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   id: string;
 }
