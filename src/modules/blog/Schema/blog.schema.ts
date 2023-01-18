@@ -14,6 +14,12 @@ export const BlogSchema = new mongoose.Schema<Blog>(
       },
     ],
     images: [String],
+    comments: [{
+      name: String,
+      email: String,
+      message: String,
+      date: { type: Date, default: Date.now },
+    }]
   },
   { timestamps: true },
 );

@@ -78,3 +78,38 @@ export class GetBlogByIdDto {
   @IsNotEmpty()
   id: string;
 }
+
+@InputType()
+export class CommentsDto {
+  @Field({
+    nullable: false,
+    description: 'added id of Blog id',
+  })
+  @IsNotEmpty()
+  @IsString()
+  id: string;
+
+  @Field({
+    nullable: false,
+    description: 'added name of user',
+  })
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @Field({
+    nullable: false,
+    description: 'added email of Blog user',
+  })
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
+  @Field({
+    nullable: false,
+    description: 'added email of Blog user',
+  })
+  @IsNotEmpty()
+  @IsString()
+  message: string;
+}
