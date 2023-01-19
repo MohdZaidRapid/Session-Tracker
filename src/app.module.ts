@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SessionsModule } from './modules/sessions/sessions.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SessionsModule } from './modules/sessions/sessions.module';
     }),
     BlogModule,
     SessionsModule,
+    AuthModule,
   ],
 
   controllers: [AppController],
