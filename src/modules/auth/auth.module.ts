@@ -22,6 +22,7 @@ import { JwtStrategy } from './jwt-strategy';
       }),
     }),
   ],
+  // providers: [AuthService, AuthResolver],
   providers: [AuthService, AuthResolver, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService, AuthResolver],

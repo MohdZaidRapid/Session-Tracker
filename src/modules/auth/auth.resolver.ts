@@ -22,6 +22,11 @@ export class AuthResolver {
     return { user, token };
   }
 
-  
-  
+  @Mutation(() => String, { name: 'check' })
+  @Auth()
+  async check(@GetUserId() user, @Args('input') checkDto: CheckDto) {
+    console.log(user);
+    checkDto.name = 'zaididiidiidididididid';
+    return checkDto;
+  }
 }

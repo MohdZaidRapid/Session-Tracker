@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
     );
     if (!req.user) {
-      new Error('No Authorized');
+      new Error('Not Authorized');
     }
 
     if (req.headers && req.headers.authorization) {
