@@ -163,6 +163,7 @@ type Mutation {
   createContent(createContent: CreateContentDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
+  signUpUser(input: SignupDto!): User!
 }
 
 type Query {
@@ -208,6 +209,20 @@ input SessionDto {
   video: String
 }
 
+input SignupDto {
+  """email of the user"""
+  email: String!
+
+  """name of the user"""
+  name: String
+
+  """password of the user"""
+  password: String!
+
+  """phone of the user"""
+  phone: Float
+}
+
 input SubContent {
   """Content of the blog"""
   content: String!
@@ -228,4 +243,18 @@ type SubContentData {
 
   """id of the session"""
   title: String
+}
+
+type User {
+  """email of the user"""
+  email: String!
+
+  """name of the user"""
+  name: String
+
+  """password of the user"""
+  password: String
+
+  """phone of the user"""
+  phone: Float
 }
