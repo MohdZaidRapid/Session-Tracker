@@ -12,9 +12,9 @@ import {
 
 @InputType()
 export class SignupDto {
-  @Field({ nullable: true, description: 'name of the user' })
+  @Field({ nullable: false, description: 'name of the user' })
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   name: string;
 
   @Field({ nullable: true, description: 'phone of the user' })
@@ -33,4 +33,12 @@ export class SignupDto {
   @MinLength(8)
   @MaxLength(20)
   password: string;
+
+  @Field({
+    nullable: false,
+    description: 'username of the user must be unique',
+  })
+  @IsString()
+  @IsNotEmpty()
+  readonly username: string;
 }

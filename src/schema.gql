@@ -163,7 +163,8 @@ type Mutation {
   createContent(createContent: CreateContentDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
-  signUpUser(input: SignupDto!): User!
+  signIn(input: SignInDto!): UserTokenData!
+  signUpUser(input: SignupDto!): UserTokenData!
 }
 
 type Query {
@@ -209,18 +210,29 @@ input SessionDto {
   video: String
 }
 
+input SignInDto {
+  """email of the user"""
+  email: String!
+
+  """password of the user"""
+  password: String!
+}
+
 input SignupDto {
   """email of the user"""
   email: String!
 
   """name of the user"""
-  name: String
+  name: String!
 
   """password of the user"""
   password: String!
 
   """phone of the user"""
   phone: Float
+
+  """username of the user must be unique"""
+  username: String!
 }
 
 input SubContent {
@@ -257,4 +269,15 @@ type User {
 
   """phone of the user"""
   phone: Float
+
+  """username of the user"""
+  username: String
+}
+
+type UserTokenData {
+  """token of the user"""
+  token: String
+
+  """token of the user"""
+  user: User
 }

@@ -25,4 +25,20 @@ export class User {
   @Field({ nullable: true, description: 'password of the user' })
   @IsOptional()
   readonly password: string;
+
+  @Field({ nullable: true, description: 'username of the user' })
+  @IsString()
+  @IsNotEmpty()
+  readonly username: string;
+  
+}
+
+@ObjectType()
+export class UserTokenData {
+  @Field(() => User, { nullable: true, description: 'token of the user' })
+  @IsOptional()
+  readonly user: User;
+  @Field({ nullable: true, description: 'token of the user' })
+  @IsOptional()
+  readonly token: string;
 }

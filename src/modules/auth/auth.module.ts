@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './Schema/user.schema';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt-strategy';
 
 @Module({
   imports: [
@@ -16,12 +17,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: (configService: ConfigService) => ({
         secretOrPrivateKey: configService.get('JWT_SECRET_KEY') || 'secret',
         signOptions: {
-          expiresIn: 3600,
+          expiresIn: 36000,
         },
       }),
     }),
   ],
-  providers: [AuthService, AuthResolver],
+  providers: [AuthService, AuthResolver, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService, AuthResolver],
 })

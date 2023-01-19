@@ -6,4 +6,6 @@ export interface User extends Document {
   password: string;
   email: string;
   token: string;
+  username:string
+  checkPassword:(attempt)=>{}
 }

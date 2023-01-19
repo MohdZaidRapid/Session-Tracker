@@ -15,12 +15,15 @@ export const UserSchema = new mongoose.Schema<User>(
     },
     name: {
       type: String,
+      default: null,
+    },
+    username: {
+      type: String,
+      unique: true,
     },
     phone: {
       type: Number,
-    },
-    token: {
-      type: String,
+      default: null,
     },
   },
   { timestamps: true },
@@ -28,7 +31,6 @@ export const UserSchema = new mongoose.Schema<User>(
 
 UserSchema.methods.toJSON = function () {
   const userObject = this.toObject();
-  console.log(userObject.password);
   delete userObject.password;
   return userObject;
 };
@@ -55,7 +57,8 @@ UserSchema.pre('save', function (next) {
 
 UserSchema.methods.checkPassword = async function (attempt) {
   try {
-    return await bcrypt.compare(attempt, this.password);
+    const isMatch = await bcrypt.compare(attempt, this.password);
+    return isMatch;
   } catch (err) {
     throw new Error(err.message);
   }

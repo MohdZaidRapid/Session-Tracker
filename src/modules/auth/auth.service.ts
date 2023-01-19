@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dto/signUp.dto';
 import { User } from './interface/user.interface';
+import { SignInDto } from './dto/sign.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,13 @@ export class AuthService {
   async createJwtpayload(user) {
     const data = {
       email: user.email,
+    };
+    const expiresIn = '1d';
+    const jwt = this.jwtService.sign(data, { expiresIn });
+
+    return {
+      expiresIn,
+      token: jwt,
     };
   }
   /**
@@ -30,15 +38,55 @@ export class AuthService {
       user = JSON.parse(JSON.stringify(user));
 
       if (user?.password || user?.password !== null) {
-        user.password = null;
+        delete user.password;
       }
       if (!user) {
         throw new NotFoundException("Can't create user something went wrong");
       }
-
-      return user;
+      const { token } = await this.createJwtpayload(user);
+      return { user: user, token: token };
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  async validateUser(signInDto: SignInDto) {
+    const user = await this.userModel.findOne({ email: signInDto.email });
+    if (!user) {
+      throw new NotFoundException(
+        'user not found Please check your email or password',
+      );
+    }
+    const isMatch = await user.checkPassword(signInDto.password);
+    if (!isMatch) {
+      throw new NotFoundException(
+        'user not found Please check your email or password',
+      );
+    }
+    if (user && isMatch) {
+      return user;
+    }
+    return null;
+  }
+
+  async findByEmailOrUsername({ email, username }) {
+    const query: any = {};
+    if (email) {
+      query.email = email;
+    } else if (username) {
+      query.username = username;
+    } else {
+      throw new NotFoundException('user not found');
+    }
+    const user = await this.userModel.findOne(query);
+    return user;
+  }
+
+  async findByEmail({ email }) {
+    const user = await this.userModel.findOne({ email: email });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    return user;
   }
 }
