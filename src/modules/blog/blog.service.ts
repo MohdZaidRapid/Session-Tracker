@@ -136,7 +136,7 @@ export class BlogService {
    * @returns {message ,success}
    */
   //author MohdZaid
-  async addComment({ id, name, email, message }) {
+  async addComment({ id, message, email, name }) {
     await this.blogModel.findOneAndUpdate(
       { _id: id },
       { $push: { comments: { name, email, message } } },

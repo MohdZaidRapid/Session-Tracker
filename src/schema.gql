@@ -73,17 +73,11 @@ type CommentData {
 }
 
 input CommentsDto {
-  """added email of Blog user"""
-  email: String!
-
   """id of Blog """
   id: String!
 
   """added message of Blog user"""
   message: String!
-
-  """added name of user"""
-  name: String!
 }
 
 type ContentDef {

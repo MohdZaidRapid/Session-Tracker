@@ -91,20 +91,10 @@ export class CommentsDto {
   @IsString()
   id: string;
 
-  @Field({
-    nullable: false,
-    description: 'added name of user',
-  })
-  @IsNotEmpty()
-  @IsString()
+  @Optional()
   name: string;
 
-  @Field({
-    nullable: false,
-    description: 'added email of Blog user',
-  })
-  @IsNotEmpty()
-  @IsString()
+  @Optional()
   email: string;
 
   @Field({

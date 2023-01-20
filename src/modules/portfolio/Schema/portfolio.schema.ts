@@ -14,5 +14,5 @@ export const PortfolioSchema = new mongoose.Schema<Portfolio>({
   banner: { type: String, default: null },
   image: { type: String, default: null },
   expert: { type: Boolean, default: false },
-  user: { type: String, ref: 'User' },
+  user: { type: String, ref: 'user' },
 });

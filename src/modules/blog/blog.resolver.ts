@@ -54,8 +54,12 @@ export class BlogResolver {
     return await this.blogService.findOne(getBlogByIdDto);
   }
 
+  @Auth()
   @Mutation(() => MessageDef, { name: 'addComment' })
-  async addComment(@Args('input') commentsDto: CommentsDto) {
+  async addComment(@Args('input') commentsDto: CommentsDto,@GetUserId() user) {
+    commentsDto.email=user.email;
+    commentsDto.name=user.username
+    
     return await this.blogService.addComment(commentsDto);
   }
 }
