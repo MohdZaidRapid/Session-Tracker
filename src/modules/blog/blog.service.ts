@@ -83,9 +83,17 @@ export class BlogService {
    * @returns { _id banner Image category createdAt description title }
    */
   // author MohdZaid
-  async findAllBlog() {
+  async findAllBlog(blogDto) {
     try {
-      const blog = await this.blogModel.find().populate('owner');
+      let query: any = {};
+      if (blogDto._id) {
+        query._id = blogDto._id;
+      }
+      if (blogDto.owner) {
+        query.owner = blogDto.owner;
+      }
+
+      const blog = await this.blogModel.find(query).populate('owner');
       if (!blog || blog.length <= 0) {
         throw new NotFoundException('Blog not found');
       }

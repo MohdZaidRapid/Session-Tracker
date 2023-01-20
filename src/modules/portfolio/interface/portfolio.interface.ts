@@ -3,8 +3,8 @@ import { Document } from 'mongoose';
 export interface Portfolio extends Document {
   name: string;
   expertise: string;
-  courses: [];
-  blogs: [{}];
+  courses: string[];
+  blogs: Ids[];
   descrtiption: string;
   email: string;
   phone: string;
@@ -15,4 +15,7 @@ export interface Portfolio extends Document {
   image: string;
   expert: boolean;
   user: string;
+}
+export interface Ids {
+  _id: string;
 }

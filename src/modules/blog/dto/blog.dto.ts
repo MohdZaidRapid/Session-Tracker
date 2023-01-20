@@ -105,3 +105,24 @@ export class CommentsDto {
   @IsString()
   message: string;
 }
+
+@InputType()
+export class BlogDto {
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  _id: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  owner: string;
+
+
+}

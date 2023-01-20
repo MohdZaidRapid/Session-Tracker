@@ -15,6 +15,6 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule
   ],
   providers: [BlogResolver, BlogService],
-  exports: [BlogService, BlogResolver],
+  exports: [BlogService, BlogResolver,BlogModule],
 })
 export class BlogModule {}

@@ -14,9 +14,7 @@ export class PortfolioResolver {
     @Args('input') createPortfolioDto: CreatePortfolioDto,
     @GetUserId() user,
   ) {
-    createPortfolioDto.email = user.email;
-    createPortfolioDto.phone = user.phone;
-    createPortfolioDto.name = user.name;
+    createPortfolioDto.user = user._id;
     const data = await this.portfolioService.createPortfolio(
       createPortfolioDto,
     );

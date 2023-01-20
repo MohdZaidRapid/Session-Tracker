@@ -54,6 +54,14 @@ type BlogByIdDef {
   title: String
 }
 
+input BlogDto {
+  """id of Blog """
+  _id: String
+
+  """id of Blog """
+  owner: String
+}
+
 input CheckDto {
   name: String
 }
@@ -88,11 +96,6 @@ type ContentDef {
   title: String!
 }
 
-input Courses {
-  """name of the course"""
-  name: String
-}
-
 input CreateBlogDto {
   """bannerImage of the blog"""
   bannerImage: String!
@@ -116,35 +119,8 @@ input CreateContentDto {
 }
 
 input CreatePortfolioDto {
-  """banner of the user"""
-  banner: String
-
-  """Blogs of the owner"""
-  blogs: [String!]
-
-  """company of the user"""
-  company: String
-
-  """all courses of the author"""
-  courses: [Courses!]
-
-  """description of the User"""
-  description: String
-
-  """expertise of the user"""
-  expert: Boolean
-
   """name of the expertise"""
   expertise: String
-
-  """banner of the user"""
-  image: String
-
-  """location of the user"""
-  location: String
-
-  """website of the user"""
-  website: String
 }
 
 """
@@ -216,7 +192,7 @@ type Owner {
 }
 
 type Query {
-  getAllBlogs: [Blog!]!
+  getAllBlogs(input: BlogDto!): [Blog!]!
   getAllSessions(input: GetAllSessionDto!): SessionDataDef!
   getBlogById(input: GetBlogByIdDto!): BlogByIdDef!
   listAllContent: [ContentDef!]!

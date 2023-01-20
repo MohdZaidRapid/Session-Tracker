@@ -6,6 +6,7 @@ import {
   CreateBlogDto,
   GetBlogByIdDto,
   CommentsDto,
+  BlogDto,
 } from './dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
@@ -44,8 +45,8 @@ export class BlogResolver {
 
   @Auth()
   @Query(() => [Blog], { name: 'getAllBlogs' })
-  async findAll() {
-    return await this.blogService.findAllBlog();
+  async findAll(@Args("input") blogDto:BlogDto) {
+    return await this.blogService.findAllBlog(blogDto);
   }
 
   @Auth()

@@ -4,8 +4,10 @@ import { Portfolio } from '../interface/portfolio.interface';
 export const PortfolioSchema = new mongoose.Schema<Portfolio>({
   name: { type: String, default: null },
   expertise: { type: String, default: null },
-  courses: [{ type: String, default: null }],
-  blogs: [{ type: String, default: null, ref: 'blog' }],
+  courses: {
+    type: [String],
+  },
+  blogs: [{ _id: { type: String } }],
   descrtiption: { type: String, default: null },
   email: { type: String, default: null },
   phone: { type: String, default: null },
