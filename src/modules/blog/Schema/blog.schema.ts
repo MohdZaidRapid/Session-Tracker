@@ -8,7 +8,7 @@ export const BlogSchema = new mongoose.Schema<Blog>(
     category: String,
     owner: {
       type: String,
-      ref: 'User',
+      ref: 'user',
     },
     description: String,
     subContent: [

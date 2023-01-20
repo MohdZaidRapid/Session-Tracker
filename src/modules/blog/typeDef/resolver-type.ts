@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsArray, IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { Owner } from 'src/modules/sessions/typeDef/resolver-type';
 
 @ObjectType()
 export class Blog {
@@ -34,6 +35,10 @@ export class Blog {
   @Field({ nullable: true, description: 'date on which blog is updated' })
   @IsOptional()
   readonly createdAt: Date;
+
+  @Field({ nullable: true, description: 'Owner details of blog ' })
+  @IsOptional()
+  readonly owner: Owner;
 }
 
 @ObjectType()
@@ -154,7 +159,7 @@ export class BlogByIdDef {
   })
   @IsOptional()
   @IsString()
-  owner: string;
+  owner: Owner;
 }
 
 @ObjectType()

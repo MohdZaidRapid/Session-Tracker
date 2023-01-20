@@ -46,7 +46,7 @@ export class SessionsService {
     let allSessions = await this.sessionModel
       .find()
       .populate('owner')
-      .sort({ sort: sort });
+      .sort({ createdAt: sort });
     if (!allSessions || allSessions.length <= 0) {
       throw new NotFoundException('No sessions are found');
     }

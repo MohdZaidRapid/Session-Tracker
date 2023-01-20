@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { InputType, Field } from '@nestjs/graphql';
 import {
   IsArray,
@@ -46,12 +47,7 @@ export class CreateBlogDto {
   @IsNotEmpty()
   bannerImage: string;
 
-  @Field({
-    nullable: false,
-    description: 'owner of the blog',
-  })
-  @IsString()
-  @IsNotEmpty()
+  @Optional()
   owner: string;
 
   @Field({ nullable: true, description: 'category of the blog' })

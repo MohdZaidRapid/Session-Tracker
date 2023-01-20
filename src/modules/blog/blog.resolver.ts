@@ -9,14 +9,17 @@ import {
 } from './dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
+import { Auth, GetUserId } from '../auth/auth.guard';
 
 @Resolver(() => Blog)
 export class BlogResolver {
   constructor(private readonly blogService: BlogService) {}
 
+  @Auth()
   @Mutation(() => MessageDef, { name: 'createContent' })
   async createContent(
-    @Args('createContent') createContentDto: CreateContentDto,
+    @Args('input') createContentDto: CreateContentDto,
+    @GetUserId() user,
   ) {
     const data = await this.blogService.createContent(createContentDto);
     return data;
@@ -28,19 +31,26 @@ export class BlogResolver {
     return data;
   }
 
+  @Auth()
   @Mutation(() => MessageDef, { name: 'createBlog' })
-  async createBlog(@Args('input') createBlogDto: CreateBlogDto) {
+  async createBlog(
+    @Args('input') createBlogDto: CreateBlogDto,
+    @GetUserId() user,
+  ) {
+    createBlogDto.owner = user._id;
     const data = await this.blogService.create(createBlogDto);
     return data;
   }
 
-  @Query(() => [Blog], { name: 'getAllblog' })
- async  findAll() {
+  @Auth()
+  @Query(() => [Blog], { name: 'getAllBlogs' })
+  async findAll() {
     return await this.blogService.findAllBlog();
   }
 
+  @Auth()
   @Query(() => BlogByIdDef, { name: 'getBlogById' })
- async findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
+  async findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
     return await this.blogService.findOne(getBlogByIdDto);
   }
 

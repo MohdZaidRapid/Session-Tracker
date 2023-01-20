@@ -85,8 +85,7 @@ export class BlogService {
   // author MohdZaid
   async findAllBlog() {
     try {
-      const blog = await this.blogModel.find();
-
+      const blog = await this.blogModel.find().populate('owner');
       if (!blog || blog.length <= 0) {
         throw new NotFoundException('Blog not found');
       }
@@ -121,7 +120,7 @@ export class BlogService {
   // author MohdZaid
   async findOne({ id }) {
     try {
-      const blog = await this.blogModel.findById(id);
+      const blog = await this.blogModel.findById(id).populate('owner');
       if (!blog) {
         throw new NotFoundException('No Blog found with this id');
       }

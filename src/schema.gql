@@ -18,6 +18,9 @@ type Blog {
   """description of the blog"""
   description: String
 
+  """Owner details of blog """
+  owner: Owner
+
   """title of the blog"""
   title: String
 }
@@ -42,7 +45,7 @@ type BlogByIdDef {
   description: String
 
   """owner of the blog"""
-  owner: String
+  owner: Owner
 
   """subContent of the blog"""
   subContent: [SubContentData!]
@@ -105,9 +108,6 @@ input CreateBlogDto {
 
   """description of the blog"""
   description: String
-
-  """owner of the blog"""
-  owner: String!
 
   """subContent of the blog"""
   subContent: [SubContent!]!
@@ -202,7 +202,7 @@ type Mutation {
   addComment(input: CommentsDto!): MessageDef!
   check(input: CheckDto!): String!
   createBlog(input: CreateBlogDto!): MessageDef!
-  createContent(createContent: CreateContentDto!): MessageDef!
+  createContent(input: CreateContentDto!): MessageDef!
   createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
@@ -222,8 +222,8 @@ type Owner {
 }
 
 type Query {
+  getAllBlogs: [Blog!]!
   getAllSessions(input: GetAllSessionDto!): SessionDataDef!
-  getAllblog: [Blog!]!
   getBlogById(input: GetBlogByIdDto!): BlogByIdDef!
   listAllContent: [ContentDef!]!
 }
