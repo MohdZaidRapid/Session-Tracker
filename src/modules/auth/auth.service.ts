@@ -51,7 +51,8 @@ export class AuthService {
   }
 
   async validateUser(signInDto: SignInDto) {
-    const user = await this.userModel.findOne({ email: signInDto.email });
+    let user = await this.userModel.findOne({ email: signInDto.email });
+
     if (!user) {
       throw new NotFoundException(
         'user not found Please check your email or password',
@@ -63,6 +64,11 @@ export class AuthService {
         'user not found Please check your email or password',
       );
     }
+    user = JSON.parse(JSON.stringify(user));
+    if (user?.password || user?.password !== null) {
+      delete user.password;
+    }
+
     if (user && isMatch) {
       return user;
     }

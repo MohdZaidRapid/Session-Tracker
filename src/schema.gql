@@ -51,6 +51,10 @@ type BlogByIdDef {
   title: String
 }
 
+input CheckDto {
+  name: String
+}
+
 type CommentData {
   """id of the session"""
   date: DateTime
@@ -87,6 +91,11 @@ type ContentDef {
   title: String!
 }
 
+input Courses {
+  """name of the course"""
+  name: String
+}
+
 input CreateBlogDto {
   """bannerImage of the blog"""
   bannerImage: String!
@@ -112,6 +121,38 @@ input CreateContentDto {
   title: String!
 }
 
+input CreatePortfolioDto {
+  """banner of the user"""
+  banner: String
+
+  """Blogs of the owner"""
+  blogs: [String!]
+
+  """company of the user"""
+  company: String
+
+  """all courses of the author"""
+  courses: [Courses!]
+
+  """description of the User"""
+  description: String
+
+  """expertise of the user"""
+  expert: Boolean
+
+  """name of the expertise"""
+  expertise: String
+
+  """banner of the user"""
+  image: String
+
+  """location of the user"""
+  location: String
+
+  """website of the user"""
+  website: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -119,7 +160,7 @@ scalar DateTime
 
 input GetAllSessionDto {
   """Input sort order"""
-  sort: Float
+  sort: Float = 1
 }
 
 input GetBlogByIdDto {
@@ -135,7 +176,7 @@ type GetSessionByIdDef {
   headerImage: String
 
   """owner of the session"""
-  owner: String
+  owner: Owner
 
   """title of the session"""
   title: String
@@ -159,16 +200,29 @@ type MessageDef {
 
 type Mutation {
   addComment(input: CommentsDto!): MessageDef!
-  createBlog(createBlog: CreateBlogDto!): MessageDef!
+  check(input: CheckDto!): String!
+  createBlog(input: CreateBlogDto!): MessageDef!
   createContent(createContent: CreateContentDto!): MessageDef!
+  createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   signIn(input: SignInDto!): UserTokenData!
   signUpUser(input: SignupDto!): UserTokenData!
 }
 
+type Owner {
+  """email of the owner"""
+  email: String!
+
+  """phone of the owner"""
+  phone: String
+
+  """name of the owner"""
+  username: String!
+}
+
 type Query {
-  allSessions(input: GetAllSessionDto!): SessionDataDef!
+  getAllSessions(input: GetAllSessionDto!): SessionDataDef!
   getAllblog: [Blog!]!
   getBlogById(input: GetBlogByIdDto!): BlogByIdDef!
   listAllContent: [ContentDef!]!
@@ -187,7 +241,7 @@ type SessionDef {
   headerImage: String
 
   """owner of the session"""
-  owner: String
+  owner: Owner
 
   """title of the session"""
   title: String
@@ -199,9 +253,6 @@ input SessionDto {
 
   """header image of the session"""
   headerImage: String!
-
-  """Owner  of the session"""
-  owner: String!
 
   """title of the session"""
   title: String!
@@ -222,16 +273,16 @@ input SignupDto {
   """email of the user"""
   email: String!
 
-  """name of the user"""
-  name: String!
-
   """password of the user"""
   password: String!
 
   """phone of the user"""
-  phone: Float
+  phone: String
 
-  """username of the user must be unique"""
+  """id of the portfolio """
+  portfolio: String
+
+  """name of the user"""
   username: String!
 }
 
@@ -260,9 +311,6 @@ type SubContentData {
 type User {
   """email of the user"""
   email: String!
-
-  """name of the user"""
-  name: String
 
   """password of the user"""
   password: String

@@ -43,21 +43,26 @@ export class SessionsService {
    */
   //author MohdZaid
   async getAllSessions({ sort }) {
-    let allSessions = await this.sessionModel.find().sort({ sort: sort });
+    let allSessions = await this.sessionModel
+      .find()
+      .populate('owner')
+      .sort({ sort: sort });
     if (!allSessions || allSessions.length <= 0) {
       throw new NotFoundException('No sessions are found');
     }
     return { allSessions };
   }
 
- /**
+  /**
    * @description getAllSession return an  object
    * @param getAllSessionDto {id of the session}
    * @returns {_id headerImage owner title}
    */
   //author MohdZaid
   async getSessionById({ id }) {
-    const session = await this.sessionModel.findById(id);
+    const session = await (
+      await this.sessionModel.findById(id)
+    ).populate('owner');
     if (!session) {
       throw new NotFoundException('No session found with this id');
     }

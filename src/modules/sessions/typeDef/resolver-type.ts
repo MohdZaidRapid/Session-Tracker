@@ -1,5 +1,23 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+@ObjectType()
+export class Owner {
+  @Field({ nullable: false, description: 'name of the owner' })
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+  @Field({ nullable: false, description: 'email of the owner' })
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
+  @Field({ nullable: true, description: 'phone of the owner' })
+  @IsOptional()
+  @IsString()
+  phone: string;
+}
 
 @ObjectType()
 export class SessionDef {
@@ -20,9 +38,9 @@ export class SessionDef {
   @IsString()
   headerImage: string;
 
-  @Field({ nullable: true, description: 'owner of the session' })
+  @Field(() => Owner, { nullable: true, description: 'owner of the session' })
   @IsString()
-  owner: string;
+  owner: Owner;
 }
 
 @ObjectType()
@@ -62,8 +80,7 @@ export class GetSessionByIdDef {
   headerImage: string;
 
   @Field({ nullable: true, description: 'owner of the session' })
-  @IsString()
-  owner: string;
+  owner: Owner;
 
   @Field({ nullable: true, description: 'description of the session' })
   @IsString()

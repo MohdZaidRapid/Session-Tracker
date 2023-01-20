@@ -6,7 +6,10 @@ export const BlogSchema = new mongoose.Schema<Blog>(
     title: String,
     bannerImage: String,
     category: String,
-    owner: String,
+    owner: {
+      type: String,
+      ref: 'User',
+    },
     description: String,
     subContent: [
       {

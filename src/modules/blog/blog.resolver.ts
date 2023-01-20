@@ -14,7 +14,7 @@ import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
 export class BlogResolver {
   constructor(private readonly blogService: BlogService) {}
 
-  @Mutation(() => MessageDef)
+  @Mutation(() => MessageDef, { name: 'createContent' })
   async createContent(
     @Args('createContent') createContentDto: CreateContentDto,
   ) {
@@ -28,20 +28,20 @@ export class BlogResolver {
     return data;
   }
 
-  @Mutation(() => MessageDef)
-  async createBlog(@Args('createBlog') createBlogDto: CreateBlogDto) {
+  @Mutation(() => MessageDef, { name: 'createBlog' })
+  async createBlog(@Args('input') createBlogDto: CreateBlogDto) {
     const data = await this.blogService.create(createBlogDto);
     return data;
   }
 
   @Query(() => [Blog], { name: 'getAllblog' })
-  findAll() {
-    return this.blogService.findAllBlog();
+ async  findAll() {
+    return await this.blogService.findAllBlog();
   }
 
   @Query(() => BlogByIdDef, { name: 'getBlogById' })
-  findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
-    return this.blogService.findOne(getBlogByIdDto);
+ async findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
+    return await this.blogService.findOne(getBlogByIdDto);
   }
 
   @Mutation(() => MessageDef, { name: 'addComment' })

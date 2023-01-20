@@ -9,6 +9,7 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SessionsModule } from './modules/sessions/sessions.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PortfolioModule } from './modules/portfolio/portfolio.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AuthModule } from './modules/auth/auth.module';
     BlogModule,
     SessionsModule,
     AuthModule,
+    PortfolioModule,
   ],
 
   controllers: [AppController],
