@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth, GetUserId } from '../auth/auth.guard';
 import {
@@ -51,9 +52,14 @@ export class SessionsResolver {
   @Query(() => SessionDataDef, { name: 'getAllSessions' })
   async getAllSessions(@Args('input') getAllSessionDto: GetAllSessionDto) {
     try {
-      return await this.sessionService.getAllSessions(getAllSessionDto);
+      const sessions = await this.sessionService.getAllSessions(
+        getAllSessionDto,
+      );
+      if (!sessions) {
+        throw new NotFoundException('no sessions available');
+      }
     } catch (error) {
-      throw error;
+      throw new Error(error.message);
     }
   }
 
@@ -66,7 +72,16 @@ export class SessionsResolver {
   @Auth()
   @Mutation(() => GetSessionByIdDef, { name: 'getSessionById' })
   async getSessionById(@Args('input') getSessionByIdDto: GetSessionByIdDto) {
-    const data = await this.sessionService.getSessionById(getSessionByIdDto);
-    return data;
+    try {
+      const session = await this.sessionService.getSessionById(
+        getSessionByIdDto,
+      );
+      if (!session) {
+        throw new NotFoundException('No session with this id');
+      }
+      return session;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
