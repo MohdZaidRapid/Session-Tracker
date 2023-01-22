@@ -8,7 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Session', schema: SessionSchema }]),
+    MongooseModule.forFeature([{ name: 'session', schema: SessionSchema }]),
     AuthModule,
   ],
   providers: [SessionsService, SessionsResolver],

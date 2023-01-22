@@ -34,9 +34,4 @@ export class SignupDto {
   @IsString()
   @IsNotEmpty()
   username: string;
-
-  @Field({ nullable: true, description: 'id of the portfolio ' })
-  @IsOptional()
-  @IsString()
-  portfolio: string;
 }

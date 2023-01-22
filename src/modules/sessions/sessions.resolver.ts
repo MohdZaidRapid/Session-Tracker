@@ -17,6 +17,16 @@ import {
 export class SessionsResolver {
   constructor(private sessionService: SessionsService) {}
 
+  /**
+   * @description createSession for
+   * @param createSessionDto {title: string;
+    description: string;
+    headerImage: string;
+    owner: string;
+    video: string}
+   * @returns {message success}
+   */
+  // MohdZaid
   @Auth()
   @Mutation(() => MessageDef, { name: 'createSession' })
   async createSession(
@@ -31,6 +41,12 @@ export class SessionsResolver {
     }
   }
 
+  /**
+   * @description getAllSession return an array of object
+   * @param getAllSessionDto {sort 1 or -1}
+   * @returns {_id headerImage owner title}
+   */
+  //author MohdZaid
   @Auth()
   @Query(() => SessionDataDef, { name: 'getAllSessions' })
   async getAllSessions(@Args('input') getAllSessionDto: GetAllSessionDto) {
@@ -41,6 +57,12 @@ export class SessionsResolver {
     }
   }
 
+  /**
+   * @description getSessinById return a  object
+   * @param getAllSessionByIdDto {id of the session}
+   * @returns {_id headerImage owner title}
+   */
+  //author MohdZaid
   @Auth()
   @Mutation(() => GetSessionByIdDef, { name: 'getSessionById' })
   async getSessionById(@Args('input') getSessionByIdDto: GetSessionByIdDto) {

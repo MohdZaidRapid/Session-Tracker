@@ -221,9 +221,9 @@ type Mutation {
   createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   createSnippets(input: CodeSnippetsDto!): MessageDef!
+  getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
-  getSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   signIn(input: SignInDto!): UserTokenData!
   signUpUser(input: SignupDto!): UserTokenData!
   updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
@@ -297,9 +297,6 @@ input SignupDto {
 
   """phone of the user"""
   phone: String
-
-  """id of the portfolio """
-  portfolio: String
 
   """name of the user"""
   username: String!

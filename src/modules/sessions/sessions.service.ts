@@ -5,7 +5,7 @@ import { Session } from './interfaces/session.interface';
 
 @Injectable()
 export class SessionsService {
-  constructor(@InjectModel('Session') private sessionModel: Model<Session>) {}
+  constructor(@InjectModel('session') private sessionModel: Model<Session>) {}
 
   /**
    * @description createSession for
@@ -29,10 +29,7 @@ export class SessionsService {
         success: true,
       };
     } catch (error) {
-      return {
-        message: error.message,
-        success: false,
-      };
+      throw new Error(error.message);
     }
   }
 
@@ -43,19 +40,23 @@ export class SessionsService {
    */
   //author MohdZaid
   async getAllSessions({ sort }) {
-    let allSessions = await this.sessionModel
-      .find()
-      .populate('owner')
-      .sort({ createdAt: sort });
-    if (!allSessions || allSessions.length <= 0) {
-      throw new NotFoundException('No sessions are found');
+    try {
+      let allSessions = await this.sessionModel
+        .find()
+        .populate('owner')
+        .sort({ createdAt: sort });
+      if (!allSessions || allSessions.length <= 0) {
+        throw new NotFoundException('No sessions are found');
+      }
+      return { allSessions };
+    } catch (error) {
+      throw new Error(error.message);
     }
-    return { allSessions };
   }
 
   /**
-   * @description getAllSession return an  object
-   * @param getAllSessionDto {id of the session}
+   * @description getSessinById return a  object
+   * @param getAllSessionByIdDto {id of the session}
    * @returns {_id headerImage owner title}
    */
   //author MohdZaid

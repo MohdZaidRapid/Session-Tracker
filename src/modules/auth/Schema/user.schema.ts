@@ -19,11 +19,7 @@ export const UserSchema = new mongoose.Schema<User>(
       type: String,
       default: null,
     },
-    portfolio: {
-      type: String,
-      nullable: true,
-      ref: 'portfolio',
-    },
+    refreshToken: { type: String, default: null },
   },
   { timestamps: true },
 );

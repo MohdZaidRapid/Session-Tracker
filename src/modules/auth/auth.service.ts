@@ -26,11 +26,11 @@ export class AuthService {
     };
   }
   /**
-   * @description create User
-   * @param SignupDto {title}
-   * @returns {message success}
+   * @description Create User return User
+   * @param CreateUserDto {phone email password username portfolio}
+   * @returns {phone email password username portfolio ,token}
    */
-  // author MohdZaid
+  //author MohdZaid
   async signUpUser(signupDto: SignupDto) {
     try {
       let user = await this.userModel.create(signupDto);
@@ -50,49 +50,87 @@ export class AuthService {
     }
   }
 
-  async validateUser(signInDto: SignInDto) {
-    let user = await this.userModel.findOne({ email: signInDto.email });
+  /**
+   * @description Sigin User return User
+   * @param SignInDto { email password  }
+   * @returns {User {phone email password username portfolio}}
+   */
+  //author MohdZaid
+  async signInUser(signInDto: SignInDto) {
+    try {
+      let user = await this.userModel.findOne({ email: signInDto.email });
 
-    if (!user) {
-      throw new NotFoundException(
-        'user not found Please check your email or password',
-      );
-    }
-    const isMatch = await user.checkPassword(signInDto.password);
-    if (!isMatch) {
-      throw new NotFoundException(
-        'user not found Please check your email or password',
-      );
-    }
-    user = JSON.parse(JSON.stringify(user));
-    if (user?.password || user?.password !== null) {
-      delete user.password;
-    }
+      if (!user) {
+        throw new NotFoundException(
+          'user not found Please check your email or password',
+        );
+      }
+      const isMatch = await user.checkPassword(signInDto.password);
+      if (!isMatch) {
+        throw new NotFoundException(
+          'user not found Please check your email or password',
+        );
+      }
+      user = JSON.parse(JSON.stringify(user));
+      if (user?.password || user?.password !== null) {
+        delete user.password;
+      }
 
-    if (user && isMatch) {
-      return user;
+      if (user && isMatch) {
+        return user;
+      }
+      return null;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    return null;
   }
 
+  /**
+   * @description find user by email or username
+   * @param  { email username  }
+   * @returns {User {phone email password username portfolio}}
+   */
+  //author MohdZaid
   async findByEmailOrUsername({ email, username }) {
-    const query: any = {};
-    if (email) {
-      query.email = email;
-    } else if (username) {
-      query.username = username;
-    } else {
-      throw new NotFoundException('user not found');
+    try {
+      const query: any = {};
+      if (email) {
+        query.email = email;
+      } else if (username) {
+        query.username = username;
+      } else {
+        throw new NotFoundException('user not found');
+      }
+      const user = await this.userModel.findOne(query);
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    const user = await this.userModel.findOne(query);
-    return user;
   }
 
+  /**
+   * @description find user by email or username
+   * @param  { email  }
+   * @returns {User {phone email password username portfolio}}
+   */
+  //author MohdZaid
   async findByEmail({ email }) {
-    const user = await this.userModel.findOne({ email: email });
-    if (!user) {
-      throw new NotFoundException('user not found');
+    try {
+      const user = await this.userModel.findOne({ email: email });
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    return user;
   }
+
+    /**
+   * @description find user by email or username
+   * @param  { email  }
+   * @returns {User {phone email password username portfolio}}
+   */
+  //author MohdZaid
+
 }

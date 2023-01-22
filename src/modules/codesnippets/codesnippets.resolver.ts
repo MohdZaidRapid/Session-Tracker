@@ -13,6 +13,16 @@ import { SnippetDef } from './typeDef/resolver-type';
 export class CodesnippetsResolver {
   constructor(private codesnippetsService: CodesnippetsService) {}
 
+  /**
+   * @description create  snippet return {message,success}
+   * @param createSessionDto {
+   * codeSnippets
+   title
+   description
+  }
+   * @returns {message,success}
+   */
+  //author MohdZaid
   @Auth()
   @Mutation(() => MessageDef, { name: 'createSnippets' })
   async createSnippet(
@@ -22,16 +32,31 @@ export class CodesnippetsResolver {
     return await this.codesnippetsService.createSnippet(codeSnippetsDto);
   }
 
+  /**
+   * @description getAllSnippets array of object
+   * @param GetAllCodeSnippetsDto {
+   * sort:number
+  }
+   * @returns {_id,codesnippets,description,title}
+   */
+  //author MohdZaid
   @Auth()
-  @Mutation(() => [SnippetDef], { name: 'getSnippets' })
+  @Mutation(() => [SnippetDef], { name: 'getAllSnippets' })
   async getSnippets(
     @Args('input') getAllCodeSnippetsDto: GetAllCodeSnippetsDto,
     @GetUserId() user,
   ) {
     return await this.codesnippetsService.getSnippets(getAllCodeSnippetsDto);
   }
-  //   GetSnippetByIdDto
 
+  /**
+   * @description getSnippetById  snippet return Object of snippet
+   * @param GetSnippetByIdDto {
+   * id:snippetId
+  }
+   * @returns {_id,codesnippets,description,title}
+   */
+  //author MohdZaid
   @Auth()
   @Mutation(() => SnippetDef, { name: 'getSnippetById' })
   async getSnippetById(

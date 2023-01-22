@@ -104,7 +104,7 @@ export class BlogService {
   }
   /**
    * @description get list of  all Bolg array of object
-   * @param createContentDto {NoParam}
+   * @param  {NoParam}
    * @returns {  _id
     bannerImage
     category
@@ -145,22 +145,36 @@ export class BlogService {
    */
   //author MohdZaid
   async addComment({ id, message, email, name }) {
-    await this.blogModel.findOneAndUpdate(
-      { _id: id },
-      { $push: { comments: { name, email, message } } },
-      { new: true },
-    );
+    try {
+      await this.blogModel.findOneAndUpdate(
+        { _id: id },
+        { $push: { comments: { name, email, message } } },
+        { new: true },
+      );
 
-    return {
-      message: 'comment added successfully',
-      success: true,
-    };
+      return {
+        message: 'comment added successfully',
+        success: true,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
+  /**
+   * @description find blogs by Multiple ids of array
+   * @param param0 [ids]
+   * @returns {array of  blogs object}
+   */
+  //author MohdZaid
   async findBlogByIds(idsArray) {
-    const blogsArray = await this.blogModel.find({
-      _id: { $in: idsArray },
-    });
-    return blogsArray;
+    try {
+      const blogsArray = await this.blogModel.find({
+        _id: { $in: idsArray },
+      });
+      return blogsArray;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }

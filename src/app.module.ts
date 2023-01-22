@@ -22,6 +22,8 @@ import { CodesnippetsModule } from './modules/codesnippets/codesnippets.module';
       driver: ApolloDriver,
       debug: false,
       playground: true,
+      installSubscriptionHandlers: true,
+      context: async ({ req }) => ({ req }),
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),

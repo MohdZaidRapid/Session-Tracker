@@ -9,15 +9,27 @@ import { User, UserTokenData } from './type-def/resolver-type';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * @description Create User return User
+   * @param CreateUserDto {phone email password username portfolio}
+   * @returns {phone email password username portfolio ,token}
+   */
+  //author MohdZaid
   @Mutation(() => UserTokenData, { name: 'signUpUser' })
   async signUpUser(@Args('input') signupDto: SignupDto) {
     const data = await this.authService.signUpUser(signupDto);
     return data;
   }
 
+  /**
+   * @description Sigin User return User
+   * @param SignInDto { email password  }
+   * @returns {User {phone email password username portfolio}}
+   */
+  //author MohdZaid
   @Mutation(() => UserTokenData, { name: 'signIn' })
-  async signIn(@Args('input') signInDto: SignInDto) {
-    const user = await this.authService.validateUser(signInDto);
+  async signInUser(@Args('input') signInDto: SignInDto) {
+    const user = await this.authService.signInUser(signInDto);
     const { token } = await this.authService.createJwtpayload(user);
     return { user, token };
   }
@@ -26,7 +38,7 @@ export class AuthResolver {
   @Auth()
   async check(@GetUserId() user, @Args('input') checkDto: CheckDto) {
     console.log(user);
-    checkDto.name = 'zaididiidiidididididid';
+    checkDto.name = 'zaid';
     return checkDto;
   }
 }
