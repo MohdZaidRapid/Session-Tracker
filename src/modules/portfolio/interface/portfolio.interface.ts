@@ -4,8 +4,14 @@ export interface Portfolio extends Document {
   name: string;
   expertise: string;
   courses: string[];
-  blogs: Ids[];
-  descrtiption: string;
+  blogs: [
+    {
+      title: string;
+      bannerImage: string;
+      content: string;
+    },
+  ];
+  description: string;
   email: string;
   phone: string;
   website: string;
@@ -15,7 +21,4 @@ export interface Portfolio extends Document {
   image: string;
   expert: boolean;
   user: string;
-}
-export interface Ids {
-  _id: string;
 }

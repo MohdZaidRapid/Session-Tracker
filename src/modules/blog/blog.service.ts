@@ -156,4 +156,11 @@ export class BlogService {
       success: true,
     };
   }
+
+  async findBlogByIds(idsArray) {
+    const blogsArray = await this.blogModel.find({
+      _id: { $in: idsArray },
+    });
+    return blogsArray;
+  }
 }

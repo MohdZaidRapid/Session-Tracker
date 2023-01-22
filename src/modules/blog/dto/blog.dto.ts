@@ -123,6 +123,15 @@ export class BlogDto {
   @IsOptional()
   @IsString()
   owner: string;
+}
 
-
+@InputType()
+export class GetAllPortfolioDto {
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  name: string;
 }

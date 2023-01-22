@@ -66,6 +66,17 @@ input CheckDto {
   name: String
 }
 
+input CodeSnippetsDto {
+  """Snippet of the code"""
+  codeSnippets: String!
+
+  """description of the code"""
+  description: String!
+
+  """title of the code"""
+  title: String!
+}
+
 type CommentData {
   """id of the session"""
   date: DateTime
@@ -119,14 +130,43 @@ input CreateContentDto {
 }
 
 input CreatePortfolioDto {
+  """banner of the user"""
+  banner: String
+
+  """company of the user"""
+  company: String
+
+  """all courses of the author"""
+  courses: [String!]!
+
+  """description of the User"""
+  description: String
+
+  """expertise of the user"""
+  expert: Boolean!
+
   """name of the expertise"""
   expertise: String
+
+  """banner of the user"""
+  image: String
+
+  """location of the user"""
+  location: String
+
+  """website of the user"""
+  website: String
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input GetAllCodeSnippetsDto {
+  """description of the code"""
+  sort: Float = 1
+}
 
 input GetAllSessionDto {
   """Input sort order"""
@@ -160,6 +200,11 @@ input GetSessionByIdDto {
   id: String
 }
 
+input GetSnippetByIdDto {
+  """description of the code"""
+  id: String = "1"
+}
+
 type MessageDef {
   """title of the session"""
   message: String
@@ -175,9 +220,13 @@ type Mutation {
   createContent(input: CreateContentDto!): MessageDef!
   createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
+  createSnippets(input: CodeSnippetsDto!): MessageDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
+  getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
+  getSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   signIn(input: SignInDto!): UserTokenData!
   signUpUser(input: SignupDto!): UserTokenData!
+  updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
 }
 
 type Owner {
@@ -256,6 +305,17 @@ input SignupDto {
   username: String!
 }
 
+type SnippetDef {
+  """id of the snippet"""
+  _id: String!
+
+  """description of the snippet"""
+  description: String!
+
+  """title of the snippet"""
+  title: String!
+}
+
 input SubContent {
   """Content of the blog"""
   content: String!
@@ -276,6 +336,38 @@ type SubContentData {
 
   """id of the session"""
   title: String
+}
+
+input UpdatePorfolioDto {
+  """banner of the user"""
+  banner: String
+
+  """company of the user"""
+  company: String
+
+  """all courses of the author"""
+  courses: [String!]!
+
+  """description of the User"""
+  description: String
+
+  """expertise of the user"""
+  expert: Boolean!
+
+  """name of the expertise"""
+  expertise: String
+
+  """Id of the portfolio"""
+  id: String!
+
+  """banner of the user"""
+  image: String
+
+  """location of the user"""
+  location: String
+
+  """website of the user"""
+  website: String
 }
 
 type User {

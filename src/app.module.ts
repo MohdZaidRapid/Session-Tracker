@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SessionsModule } from './modules/sessions/sessions.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
+import { CodesnippetsModule } from './modules/codesnippets/codesnippets.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { PortfolioModule } from './modules/portfolio/portfolio.module';
     SessionsModule,
     AuthModule,
     PortfolioModule,
+    CodesnippetsModule,
   ],
 
   controllers: [AppController],

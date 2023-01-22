@@ -1,5 +1,4 @@
-import { Optional } from '@nestjs/common';
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, ObjectType } from '@nestjs/graphql';
 import {
   IsArray,
   IsBoolean,
@@ -9,22 +8,18 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class Courses {
-  @Field({ nullable: true, description: 'name of the course' })
+export class BlogsDto {
   @IsOptional()
-  @IsString()
-  name: string;
-}
-
-export class Example {
-  @IsNotEmpty()
-  @IsString()
-  _id: string;
+  title: string;
+  @IsOptional()
+  bannerImage: string;
+  @IsOptional()
+  content: string;
 }
 
 @InputType()
 export class CreatePortfolioDto {
-  @Optional()
+  @IsOptional()
   name: string;
 
   @Field({ nullable: true, description: 'name of the expertise' })
@@ -32,58 +27,118 @@ export class CreatePortfolioDto {
   @IsOptional()
   expertise: string;
 
-  // @Field(() => [Courses], {
-  //   nullable: true,
-  //   description: 'all courses of the author',
-  // })
-  // @IsNotEmpty()
-  // @IsArray()
-  // courses: Courses[];
+  @Field(() => [String], {
+    nullable: false,
+    description: 'all courses of the author',
+  })
+  @IsNotEmpty()
+  @IsArray()
+  courses: string[];
 
-  @Optional()
-  blogs: Example[];
+  @IsOptional()
+  blogs: BlogsDto[];
 
-  // @Field({ nullable: true, description: 'description of the User' })
-  // @Optional()
-  // @IsString()
-  // description: string;
+  @Field({ nullable: true, description: 'description of the User' })
+  @IsOptional()
+  description: string;
 
-  // @Optional()
-  // email: string;
+  @IsOptional()
+  email: string;
 
-  // @Optional()
-  // phone: string;
+  @IsOptional()
+  phone: string;
 
-  // @Field({ nullable: true, description: 'website of the user' })
-  // @Optional()
-  // @IsString()
-  // website: string;
+  @Field({ nullable: true, description: 'website of the user' })
+  @IsOptional()
+  website: string;
 
-  // @Field({ nullable: true, description: 'location of the user' })
-  // @Optional()
-  // @IsString()
-  // location: string;
+  @Field({ nullable: true, description: 'location of the user' })
+  @IsOptional()
+  location: string;
 
-  // @Field({ nullable: true, description: 'company of the user' })
-  // @Optional()
-  // @IsString()
-  // company: string;
+  @Field({ nullable: true, description: 'company of the user' })
+  @IsOptional()
+  company: string;
 
-  // @Field({ nullable: true, description: 'banner of the user' })
-  // @Optional()
-  // @IsString()
-  // banner: string;
+  @Field({ nullable: true, description: 'banner of the user' })
+  @IsOptional()
+  banner: string;
 
-  // @Field({ nullable: true, description: 'banner of the user' })
-  // @Optional()
-  // @IsString()
-  // image: string;
+  @Field({ nullable: true, description: 'banner of the user' })
+  @IsOptional()
+  @IsString()
+  image: string;
 
-  // @Field({ nullable: true, description: 'expertise of the user' })
-  // @IsNotEmpty()
-  // @IsBoolean()
-  // expert: boolean;
+  @Field({ nullable: false, description: 'expertise of the user' })
+  @IsNotEmpty()
+  @IsBoolean()
+  expert: boolean;
 
-  @Optional()
+  @IsOptional()
+  user: string;
+}
+
+@InputType()
+export class UpdatePorfolioDto {
+  @Field({ nullable: false, description: 'Id of the portfolio' })
+  @IsNotEmpty()
+  readonly id: string;
+
+  @IsOptional()
+  name: string;
+
+  @Field({ nullable: true, description: 'name of the expertise' })
+  @IsString()
+  @IsOptional()
+  expertise: string;
+
+  @Field(() => [String], {
+    nullable: false,
+    description: 'all courses of the author',
+  })
+  @IsNotEmpty()
+  @IsArray()
+  courses: string[];
+
+  @IsOptional()
+  blogs: BlogsDto[];
+
+  @Field({ nullable: true, description: 'description of the User' })
+  @IsOptional()
+  description: string;
+
+  @IsOptional()
+  email: string;
+
+  @IsOptional()
+  phone: string;
+
+  @Field({ nullable: true, description: 'website of the user' })
+  @IsOptional()
+  website: string;
+
+  @Field({ nullable: true, description: 'location of the user' })
+  @IsOptional()
+  location: string;
+
+  @Field({ nullable: true, description: 'company of the user' })
+  @IsOptional()
+  company: string;
+
+  @Field({ nullable: true, description: 'banner of the user' })
+  @IsOptional()
+  banner: string;
+
+  @Field({ nullable: true, description: 'banner of the user' })
+  @IsOptional()
+  @IsString()
+  image: string;
+
+  @Field({ nullable: false, description: 'expertise of the user' })
+  @IsNotEmpty()
+  @IsBoolean()
+  expert: boolean;
+
+  @IsOptional()
   user: string;
 }

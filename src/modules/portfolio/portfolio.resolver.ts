@@ -1,12 +1,17 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { Auth, GetUserId } from '../auth/auth.guard';
+import { BlogService } from '../blog/blog.service';
+import { GetAllPortfolioDto } from '../blog/dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
-import { CreatePortfolioDto } from './dto/createportfolio.dto';
+import { CreatePortfolioDto, UpdatePorfolioDto } from './dto/createportfolio.dto';
 import { PortfolioService } from './portfolio.service';
 
 @Resolver()
 export class PortfolioResolver {
-  constructor(private readonly portfolioService: PortfolioService) {}
+  constructor(
+    private readonly portfolioService: PortfolioService,
+    private readonly blogService: BlogService,
+  ) {}
 
   @Auth()
   @Mutation(() => MessageDef, { name: 'createPortfolio' })
@@ -15,9 +20,28 @@ export class PortfolioResolver {
     @GetUserId() user,
   ) {
     createPortfolioDto.user = user._id;
-    const data = await this.portfolioService.createPortfolio(
-      createPortfolioDto,
-    );
+    let getAllBlogs;
+    getAllBlogs = await this.blogService.findAllBlog({
+      owner: createPortfolioDto.user,
+    });
+    const dto: any = {
+      blogs: getAllBlogs,
+      ...createPortfolioDto,
+    };
+    const data = await this.portfolioService.createPortfolio(dto);
     return data;
+  }
+
+  @Auth()
+  @Mutation(() => MessageDef, { name: 'updatePortfolio' })
+  async updatePortfolio(
+    @Args('input') updatePortfolioDto: UpdatePorfolioDto,
+    @GetUserId() user,
+  ) {
+    const dto: any = {
+      ...updatePortfolioDto,
+      user,
+    };
+    return await this.portfolioService.updatePortfolio(dto);
   }
 }

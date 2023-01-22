@@ -60,12 +60,14 @@ export class SessionsService {
    */
   //author MohdZaid
   async getSessionById({ id }) {
-    const session = await (
-      await this.sessionModel.findById(id)
-    ).populate('owner');
-    if (!session) {
-      throw new NotFoundException('No session found with this id');
+    try {
+      const session = await this.sessionModel.findById(id).populate('owner');
+      if (!session) {
+        throw new NotFoundException('No session found with this id');
+      }
+      return session;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    return session;
   }
 }

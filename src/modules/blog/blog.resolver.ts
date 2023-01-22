@@ -7,6 +7,7 @@ import {
   GetBlogByIdDto,
   CommentsDto,
   BlogDto,
+  GetAllPortfolioDto,
 } from './dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
@@ -45,7 +46,7 @@ export class BlogResolver {
 
   @Auth()
   @Query(() => [Blog], { name: 'getAllBlogs' })
-  async findAll(@Args("input") blogDto:BlogDto) {
+  async findAll(@Args('input') blogDto: BlogDto) {
     return await this.blogService.findAllBlog(blogDto);
   }
 
@@ -57,10 +58,10 @@ export class BlogResolver {
 
   @Auth()
   @Mutation(() => MessageDef, { name: 'addComment' })
-  async addComment(@Args('input') commentsDto: CommentsDto,@GetUserId() user) {
-    commentsDto.email=user.email;
-    commentsDto.name=user.username
-    
+  async addComment(@Args('input') commentsDto: CommentsDto, @GetUserId() user) {
+    commentsDto.email = user.email;
+    commentsDto.name = user.username;
+
     return await this.blogService.addComment(commentsDto);
   }
 }

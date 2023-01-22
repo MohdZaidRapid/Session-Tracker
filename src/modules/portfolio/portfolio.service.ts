@@ -35,28 +35,38 @@ export class PortfolioService {
   // author MohdZaid
 
   async createPortfolio(createPortfolioDto) {
-    let blogs;
-    blogs = await this.blogService.findAllBlog({
-      owner: createPortfolioDto.user,
-    });
-
-    let dto: CreatePortfolioDto = {
-      blogs,
-      ...createPortfolioDto,
-    };
-    console.log('array', createPortfolioDto);
-    const portfolio = await this.portfolioModel.create(dto);
+    let portfolio;
+    portfolio = await this.portfolioModel.create(createPortfolioDto);
     if (!portfolio) {
       throw new NotFoundException(
         "can't create portfolio something went wrong",
       );
     }
-    console.log(portfolio);
     await portfolio.save();
-
     return {
       message: 'Your portfolio created successfully',
       success: true,
     };
+  }
+
+  async updatePortfolio({ user, updatePortfolioDto }) {
+    try {
+      let portfolio = await this.portfolioModel.findOne({
+        _id: updatePortfolioDto.id,
+      });
+      if (!portfolio) {
+        throw new Error('no portfoilio found');
+      }
+      if (portfolio.user !== user._id) {
+        throw new Error("you can't update this portfolio");
+      }
+
+      await this.portfolioModel.updateOne(
+        updatePortfolioDto.id,
+        updatePortfolioDto,
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
