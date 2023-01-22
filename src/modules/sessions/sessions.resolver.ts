@@ -58,6 +58,7 @@ export class SessionsResolver {
       if (!sessions) {
         throw new NotFoundException('no sessions available');
       }
+      return sessions;
     } catch (error) {
       throw new Error(error.message);
     }
