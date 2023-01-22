@@ -126,11 +126,5 @@ export class AuthService {
     }
   }
 
-    /**
-   * @description find user by email or username
-   * @param  { email  }
-   * @returns {User {phone email password username portfolio}}
-   */
-  //author MohdZaid
 
 }
