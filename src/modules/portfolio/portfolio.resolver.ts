@@ -3,8 +3,13 @@ import { Auth, GetUserId } from '../auth/auth.guard';
 import { BlogService } from '../blog/blog.service';
 import { GetAllPortfolioDto } from '../blog/dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
-import { CreatePortfolioDto, UpdatePorfolioDto } from './dto/createportfolio.dto';
+import {
+  CreatePortfolioDto,
+  GetAllPortFolioDto,
+  UpdatePorfolioDto,
+} from './dto/createportfolio.dto';
 import { PortfolioService } from './portfolio.service';
+import { PortfolioDef } from './typeDef/resolver-type';
 
 @Resolver()
 export class PortfolioResolver {
@@ -44,4 +49,12 @@ export class PortfolioResolver {
     };
     return await this.portfolioService.updatePortfolio(dto);
   }
+
+  @Auth()
+  @Mutation(()=>[PortfolioDef],{name:"getAllPortfolio"})
+  async getAllPortfolio(getAllPortFolioDto:GetAllPortFolioDto){
+    return await this.portfolioService.getAllPortfolio(getAllPortFolioDto)
+  }
+
+  
 }

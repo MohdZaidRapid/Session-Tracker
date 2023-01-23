@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { profile } from 'console';
 import { Model } from 'mongoose';
 import { BlogService } from '../blog/blog.service';
 import { BlogDto } from '../blog/dto/blog.dto';
@@ -49,24 +50,64 @@ export class PortfolioService {
     };
   }
 
-  async updatePortfolio({ user, updatePortfolioDto }) {
+  async updatePortfolio(dto) {
     try {
       let portfolio = await this.portfolioModel.findOne({
-        _id: updatePortfolioDto.id,
+        _id: dto.id,
       });
       if (!portfolio) {
-        throw new Error('no portfoilio found');
-      }
-      if (portfolio.user !== user._id) {
-        throw new Error("you can't update this portfolio");
+        throw new Error('no portfolio found');
       }
 
-      await this.portfolioModel.updateOne(
-        updatePortfolioDto.id,
-        updatePortfolioDto,
+      if (portfolio.user !== dto.user._id.toString()) {
+        throw new Error("you can't update this portfolio");
+      }
+      if (dto.user) {
+        delete dto.user;
+      }
+
+      if (dto.courses) {
+        let index = dto.index;
+        let course = dto.course;
+        await this.portfolioModel.findOneAndUpdate(
+          { _id: dto.id, 'courses.index': index },
+          { $set: { 'courses.$.course': course } },
+          {
+            new: true,
+          },
+        );
+      }
+
+      await this.portfolioModel.findOneAndUpdate(
+        dto.id,
+        { $set: dto },
+        {
+          new: true,
+        },
       );
+
+      return {
+        message: 'Your profile updated',
+        success: true,
+      };
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  async getAllPortfolio(getAllPortFolioDto) {
+    try {
+      const getAllPortofolios = await this.portfolioModel
+        .find()
+        .sort({ expert: 1 });
+
+      return getAllPortofolios;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async getExpertPortfolio(GetExpertPortfolioDto) {
+    const portfolio = await this.portfolioModel.find({});
   }
 }

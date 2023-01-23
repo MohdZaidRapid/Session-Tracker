@@ -69,8 +69,8 @@ export class CreatePortfolioDto {
   @IsString()
   image: string;
 
-  @Field({ nullable: false, description: 'expertise of the user' })
-  @IsNotEmpty()
+  @Field({ nullable: true, description: 'expertise of the user' })
+  @IsOptional()
   @IsBoolean()
   expert: boolean;
 
@@ -80,9 +80,10 @@ export class CreatePortfolioDto {
 
 @InputType()
 export class UpdatePorfolioDto {
-  @Field({ nullable: false, description: 'Id of the portfolio' })
-  @IsNotEmpty()
-  readonly id: string;
+  @Field({ nullable: true, description: 'id' })
+  @IsString()
+  @IsOptional()
+  id: string;
 
   @IsOptional()
   name: string;
@@ -100,18 +101,9 @@ export class UpdatePorfolioDto {
   @IsArray()
   courses: string[];
 
-  @IsOptional()
-  blogs: BlogsDto[];
-
   @Field({ nullable: true, description: 'description of the User' })
   @IsOptional()
   description: string;
-
-  @IsOptional()
-  email: string;
-
-  @IsOptional()
-  phone: string;
 
   @Field({ nullable: true, description: 'website of the user' })
   @IsOptional()
@@ -134,11 +126,17 @@ export class UpdatePorfolioDto {
   @IsString()
   image: string;
 
-  @Field({ nullable: false, description: 'expertise of the user' })
-  @IsNotEmpty()
-  @IsBoolean()
+  @Field({ nullable: true, description: 'expertise of the user' })
   expert: boolean;
 
   @IsOptional()
-  user: string;
+  index: string;
+}
+
+@InputType()
+export class GetAllPortFolioDto {
+  @Field({ nullable: true, description: 'banner of the user', defaultValue: 1 })
+  @IsOptional()
+  @IsString()
+  sort: number;
 }

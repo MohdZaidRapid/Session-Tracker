@@ -125,6 +125,4 @@ export class AuthService {
       throw new Error(error.message);
     }
   }
-
-
 }

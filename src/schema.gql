@@ -143,7 +143,7 @@ input CreatePortfolioDto {
   description: String
 
   """expertise of the user"""
-  expert: Boolean!
+  expert: Boolean
 
   """name of the expertise"""
   expertise: String
@@ -221,6 +221,7 @@ type Mutation {
   createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   createSnippets(input: CodeSnippetsDto!): MessageDef!
+  getAllPortfolio: [PortfolioDef!]!
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
@@ -238,6 +239,20 @@ type Owner {
 
   """name of the owner"""
   username: String!
+}
+
+type PortfolioDef {
+  """courses"""
+  courses: [String!]
+
+  """description of the user"""
+  descripiton: String
+
+  """Image of the user"""
+  image: String
+
+  """name of the user"""
+  name: String
 }
 
 type Query {
@@ -349,13 +364,13 @@ input UpdatePorfolioDto {
   description: String
 
   """expertise of the user"""
-  expert: Boolean!
+  expert: Boolean
 
   """name of the expertise"""
   expertise: String
 
-  """Id of the portfolio"""
-  id: String!
+  """id"""
+  id: String
 
   """banner of the user"""
   image: String
