@@ -107,7 +107,19 @@ export class PortfolioService {
     }
   }
 
-  async getExpertPortfolio(GetExpertPortfolioDto) {
-    const portfolio = await this.portfolioModel.find({});
+  async getExpertPortfolio({ id }) {
+    try {
+      const expertPortfolio = await this.portfolioModel.findOne({
+        _id: id,
+        expert: true,
+      });
+      if (!expertPortfolio) {
+        throw new Error('No Expert Portfolio found with this id');
+      }
+
+      return expertPortfolio;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }

@@ -178,6 +178,40 @@ input GetBlogByIdDto {
   id: String!
 }
 
+type GetExpertPoertfolioDef {
+  """banner of the user"""
+  banner: String
+
+  """company of the user"""
+  company: String
+
+  """all courses of the author"""
+  courses: [String!]!
+
+  """description of the User"""
+  description: String
+
+  """expertise of the user"""
+  expert: Boolean
+
+  """name of the expertise"""
+  expertise: String
+
+  """banner of the user"""
+  image: String
+
+  """location of the user"""
+  location: String
+
+  """website of the user"""
+  website: String
+}
+
+input GetExpertPortfolioDto {
+  """banner of the user"""
+  id: String = "1"
+}
+
 type GetSessionByIdDef {
   """description of the session"""
   description: String
@@ -223,6 +257,7 @@ type Mutation {
   createSnippets(input: CodeSnippetsDto!): MessageDef!
   getAllPortfolio: [PortfolioDef!]!
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
+  getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPoertfolioDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
   signIn(input: SignInDto!): UserTokenData!

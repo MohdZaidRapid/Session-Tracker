@@ -140,3 +140,11 @@ export class GetAllPortFolioDto {
   @IsString()
   sort: number;
 }
+
+@InputType()
+export class GetExpertPortfolioDto {
+  @Field({ nullable: true, description: 'banner of the user', defaultValue: 1 })
+  @IsOptional()
+  @IsString()
+  id: string;
+}
