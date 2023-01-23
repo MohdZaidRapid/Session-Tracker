@@ -155,11 +155,11 @@ export class AuthService {
       });
       await this.mailService.sendWelcomeEmail(
         user.email,
-        `to reset your password follow this link http://localhost:3000/auth/reset-password/auth/reset-password/${token}`,
+        `to reset your password follow this link http://localhost:3000/auth/reset-password/${token}`,
       );
       return {
         message: 'email sent to reset your password ! Please check your email',
-        success: true,
+        success: true, 
       };
     } catch (error) {
       throw new Error(error.message);
