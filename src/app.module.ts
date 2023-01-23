@@ -9,6 +9,8 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SessionsModule } from './modules/sessions/sessions.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PortfolioModule } from './modules/portfolio/portfolio.module';
+import { CodesnippetsModule } from './modules/codesnippets/codesnippets.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { AuthModule } from './modules/auth/auth.module';
       driver: ApolloDriver,
       debug: false,
       playground: true,
+      installSubscriptionHandlers: true,
+      context: async ({ req }) => ({ req }),
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
@@ -33,6 +37,8 @@ import { AuthModule } from './modules/auth/auth.module';
     BlogModule,
     SessionsModule,
     AuthModule,
+    PortfolioModule,
+    CodesnippetsModule,
   ],
 
   controllers: [AppController],

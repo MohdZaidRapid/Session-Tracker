@@ -7,24 +7,19 @@ export const UserSchema = new mongoose.Schema<User>(
     email: {
       type: String,
       unique: true,
-      required: true,
     },
     password: {
       type: String,
       required: true,
     },
-    name: {
-      type: String,
-      default: null,
-    },
     username: {
       type: String,
-      unique: true,
     },
     phone: {
-      type: Number,
+      type: String,
       default: null,
     },
+    refreshToken: { type: String, default: null },
   },
   { timestamps: true },
 );

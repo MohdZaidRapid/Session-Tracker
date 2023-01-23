@@ -83,10 +83,17 @@ export class BlogService {
    * @returns { _id banner Image category createdAt description title }
    */
   // author MohdZaid
-  async findAllBlog() {
+  async findAllBlog(blogDto) {
     try {
-      const blog = await this.blogModel.find();
+      let query: any = {};
+      if (blogDto._id) {
+        query._id = blogDto._id;
+      }
+      if (blogDto.owner) {
+        query.owner = blogDto.owner;
+      }
 
+      const blog = await this.blogModel.find(query).populate('owner');
       if (!blog || blog.length <= 0) {
         throw new NotFoundException('Blog not found');
       }
@@ -97,7 +104,7 @@ export class BlogService {
   }
   /**
    * @description get list of  all Bolg array of object
-   * @param createContentDto {NoParam}
+   * @param  {NoParam}
    * @returns {  _id
     bannerImage
     category
@@ -121,7 +128,7 @@ export class BlogService {
   // author MohdZaid
   async findOne({ id }) {
     try {
-      const blog = await this.blogModel.findById(id);
+      const blog = await this.blogModel.findById(id).populate('owner');
       if (!blog) {
         throw new NotFoundException('No Blog found with this id');
       }
@@ -137,16 +144,37 @@ export class BlogService {
    * @returns {message ,success}
    */
   //author MohdZaid
-  async addComment({ id, name, email, message }) {
-    await this.blogModel.findOneAndUpdate(
-      { _id: id },
-      { $push: { comments: { name, email, message } } },
-      { new: true },
-    );
+  async addComment({ id, message, email, name }) {
+    try {
+      await this.blogModel.findOneAndUpdate(
+        { _id: id },
+        { $push: { comments: { name, email, message } } },
+        { new: true },
+      );
 
-    return {
-      message: 'comment added successfully',
-      success: true,
-    };
+      return {
+        message: 'comment added successfully',
+        success: true,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description find blogs by Multiple ids of array
+   * @param param0 [ids]
+   * @returns {array of  blogs object}
+   */
+  //author MohdZaid
+  async findBlogByIds(idsArray) {
+    try {
+      const blogsArray = await this.blogModel.find({
+        _id: { $in: idsArray },
+      });
+      return blogsArray;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }

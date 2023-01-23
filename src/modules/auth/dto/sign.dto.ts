@@ -6,8 +6,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength,
-  MinLength,
 } from 'class-validator';
 
 @InputType()

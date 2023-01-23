@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { InputType, Field } from '@nestjs/graphql';
 import {
   IsArray,
@@ -46,12 +47,7 @@ export class CreateBlogDto {
   @IsNotEmpty()
   bannerImage: string;
 
-  @Field({
-    nullable: false,
-    description: 'owner of the blog',
-  })
-  @IsString()
-  @IsNotEmpty()
+  @Optional()
   owner: string;
 
   @Field({ nullable: true, description: 'category of the blog' })
@@ -95,20 +91,10 @@ export class CommentsDto {
   @IsString()
   id: string;
 
-  @Field({
-    nullable: false,
-    description: 'added name of user',
-  })
-  @IsNotEmpty()
-  @IsString()
+  @Optional()
   name: string;
 
-  @Field({
-    nullable: false,
-    description: 'added email of Blog user',
-  })
-  @IsNotEmpty()
-  @IsString()
+  @Optional()
   email: string;
 
   @Field({
@@ -118,4 +104,34 @@ export class CommentsDto {
   @IsNotEmpty()
   @IsString()
   message: string;
+}
+
+@InputType()
+export class BlogDto {
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  _id: string;
+
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  owner: string;
+}
+
+@InputType()
+export class GetAllPortfolioDto {
+  @Field({
+    nullable: true,
+    description: 'id of Blog ',
+  })
+  @IsOptional()
+  @IsString()
+  name: string;
 }

@@ -26,11 +26,8 @@ export class SessionDto {
   @MinLength(1)
   readonly headerImage: string;
 
-  @Field({ nullable: false, description: 'Owner  of the session' })
-  @IsNotEmpty({ message: 'owner image' })
-  @IsString()
-  @MinLength(1)
-  readonly owner: string;
+  @IsOptional()
+  owner: string;
 
   @Field({ nullable: true, description: 'Video  of the session' })
   @IsOptional()
@@ -41,7 +38,7 @@ export class SessionDto {
 
 @InputType()
 export class GetAllSessionDto {
-  @Field({ nullable: true, description: 'Input sort order' })
+  @Field({ nullable: true, description: 'Input sort order', defaultValue: 1 })
   @IsNumber()
   sort: number;
 }

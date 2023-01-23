@@ -9,11 +9,6 @@ import {
 
 @ObjectType()
 export class User {
-  @Field({ nullable: true, description: 'name of the user' })
-  @IsString()
-  @IsOptional()
-  readonly name: string;
-
   @Field({ nullable: true, description: 'phone of the user' })
   @IsString()
   readonly phone: number;
@@ -30,7 +25,6 @@ export class User {
   @IsString()
   @IsNotEmpty()
   readonly username: string;
-  
 }
 
 @ObjectType()
