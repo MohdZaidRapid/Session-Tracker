@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { SignupDto } from './dto/signUp.dto';
 import { User } from './interface/user.interface';
@@ -134,7 +133,7 @@ export class AuthService {
   /**
    * @description reset Password
    * @param  { email  }
-   * @returns {User {phone email password username portfolio}}
+   * @returns {message success}
    */
   //author MohdZaid
   async forgotPassword({ email }) {
@@ -143,7 +142,6 @@ export class AuthService {
       if (!user) {
         throw new Error('no user found with this email');
       }
-      console.log(user);
       const token = crypto.randomBytes(32).toString('hex');
       const expirationIn = new Date();
       expirationIn.setHours(expirationIn.getHours() + 1);
@@ -159,19 +157,17 @@ export class AuthService {
       );
       return {
         message: 'email sent to reset your password ! Please check your email',
-        success: true, 
+        success: true,
       };
     } catch (error) {
       throw new Error(error.message);
     }
   }
-
   async findUserByRefresheToken(dto) {
     const user = await this.userModel.findOne({
       refreshToken: dto.token,
       resetPasswordExpiresIn: { $gt: new Date() },
     });
-
     return user;
   }
 }
