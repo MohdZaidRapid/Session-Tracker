@@ -65,7 +65,7 @@ export class BlogResolver {
     @GetUserId() user,
   ) {
     createBlogDto.owner = user._id;
-    const data = await this.blogService.create(createBlogDto);
+    const data = await this.blogService.createBlog(createBlogDto);
     return data;
   }
 
@@ -108,7 +108,7 @@ export class BlogResolver {
   @Auth()
   @Query(() => BlogByIdDef, { name: 'getBlogById' })
   async findOne(@Args('input') getBlogByIdDto: GetBlogByIdDto) {
-    return await this.blogService.findOne(getBlogByIdDto);
+    return await this.blogService.findBlogById(getBlogByIdDto);
   }
 
   /**
@@ -116,7 +116,7 @@ export class BlogResolver {
    * @param param0 {id name email message}
    * @returns {message ,success}
    */
-  //author MohdZaid 
+  //author MohdZaid
   @Auth()
   @Mutation(() => MessageDef, { name: 'addComment' })
   async addComment(@Args('input') commentsDto: CommentsDto, @GetUserId() user) {
