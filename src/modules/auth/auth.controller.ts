@@ -18,7 +18,6 @@ export class AuthController {
   ) {
     try {
       let user = await this.authService.findUserByRefresheToken({ token });
-      console.log(user);
       if (!user) {
         return new Error('No user found or token expires');
       }
@@ -26,7 +25,7 @@ export class AuthController {
       user.refreshToken = undefined;
       user.resetPasswordExpiresIn = undefined;
       await user.save();
-      return { 
+      return {
         suscess: true,
         message: 'Password changed successfully',
       };

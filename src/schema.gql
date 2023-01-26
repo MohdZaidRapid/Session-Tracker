@@ -165,7 +165,7 @@ scalar DateTime
 
 input ForgotPasswordDto {
   """Please provide email"""
-  email: String
+  email: String!
 }
 
 input GetAllCodeSnippetsDto {
@@ -267,7 +267,7 @@ type Mutation {
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
   signIn(input: SignInDto!): UserTokenData!
-  signUpUser(input: SignupDto!): UserTokenData!
+  signUp(input: SignupDto!): UserTokenData!
   updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
 }
 

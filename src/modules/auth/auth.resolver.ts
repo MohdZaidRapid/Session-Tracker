@@ -17,7 +17,7 @@ export class AuthResolver {
    * @returns {phone email password username portfolio ,token}
    */
   //author MohdZaid
-  @Mutation(() => UserTokenData, { name: 'signUpUser' })
+  @Mutation(() => UserTokenData, { name: 'signUp' })
   async signUpUser(@Args('input') signupDto: SignupDto) {
     const data = await this.authService.signUpUser(signupDto);
     return data;

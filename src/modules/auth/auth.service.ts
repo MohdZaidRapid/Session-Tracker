@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -37,7 +41,14 @@ export class AuthService {
   //author MohdZaid
   async signUpUser(signupDto: SignupDto) {
     try {
+      let alreadyExists = await this.userModel.findOne({
+        email: signupDto.email,
+      });
+      if (alreadyExists) {
+        throw new ConflictException('account with this email already exists');
+      }
       let user = await this.userModel.create(signupDto);
+
       await user.save();
       user = JSON.parse(JSON.stringify(user));
 
