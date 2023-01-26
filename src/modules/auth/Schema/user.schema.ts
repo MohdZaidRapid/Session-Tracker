@@ -19,6 +19,7 @@ export const UserSchema = new mongoose.Schema<User>(
       type: String,
       default: null,
     },
+    refreshToken: { type: String, default: null },
   },
   { timestamps: true },
 );
