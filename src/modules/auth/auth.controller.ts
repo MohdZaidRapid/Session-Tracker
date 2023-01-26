@@ -26,7 +26,7 @@ export class AuthController {
       user.refreshToken = undefined;
       user.resetPasswordExpiresIn = undefined;
       await user.save();
-      return {
+      return { 
         suscess: true,
         message: 'Password changed successfully',
       };

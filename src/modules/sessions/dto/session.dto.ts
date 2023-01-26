@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { Field, InputType } from '@nestjs/graphql';
 import {
   IsNotEmpty,
@@ -20,12 +21,6 @@ export class SessionDto {
   @IsString()
   readonly description: string;
 
-  @Field({ nullable: false, description: 'header image of the session' })
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(1)
-  readonly headerImage: string;
-
   @IsOptional()
   owner: string;
 
@@ -44,8 +39,33 @@ export class GetAllSessionDto {
 }
 
 @InputType()
+export class UploadImageDto {
+  @Field({ nullable: false, description: 'header image of the session' })
+  @IsNotEmpty()
+  @MinLength(1)
+  readonly headerImage: string;
+
+  userId: string;
+}
+
+@InputType()
 export class GetSessionByIdDto {
   @Field({ nullable: true, description: 'Input sort order' })
   @IsString()
   id: string;
+}
+
+@InputType()
+export class GeneratePresignedURLDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly fileName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly folderPath: string;
+
+  @IsString()
+  @IsNotEmpty()
+  contentType: string;
 }

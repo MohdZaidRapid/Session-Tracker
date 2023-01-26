@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
 import { CodesnippetsModule } from './modules/codesnippets/codesnippets.module';
 import { MailModule } from './modules/mail/mail.module';
+import { UploadsModule } from './modules/uploads/uploads.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { MailModule } from './modules/mail/mail.module';
     PortfolioModule,
     CodesnippetsModule,
     MailModule,
+    UploadsModule,
   ],
 
   controllers: [AppController],

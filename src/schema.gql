@@ -326,9 +326,6 @@ input SessionDto {
   """description of the session"""
   description: String
 
-  """header image of the session"""
-  headerImage: String!
-
   """title of the session"""
   title: String!
 

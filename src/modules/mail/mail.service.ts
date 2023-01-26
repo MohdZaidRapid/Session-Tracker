@@ -5,7 +5,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class MailService {
   constructor(private readonly mailService: MailerService) {}
 
-  async sendWelcomeEmail(to: string, token: string) {
+  async sendWelcomeEmail(to: string, token: string) { 
     const message = {
       from: 'sender@example.com',
       to,

@@ -13,6 +13,6 @@ import { AuthModule } from '../auth/auth.module';
   ],
   providers: [SessionsService, SessionsResolver],
   controllers: [SessionsController],
-  exports: [SessionsService, SessionsResolver],
+  exports: [SessionsService, SessionsResolver, SessionsModule],
 })
 export class SessionsModule {}
