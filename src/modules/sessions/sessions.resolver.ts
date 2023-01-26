@@ -5,6 +5,7 @@ import {
   GetAllSessionDto,
   GetSessionByIdDto,
   SessionDto,
+  UploadImageDto,
 } from './dto/session.dto';
 import { SessionsService } from './sessions.service';
 import {
@@ -85,4 +86,17 @@ export class SessionsResolver {
       throw new Error(error.message);
     }
   }
+
+  // @Auth()
+  // @Mutation(() => MessageDef, { name: 'uploadImage' })
+  // async uploadImage(
+  //   @Args('input') uploadImageDto: UploadImageDto,
+  //   @GetUserId() user,
+  // ) {
+  //   const dto = {
+  //     ...uploadImageDto,
+  //     userId: user._id,
+  //   };
+  //   return await this.sessionService.uploadImage(dto);
+  // }
 }

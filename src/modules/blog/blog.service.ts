@@ -64,7 +64,7 @@ export class BlogService {
    * @returns {message,success}
    */
   //author Mohd Zaid
-  async create(createBlogDto: CreateBlogDto) {
+  async createBlog(createBlogDto: CreateBlogDto) {
     try {
       const blog = await this.blogModel.create(createBlogDto);
       await blog.save();
@@ -126,7 +126,7 @@ export class BlogService {
   }}
    */
   // author MohdZaid
-  async findOne({ id }) {
+  async findBlogById({ id }) {
     try {
       const blog = await this.blogModel.findById(id).populate('owner');
       if (!blog) {

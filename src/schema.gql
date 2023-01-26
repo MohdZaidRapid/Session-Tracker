@@ -163,6 +163,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input ForgotPasswordDto {
+  """Please provide email"""
+  email: String!
+}
+
 input GetAllCodeSnippetsDto {
   """description of the code"""
   sort: Float = 1
@@ -213,6 +218,9 @@ input GetExpertPortfolioDto {
 }
 
 type GetSessionByIdDef {
+  """title of the session"""
+  _id: String
+
   """description of the session"""
   description: String
 
@@ -231,7 +239,7 @@ type GetSessionByIdDef {
 
 input GetSessionByIdDto {
   """Input sort order"""
-  id: String
+  id: String!
 }
 
 input GetSnippetByIdDto {
@@ -255,13 +263,14 @@ type Mutation {
   createPortfolio(input: CreatePortfolioDto!): MessageDef!
   createSession(input: SessionDto!): MessageDef!
   createSnippets(input: CodeSnippetsDto!): MessageDef!
+  forgotPassword(input: ForgotPasswordDto!): MessageDef!
   getAllPortfolio: [PortfolioDef!]!
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPoertfolioDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
   signIn(input: SignInDto!): UserTokenData!
-  signUpUser(input: SignupDto!): UserTokenData!
+  signUp(input: SignupDto!): UserTokenData!
   updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
 }
 
@@ -319,9 +328,6 @@ type SessionDef {
 input SessionDto {
   """description of the session"""
   description: String
-
-  """header image of the session"""
-  headerImage: String!
 
   """title of the session"""
   title: String!

@@ -2,44 +2,42 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
+  HttpStatus,
   applyDecorators,
   UseGuards,
+  Logger,
+  Inject,
   createParamDecorator,
-  NotFoundException,
   SetMetadata,
+  NotFoundException,
 } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
 
+import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 
 import { AuthService } from 'src/modules/auth/auth.service';
-import { Reflector } from '@nestjs/core';
 import { Role } from './roles/Roles';
 
 export const ROLES_KEY = 'roles';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class RestAuthGuard implements CanActivate {
   constructor(
     private readonly authService: AuthService,
-    private configService: ConfigService,
     private reflector: Reflector,
+    private configService: ConfigService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const ctx = GqlExecutionContext.create(context);
-    const { req } = ctx.getContext();
+    const req = context.switchToHttp().getRequest();
     const requiredRoles = this.reflector.get<Role[]>(
       ROLES_KEY,
       context.getHandler(),
     );
-    if (!req.user) {
-      new Error('Not Authorized');
-    }
-
     if (req.headers && req.headers.authorization) {
       req.user = await this.validateToken(req.headers.authorization);
+
       if (!req.user) {
         throw new Error('no user or request token timeout');
       }
@@ -49,7 +47,6 @@ export class AuthGuard implements CanActivate {
         return requiredRoles.includes(req.user.role);
       }
     }
-
     return false;
   }
 
@@ -59,7 +56,6 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = auth.split(' ')[1];
-
     let reqUser = null;
     await jwt.verify(
       token,
@@ -84,8 +80,8 @@ export class AuthGuard implements CanActivate {
         }
       },
     );
+
     if (reqUser) {
-      // console.log(reqUser)
       return reqUser;
     } else {
       return null;
@@ -93,15 +89,18 @@ export class AuthGuard implements CanActivate {
   }
 }
 
+export function Auth(...roles: Role[]) {
+  SetMetadata(ROLES_KEY, roles);
+  return applyDecorators(UseGuards(RestAuthGuard));
+}
+
 export const GetUserId = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context);
-    const req = ctx.getContext().req;
+    const req = context.switchToHttp().getRequest();
     return req.user;
   },
 );
 
-export function Auth(...roles: Role[]) {
-  SetMetadata(ROLES_KEY, roles);
-  return applyDecorators(UseGuards(AuthGuard));
-}
+export const Roles = (...roles: Role[]) => {
+  return SetMetadata(ROLES_KEY, roles);
+};
