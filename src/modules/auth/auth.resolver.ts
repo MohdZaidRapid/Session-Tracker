@@ -46,7 +46,6 @@ export class AuthResolver {
 
   @Mutation(() => MessageDef, { name: 'forgotPassword' })
   async forgotPassword(
-    @GetUserId() user,
     @Args('input') forgotPasswordDto: ForgotPasswordDto,
   ) {
     return await this.authService.forgotPassword(forgotPasswordDto);

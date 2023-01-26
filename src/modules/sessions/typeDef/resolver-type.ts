@@ -27,6 +27,7 @@ export class SessionDef {
   })
   @IsString()
   _id: string;
+
   @Field({
     nullable: true,
     description: 'title of the session',
@@ -68,6 +69,13 @@ export class MessageDef {
 
 @ObjectType()
 export class GetSessionByIdDef {
+  @Field({
+    nullable: true,
+    description: 'title of the session',
+  })
+  @IsString()
+  _id: string;
+
   @Field({
     nullable: true,
     description: 'title of the session',

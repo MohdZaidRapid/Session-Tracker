@@ -175,6 +175,7 @@ export class AuthService {
     }
   }
   async findUserByRefresheToken(dto) {
+    console.log(dto);
     const user = await this.userModel.findOne({
       refreshToken: dto.token,
       resetPasswordExpiresIn: { $gt: new Date() },

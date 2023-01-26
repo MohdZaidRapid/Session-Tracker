@@ -50,7 +50,8 @@ export class UploadImageDto {
 
 @InputType()
 export class GetSessionByIdDto {
-  @Field({ nullable: true, description: 'Input sort order' })
+  @Field({ nullable: false, description: 'Input sort order' })
+  @IsNotEmpty()
   @IsString()
   id: string;
 }
