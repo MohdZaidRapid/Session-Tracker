@@ -109,14 +109,20 @@ export class PortfolioService {
   async getAllPortfolio(getAllPortFolioDto) {
     try {
       // const sort =
-      const getAllTruePortofolios = await this.portfolioModel.find({
-        expert: true,
-      });
-      const getAllFalselPortofolios = await this.portfolioModel.find({
-        expert: false,
-      });
-      const arr = getAllTruePortofolios.concat(getAllFalselPortofolios);
-      return arr;
+      // const getAllTruePortofolios = await this.portfolioModel.find({
+      //   expert: true,
+      // });
+      // const getAllFalselPortofolios = await this.portfolioModel.find({
+      //   expert: false,
+      // });
+      const getAllPortfolios = await this.portfolioModel
+        .find({
+          $or: [{ expert: true }, { expert: false }],
+        })
+        .sort({ expert: -1 });
+      // const arr = getAllTruePortofolios.concat(getAllFalselPortofolios);
+      console.log(getAllPortfolios);
+      return getAllPortfolios;
     } catch (error) {
       throw new Error(error.message);
     }
