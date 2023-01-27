@@ -290,7 +290,7 @@ type PortfolioDef {
   courses: [String!]
 
   """description of the user"""
-  descripiton: String
+  description: String
 
   """Image of the user"""
   image: String
