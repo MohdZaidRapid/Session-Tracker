@@ -65,7 +65,7 @@ export class CreatePortfolioDto {
   @IsOptional()
   banner: string;
 
-  @Field({ nullable: true, description: 'banner of the user' })
+  @Field({ nullable: true, description: 'image of the user' })
   @IsOptional()
   @IsString()
   image: string;
@@ -125,7 +125,7 @@ export class UpdatePorfolioDto {
   @IsOptional()
   banner: string;
 
-  @Field({ nullable: true, description: 'banner of the user' })
+  @Field({ nullable: true, description: 'image of the user' })
   @IsOptional()
   @IsString()
   image: string;
@@ -139,7 +139,7 @@ export class UpdatePorfolioDto {
 
 @InputType()
 export class GetAllPortFolioDto {
-  @Field({ nullable: true, description: 'banner of the user', defaultValue: 1 })
+  @Field({ nullable: true, description: 'sort of the user', defaultValue: 1 })
   @IsOptional()
   @IsString()
   sort: number;
@@ -150,7 +150,7 @@ export class GetAllPortFolioDto {
 
 @InputType()
 export class GetExpertPortfolioDto {
-  @Field({ nullable: true, description: 'banner of the user' })
+  @Field({ nullable: true, description: 'id of the portfolio user' })
   @IsOptional()
   @IsString()
   id: string;

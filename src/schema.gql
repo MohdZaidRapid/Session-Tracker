@@ -148,7 +148,7 @@ input CreatePortfolioDto {
   """name of the expertise"""
   expertise: String
 
-  """banner of the user"""
+  """image of the user"""
   image: String
 
   """location of the user"""
@@ -213,7 +213,7 @@ type GetExpertPortfolioDef {
 }
 
 input GetExpertPortfolioDto {
-  """banner of the user"""
+  """id of the portfolio user"""
   id: String
 }
 
@@ -413,7 +413,7 @@ input UpdatePorfolioDto {
   """id"""
   id: String
 
-  """banner of the user"""
+  """image of the user"""
   image: String
 
   """location of the user"""

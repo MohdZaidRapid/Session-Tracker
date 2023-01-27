@@ -36,6 +36,8 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-schema.gql
-.schema.gql
+
+
+/src/schema.gql
 src/schema.gql
+src/schema.gql 
