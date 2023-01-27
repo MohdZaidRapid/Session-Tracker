@@ -145,7 +145,7 @@ export class GetAllPortFolioDto {
   sort: number;
 
   @Optional()
-  username: string;
+  name: string;
 }
 
 @InputType()
