@@ -76,6 +76,9 @@ export class CreatePortfolioDto {
 
   @IsOptional()
   user: string;
+
+  @IsOptional()
+  index: string;
 }
 
 @InputType()

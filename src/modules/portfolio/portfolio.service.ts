@@ -36,18 +36,29 @@ export class PortfolioService {
   // author MohdZaid
 
   async createPortfolio(createPortfolioDto) {
-    let portfolio;
-    portfolio = await this.portfolioModel.create(createPortfolioDto);
-    if (!portfolio) {
-      throw new NotFoundException(
-        "can't create portfolio something went wrong",
+    const user = await this.portfolioModel.findOne({
+      user: createPortfolioDto.user,
+    });
+
+    if (user) {
+      await this.portfolioModel.findOneAndUpdate(
+        { user: createPortfolioDto.user },
+        { $set: createPortfolioDto },
+        { new: true },
       );
+
+      return {
+        message: 'Your portfolio updated successfully',
+        success: true,
+      };
+    } else {
+      const portfolio = await this.portfolioModel.create(createPortfolioDto);
+      await portfolio.save();
+      return {
+        message: 'Your portfolio created successfully',
+        success: true,
+      };
     }
-    await portfolio.save();
-    return {
-      message: 'Your portfolio created successfully',
-      success: true,
-    };
   }
 
   async updatePortfolio(dto) {
@@ -97,11 +108,15 @@ export class PortfolioService {
 
   async getAllPortfolio(getAllPortFolioDto) {
     try {
-      const getAllPortofolios = await this.portfolioModel
-        .find()
-        .sort({ expert: 1 });
-
-      return getAllPortofolios;
+      // const sort =
+      const getAllTruePortofolios = await this.portfolioModel.find({
+        expert: true,
+      });
+      const getAllFalselPortofolios = await this.portfolioModel.find({
+        expert: false,
+      });
+      const arr = getAllTruePortofolios.concat(getAllFalselPortofolios);
+      return arr;
     } catch (error) {
       throw new Error(error.message);
     }

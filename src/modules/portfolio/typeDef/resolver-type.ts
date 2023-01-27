@@ -18,7 +18,7 @@ export class PortfolioDef {
   @Field({ nullable: true, description: 'description of the user' })
   @IsOptional()
   @IsString()
-  descripiton: string;
+  description: string;
 
   @IsOptional()
   expert: boolean;
@@ -35,7 +35,7 @@ export class BlogsDto {
 }
 
 @ObjectType()
-export class GetExpertPoertfolioDef {
+export class GetExpertPortfolioDef {
   @IsOptional()
   name: string;
 

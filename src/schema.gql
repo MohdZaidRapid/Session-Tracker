@@ -183,7 +183,7 @@ input GetBlogByIdDto {
   id: String!
 }
 
-type GetExpertPoertfolioDef {
+type GetExpertPortfolioDef {
   """banner of the user"""
   banner: String
 
@@ -266,7 +266,7 @@ type Mutation {
   forgotPassword(input: ForgotPasswordDto!): MessageDef!
   getAllPortfolio: [PortfolioDef!]!
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
-  getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPoertfolioDef!
+  getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPortfolioDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
   signIn(input: SignInDto!): UserTokenData!
@@ -290,7 +290,7 @@ type PortfolioDef {
   courses: [String!]
 
   """description of the user"""
-  descripiton: String
+  description: String
 
   """Image of the user"""
   image: String
