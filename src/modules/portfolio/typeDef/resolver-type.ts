@@ -18,7 +18,7 @@ export class PortfolioDef {
   @Field({ nullable: true, description: 'description of the user' })
   @IsOptional()
   @IsString()
-  description: string;
+  descripiton: string;
 
   @IsOptional()
   expert: boolean;

@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { InputType, Field, ObjectType } from '@nestjs/graphql';
 import {
   IsArray,
@@ -142,6 +143,9 @@ export class GetAllPortFolioDto {
   @IsOptional()
   @IsString()
   sort: number;
+
+  @Optional()
+  username: string;
 }
 
 @InputType()

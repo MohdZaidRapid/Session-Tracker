@@ -26,7 +26,7 @@ export class PortfolioResolver {
     @GetUserId() user,
   ) {
     createPortfolioDto.user = user._id;
-    createPortfolioDto.name = user.name;
+    createPortfolioDto.name = user.username;
     createPortfolioDto.email = user.email;
     createPortfolioDto.phone = user.phone;
     let getAllBlogs;
@@ -56,8 +56,17 @@ export class PortfolioResolver {
 
   @Auth()
   @Mutation(() => [PortfolioDef], { name: 'getAllPortfolio' })
-  async getAllPortfolio(getAllPortFolioDto: GetAllPortFolioDto) {
-    return await this.portfolioService.getAllPortfolio(getAllPortFolioDto);
+  async getAllPortfolio(
+    getAllPortFolioDto: GetAllPortFolioDto,
+    @GetUserId() user,
+  ) {
+    const dto = {
+      ...getAllPortFolioDto,
+      user,
+    };
+
+    const data = await this.portfolioService.getAllPortfolio(dto);
+    return data;
   }
 
   @Auth()

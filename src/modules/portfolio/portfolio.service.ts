@@ -120,8 +120,6 @@ export class PortfolioService {
           $or: [{ expert: true }, { expert: false }],
         })
         .sort({ expert: -1 });
-      // const arr = getAllTruePortofolios.concat(getAllFalselPortofolios);
-      console.log(getAllPortfolios);
       return getAllPortfolios;
     } catch (error) {
       throw new Error(error.message);

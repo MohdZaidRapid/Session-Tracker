@@ -78,16 +78,16 @@ input CodeSnippetsDto {
 }
 
 type CommentData {
-  """id of the session"""
+  """date of the comment"""
   date: DateTime
 
-  """id of the session"""
+  """email of the user"""
   email: String
 
-  """id of the session"""
+  """message of the comment"""
   message: String
 
-  """id of the session"""
+  """name of the """
   name: String
 }
 
@@ -290,7 +290,7 @@ type PortfolioDef {
   courses: [String!]
 
   """description of the user"""
-  description: String
+  descripiton: String
 
   """Image of the user"""
   image: String
