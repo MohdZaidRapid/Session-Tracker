@@ -150,7 +150,7 @@ export class GetAllPortFolioDto {
 
 @InputType()
 export class GetExpertPortfolioDto {
-  @Field({ nullable: true, description: 'banner of the user', defaultValue: 1 })
+  @Field({ nullable: true, description: 'banner of the user' })
   @IsOptional()
   @IsString()
   id: string;

@@ -214,7 +214,7 @@ type GetExpertPortfolioDef {
 
 input GetExpertPortfolioDto {
   """banner of the user"""
-  id: String = "1"
+  id: String
 }
 
 type GetSessionByIdDef {
