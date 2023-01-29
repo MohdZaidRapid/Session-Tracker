@@ -35,4 +35,9 @@ export class UserTokenData {
   @Field({ nullable: true, description: 'token of the user' })
   @IsOptional()
   readonly token: string;
+
+  @Field({ nullable: true, description: 'Confirm mail' })
+  @IsOptional()
+  @IsString()
+  readonly message: string;
 }

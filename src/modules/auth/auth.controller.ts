@@ -18,7 +18,6 @@ export class AuthController {
   ) {
     try {
       let user = await this.authService.findUserByRefresheToken({ token });
-      console.log(user);
       if (!user) {
         return new Error('No user found or token expires');
       }
@@ -29,6 +28,20 @@ export class AuthController {
       return {
         suscess: true,
         message: 'Password changed successfully',
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  @Get('confirm-mail/:token')
+  async confirmUserMail(@Param('token') token) {
+    try {
+      await this.authService.confirmUserMail(token);
+
+      return {
+        success: true,
+        message: 'account confirm successfully',
       };
     } catch (error) {
       throw new Error(error.message);

@@ -43,6 +43,9 @@ export class AuthGuard implements CanActivate {
       if (!req.user) {
         throw new Error('no user or request token timeout');
       }
+      if (!req.user.confirmEmail) {
+        throw new Error('Please verify your email to access this');
+      }
       if (!requiredRoles) {
         return true;
       } else {
