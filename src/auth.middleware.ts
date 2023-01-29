@@ -44,7 +44,7 @@ export class AuthMiddleware implements NestMiddleware {
           }
 
           if (user) {
-            console.log(user);
+            
             req.user = user;
             next();
             return;

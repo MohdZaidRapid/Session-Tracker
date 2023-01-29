@@ -33,7 +33,6 @@ export class PortfolioResolver {
     getAllBlogs = await this.blogService.findAllBlog({
       owner: createPortfolioDto.user,
     });
-    console.log(JSON.stringify(getAllBlogs));
     const dto: any = {
       blogs: getAllBlogs,
       ...createPortfolioDto,
