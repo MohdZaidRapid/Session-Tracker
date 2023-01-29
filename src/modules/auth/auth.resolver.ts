@@ -39,7 +39,6 @@ export class AuthResolver {
   @Mutation(() => String, { name: 'check' })
   @Auth()
   async check(@GetUserId() user, @Args('input') checkDto: CheckDto) {
-    console.log(user);
     checkDto.name = 'zaid';
     return checkDto;
   }

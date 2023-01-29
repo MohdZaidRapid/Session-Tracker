@@ -10,7 +10,7 @@ import {
   UpdatePorfolioDto,
 } from './dto/createportfolio.dto';
 import { PortfolioService } from './portfolio.service';
-import { GetExpertPoertfolioDef, PortfolioDef } from './typeDef/resolver-type';
+import { GetExpertPortfolioDef, PortfolioDef } from './typeDef/resolver-type';
 
 @Resolver()
 export class PortfolioResolver {
@@ -26,6 +26,9 @@ export class PortfolioResolver {
     @GetUserId() user,
   ) {
     createPortfolioDto.user = user._id;
+    createPortfolioDto.name = user.username;
+    createPortfolioDto.email = user.email;
+    createPortfolioDto.phone = user.phone;
     let getAllBlogs;
     getAllBlogs = await this.blogService.findAllBlog({
       owner: createPortfolioDto.user,
@@ -53,12 +56,21 @@ export class PortfolioResolver {
 
   @Auth()
   @Mutation(() => [PortfolioDef], { name: 'getAllPortfolio' })
-  async getAllPortfolio(getAllPortFolioDto: GetAllPortFolioDto) {
-    return await this.portfolioService.getAllPortfolio(getAllPortFolioDto);
+  async getAllPortfolio(
+    getAllPortFolioDto: GetAllPortFolioDto,
+    @GetUserId() user,
+  ) {
+    const dto = {
+      ...getAllPortFolioDto,
+      user,
+    };
+
+    const data = await this.portfolioService.getAllPortfolio(dto);
+    return data;
   }
 
   @Auth()
-  @Mutation(() => GetExpertPoertfolioDef, { name: 'getExpertPortfolio' })
+  @Mutation(() => GetExpertPortfolioDef, { name: 'getExpertPortfolio' })
   async getExpertPortfolio(
     @Args('input') getExpertPortfolioDto: GetExpertPortfolioDto,
     @GetUserId() user,

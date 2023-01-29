@@ -45,7 +45,7 @@ export class Blog {
 export class CommentData {
   @Field({
     nullable: true,
-    description: 'id of the session',
+    description: 'name of the ',
   })
   @IsOptional()
   @IsString()
@@ -53,7 +53,7 @@ export class CommentData {
 
   @Field({
     nullable: true,
-    description: 'id of the session',
+    description: 'email of the user',
   })
   @IsOptional()
   @IsString()
@@ -61,7 +61,7 @@ export class CommentData {
 
   @Field({
     nullable: true,
-    description: 'id of the session',
+    description: 'message of the comment',
   })
   @IsOptional()
   @IsString()
@@ -69,7 +69,7 @@ export class CommentData {
 
   @Field({
     nullable: true,
-    description: 'id of the session',
+    description: 'date of the comment',
   })
   @IsOptional()
   @IsString()

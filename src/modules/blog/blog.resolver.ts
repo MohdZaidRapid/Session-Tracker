@@ -75,7 +75,6 @@ export class BlogResolver {
    * @returns { _id banner Image category createdAt description title }
    */
   // author MohdZaid
-  @Auth()
   @Query(() => [Blog], { name: 'getAllBlogs' })
   async findAll(@Args('input') blogDto: BlogDto) {
     return await this.blogService.findAllBlog(blogDto);

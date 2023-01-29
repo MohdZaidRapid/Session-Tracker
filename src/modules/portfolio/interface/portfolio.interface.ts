@@ -8,7 +8,6 @@ export interface Portfolio extends Document {
     {
       title: string;
       bannerImage: string;
-      content: string;
     },
   ];
   description: string;
