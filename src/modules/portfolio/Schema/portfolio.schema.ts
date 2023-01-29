@@ -7,16 +7,12 @@ export const PortfolioSchema = new mongoose.Schema<Portfolio>({
   courses: {
     type: [String],
   },
-  // blogs: [String],
   blogs: [
     {
       title: { type: String, default: null },
       bannerImage: { type: String, default: null },
-      content: { type: String, default: null },
-      user: { type: String, ref: 'user', default: null },
     },
   ],
-  // blogs: { type: String, ref: 'blog' },
   description: { type: String, default: null },
   email: { type: String, default: null },
   phone: { type: String, default: null },

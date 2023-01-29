@@ -1,5 +1,5 @@
 import { Optional } from '@nestjs/common';
-import { InputType, Field, ObjectType } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import {
   IsArray,
   IsBoolean,
