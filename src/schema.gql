@@ -286,6 +286,9 @@ type Owner {
 }
 
 type PortfolioDef {
+  """name of the user"""
+  _id: String
+
   """courses"""
   courses: [String!]
 
