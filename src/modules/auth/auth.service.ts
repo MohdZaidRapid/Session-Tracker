@@ -38,7 +38,6 @@ export class AuthService {
   async verifyToken(token: string) {
     const payload = await this.jwtService.verify(token);
     const user = await this.userModel.findOne({ email: payload.email });
-    console.log(user);
     return user;
   }
   /**
@@ -173,7 +172,6 @@ export class AuthService {
         throw new Error('no user found with this email');
       }
       const { token,expiresIn } = await this.createJwtpayload(user);
-      console.log(token);
 
       const expirationIn = new Date();
       expirationIn.setHours(expirationIn.getHours() + 1);
