@@ -20,11 +20,7 @@ export class AuthService {
     @InjectModel('user') private readonly userModel: Model<User>,
     private jwtService: JwtService,
     private mailService: MailService,
-  ) {
-    // this.confirmUserMail(
-    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGR6YWlkQHJhcGlkaW5ub3ZhdGlvbi5kZXYiLCJpYXQiOjE2NzUwMDIyNTcsImV4cCI6MTY3NTA4ODY1N30.N888jpTuAiFgqBDDhhj-5syZxYnWON19qAQb6ORsCfA',
-    // );
-  }
+  ) {}
 
   async createJwtpayload(user) {
     const data = {
