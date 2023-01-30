@@ -172,10 +172,11 @@ export class AuthService {
       if (!user) {
         throw new Error('no user found with this email');
       }
-      const { token, expiresIn } = await this.createJwtpayload(user);
+      const { token,expiresIn } = await this.createJwtpayload(user);
+      console.log(token);
 
-      // const expirationIn = new Date();
-      // expirationIn.setHours(expirationIn.getHours() + 1);
+      const expirationIn = new Date();
+      expirationIn.setHours(expirationIn.getHours() + 1);
       await this.userModel.findByIdAndUpdate(user._id, {
         $set: {
           refreshToken: token,
@@ -198,7 +199,6 @@ export class AuthService {
   async findUserByRefresheToken(token) {
     const user = await this.userModel.findOne({
       refreshToken: token,
-      resetPasswordExpiresIn: { $gt: new Date() },
     });
     return user;
   }
