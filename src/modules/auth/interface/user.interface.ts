@@ -8,7 +8,7 @@ export interface User extends Document {
   token: string;
   username: string;
   refreshToken: string;
-  resetPasswordExpiresIn: Date;
+  resetPasswordExpiresIn: string;
   confirmEmail: boolean;
   checkPassword: (attempt) => {};
 }

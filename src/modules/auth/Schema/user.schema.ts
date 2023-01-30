@@ -20,7 +20,7 @@ export const UserSchema = new mongoose.Schema<User>(
       default: null,
     },
     refreshToken: { type: String, default: null },
-    resetPasswordExpiresIn: { type: Date },
+    resetPasswordExpiresIn: { type: String },
     confirmEmail: { type: Boolean, default: false },
   },
   { timestamps: true },
