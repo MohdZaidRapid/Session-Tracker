@@ -17,7 +17,9 @@ export class AuthController {
     @Param('token') token,
   ) {
     try {
-      let user = await this.authService.findUserByRefresheToken({ token });
+      let user = await this.authService.findUserByRefresheToken(token);
+      console.log(user);
+
       if (!user) {
         return new Error('No user found or token expires');
       }

@@ -34,6 +34,13 @@ export class AuthService {
       token: jwt,
     };
   }
+
+  async verifyToken(token: string) {
+    const payload = await this.jwtService.verify(token);
+    const user = await this.userModel.findOne({ email: payload.email });
+    console.log(user);
+    return user;
+  }
   /**
    * @description Create User return User
    * @param CreateUserDto {phone email password username portfolio}
@@ -165,7 +172,8 @@ export class AuthService {
       if (!user) {
         throw new Error('no user found with this email');
       }
-      const token = crypto.randomBytes(32).toString('hex');
+      const { token } = await this.createJwtpayload(user);
+
       const expirationIn = new Date();
       expirationIn.setHours(expirationIn.getHours() + 1);
       await this.userModel.findByIdAndUpdate(user._id, {
@@ -174,6 +182,7 @@ export class AuthService {
           resetPasswordExpiresIn: expirationIn,
         },
       });
+
       await this.mailService.sendWelcomeEmail(
         user.email,
         `to reset your password follow this link http://localhost:3000/auth/reset-password/${token}`,
@@ -186,9 +195,10 @@ export class AuthService {
       throw new Error(error.message);
     }
   }
-  async findUserByRefresheToken(dto) {
+  async findUserByRefresheToken(token) {
+    console.log(token);
     const user = await this.userModel.findOne({
-      refreshToken: dto.token,
+      refreshToken: token,
       resetPasswordExpiresIn: { $gt: new Date() },
     });
     return user;
