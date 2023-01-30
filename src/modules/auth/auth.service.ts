@@ -12,6 +12,7 @@ import { User } from './interface/user.interface';
 import { SignInDto } from './dto/sign.dto';
 import { MailService } from '../mail/mail.service';
 import { ResetPasswordDto } from './dto/forgotPassword';
+import { decode } from 'punycode';
 
 @Injectable()
 export class AuthService {
@@ -59,7 +60,15 @@ export class AuthService {
         throw new NotFoundException("Can't create user something went wrong");
       }
       const { token } = await this.createJwtpayload(user);
-      return { user: user, token: token };
+      this.mailService.confirmMail(
+        user.email,
+        `to verify your email follow this link http://localhost:3000/auth/confirm-mail/${token}`,
+      );
+      return {
+        user: user,
+        token: token,
+        message: 'We have sent an Email,Please verify your email to logged in',
+      };
     } catch (error) {
       throw new Error(error.message);
     }
@@ -79,6 +88,9 @@ export class AuthService {
         throw new NotFoundException(
           'user not found Please check your email or password',
         );
+      }
+      if (!user.confirmEmail) {
+        throw new Error('Please verify your email to logged in');
       }
       const isMatch = await user.checkPassword(signInDto.password);
       if (!isMatch) {
@@ -179,6 +191,17 @@ export class AuthService {
       refreshToken: dto.token,
       resetPasswordExpiresIn: { $gt: new Date() },
     });
+    return user;
+  }
+
+  async confirmUserMail(token) {
+    const decoded = this.jwtService.verify(token);
+    const user = await this.userModel.findOne({ email: decoded.email });
+    if (!user) {
+      throw new Error('Your token expired or user not found');
+    }
+    user.confirmEmail = true;
+    await user.save();
     return user;
   }
 }

@@ -21,6 +21,7 @@ export const UserSchema = new mongoose.Schema<User>(
     },
     refreshToken: { type: String, default: null },
     resetPasswordExpiresIn: { type: Date },
+    confirmEmail: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

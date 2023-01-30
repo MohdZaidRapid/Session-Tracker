@@ -286,6 +286,9 @@ type Owner {
 }
 
 type PortfolioDef {
+  """name of the user"""
+  _id: String
+
   """courses"""
   courses: [String!]
 
@@ -438,6 +441,9 @@ type User {
 }
 
 type UserTokenData {
+  """Confirm mail"""
+  message: String
+
   """token of the user"""
   token: String
 

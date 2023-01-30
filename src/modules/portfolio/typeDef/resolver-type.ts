@@ -5,6 +5,10 @@ import { IsArray, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 export class PortfolioDef {
   @Field({ nullable: true, description: 'name of the user' })
   @IsString()
+  _id: string;
+
+  @Field({ nullable: true, description: 'name of the user' })
+  @IsString()
   name: string;
 
   @Field({ nullable: true, description: 'Image of the user' })

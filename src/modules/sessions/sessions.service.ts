@@ -90,8 +90,7 @@ export class SessionsService {
 //             .split('T')[0]
 //             .replace(/-/g, '/');
 //         const originalFileName = fileName.replace(/[^a-zA-Z0-9]/g, '_');
-//         const key =
-//            
+//         const key =            
 //             date +
 //             '/' +
 //             originalFileName +
