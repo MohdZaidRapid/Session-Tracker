@@ -69,7 +69,7 @@ export class AuthService {
       const { token } = await this.createJwtpayload(user);
       this.mailService.confirmMail(
         user.email,
-        `to verify your email follow this link http://localhost:3000/auth/confirm-mail/${token}`,
+        `http://localhost:3000/auth/confirm-mail/${token}`,
       );
       return {
         user: user,
@@ -185,7 +185,7 @@ export class AuthService {
 
       await this.mailService.sendWelcomeEmail(
         user.email,
-        `to reset your password follow this link http://localhost:3000/auth/reset-password/${token}`,
+        `http://localhost:3000/auth/reset-password/${token}`,
       );
       return {
         message: 'email sent to reset your password ! Please check your email',
@@ -230,7 +230,7 @@ export class AuthService {
           const userData = {
             ...otherProperties,
             password,
-          }; 
+          };
           await this.userModel.updateOne(userData);
         });
       });
