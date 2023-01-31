@@ -45,7 +45,7 @@ export class UploadsController {
         headerImage: filename,
       });
       return {
-        message: 'session image uploaded successully',
+        message: 'session image uploaded successfully',
         success: true,
       };
     } catch (error) {
