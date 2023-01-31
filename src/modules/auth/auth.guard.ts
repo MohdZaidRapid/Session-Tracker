@@ -34,9 +34,9 @@ export class AuthGuard implements CanActivate {
       ROLES_KEY,
       context.getHandler(),
     );
-    if (!req.user) {
-      new Error('Not Authorized');
-    }
+    // if (!req.user) {
+    //   new Error('Not Authorized');
+    // }
 
     if (req.headers && req.headers.authorization) {
       req.user = await this.validateToken(req.headers.authorization);
