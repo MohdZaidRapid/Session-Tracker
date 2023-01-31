@@ -41,18 +41,18 @@ export class PortfolioResolver {
     return data;
   }
 
-  @Auth()
-  @Mutation(() => MessageDef, { name: 'updatePortfolio' })
-  async updatePortfolio(
-    @Args('input') updatePortfolioDto: UpdatePorfolioDto,
-    @GetUserId() user,
-  ) {
-    const dto: any = {
-      ...updatePortfolioDto,
-      user,
-    };
-    return await this.portfolioService.updatePortfolio(dto);
-  }
+  // @Auth()
+  // @Mutation(() => MessageDef, { name: 'updatePortfolio' })
+  // async updatePortfolio(
+  //   @Args('input') updatePortfolioDto: UpdatePorfolioDto,
+  //   @GetUserId() user,
+  // ) {
+  //   const dto: any = {
+  //     ...updatePortfolioDto,
+  //     user,
+  //   };
+  //   return await this.portfolioService.updatePortfolio(dto);
+  // }
 
   @Auth()
   @Mutation(() => [PortfolioDef], { name: 'getAllPortfolio' })
@@ -80,4 +80,3 @@ export class PortfolioResolver {
     );
   }
 }
- 
