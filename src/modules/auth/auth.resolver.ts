@@ -6,6 +6,7 @@ import { Auth, GetUserId } from './auth.guard';
 import { User, UserTokenData } from './type-def/resolver-type';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { ForgotPasswordDto } from './dto/forgotPassword';
+import { UserInfoDto } from './dto/User.dto';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -44,9 +45,20 @@ export class AuthResolver {
   }
 
   @Mutation(() => MessageDef, { name: 'forgotPassword' })
-  async forgotPassword(
-    @Args('input') forgotPasswordDto: ForgotPasswordDto,
-  ) {
+  async forgotPassword(@Args('input') forgotPasswordDto: ForgotPasswordDto) {
     return await this.authService.forgotPassword(forgotPasswordDto);
+  }
+
+  @Mutation(() => MessageDef, { name: 'updateUserInfo' })
+  @Auth()
+  async updateUserInfo(
+    @Args('input') userInfoDto: UserInfoDto,
+    @GetUserId() user,
+  ) {
+    const dto = {
+      ...userInfoDto,
+      userId: user._id,
+    };
+    return await this.authService.updateUserInfo(dto);
   }
 }

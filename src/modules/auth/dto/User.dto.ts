@@ -9,7 +9,10 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class SignupDto {
+export class UserInfoDto {
+  @IsOptional()
+  userId: string;
+
   @Field({ nullable: true, description: 'phone of the user' })
   @IsOptional()
   @IsString()

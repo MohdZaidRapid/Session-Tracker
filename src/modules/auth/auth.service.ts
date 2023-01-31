@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 import { SignupDto } from './dto/signUp.dto';
 import { User } from './interface/user.interface';
 import { SignInDto } from './dto/sign.dto';
@@ -171,7 +172,7 @@ export class AuthService {
       if (!user) {
         throw new Error('no user found with this email');
       }
-      const { token,expiresIn } = await this.createJwtpayload(user);
+      const { token, expiresIn } = await this.createJwtpayload(user);
 
       const expirationIn = new Date();
       expirationIn.setHours(expirationIn.getHours() + 1);
@@ -210,5 +211,33 @@ export class AuthService {
     user.confirmEmail = true;
     await user.save();
     return user;
+  }
+
+  async updateUserInfo(userInfoDto) {
+    const user = await this.userModel.findOne(userInfoDto.userId);
+    if (!user) {
+      throw new Error('No user found with this id');
+    }
+
+    if (user) {
+      const { userId, ...otherProperties } = userInfoDto;
+      let password = otherProperties.password;
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) return new Error(err.message);
+        bcrypt.hash(password, salt, async (err, hash) => {
+          if (err) return new Error(err.message);
+          password = hash;
+          const userData = {
+            ...otherProperties,
+            password,
+          }; 
+          await this.userModel.updateOne(userData);
+        });
+      });
+    }
+    return {
+      message: 'user updated successfully',
+      success: true,
+    };
   }
 }

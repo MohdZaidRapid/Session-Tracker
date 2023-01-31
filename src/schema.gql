@@ -272,6 +272,7 @@ type Mutation {
   signIn(input: SignInDto!): UserTokenData!
   signUp(input: SignupDto!): UserTokenData!
   updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
+  updateUserInfo(input: UserInfoDto!): MessageDef!
 }
 
 type Owner {
@@ -438,6 +439,20 @@ type User {
 
   """username of the user"""
   username: String
+}
+
+input UserInfoDto {
+  """email of the user"""
+  email: String!
+
+  """password of the user"""
+  password: String!
+
+  """phone of the user"""
+  phone: String
+
+  """name of the user"""
+  username: String!
 }
 
 type UserTokenData {
