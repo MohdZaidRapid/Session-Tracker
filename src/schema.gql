@@ -271,7 +271,7 @@ type Mutation {
   getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
   signIn(input: SignInDto!): UserTokenData!
   signUp(input: SignupDto!): UserTokenData!
-  updatePortfolio(input: UpdatePorfolioDto!): MessageDef!
+  updateUserInfo(input: UserInfoDto!): MessageDef!
 }
 
 type Owner {
@@ -394,38 +394,6 @@ type SubContentData {
   title: String
 }
 
-input UpdatePorfolioDto {
-  """banner of the user"""
-  banner: String
-
-  """company of the user"""
-  company: String
-
-  """all courses of the author"""
-  courses: [String!]!
-
-  """description of the User"""
-  description: String
-
-  """expertise of the user"""
-  expert: Boolean
-
-  """name of the expertise"""
-  expertise: String
-
-  """id"""
-  id: String
-
-  """image of the user"""
-  image: String
-
-  """location of the user"""
-  location: String
-
-  """website of the user"""
-  website: String
-}
-
 type User {
   """email of the user"""
   email: String!
@@ -438,6 +406,20 @@ type User {
 
   """username of the user"""
   username: String
+}
+
+input UserInfoDto {
+  """email of the user"""
+  email: String!
+
+  """password of the user"""
+  password: String!
+
+  """phone of the user"""
+  phone: String
+
+  """name of the user"""
+  username: String!
 }
 
 type UserTokenData {

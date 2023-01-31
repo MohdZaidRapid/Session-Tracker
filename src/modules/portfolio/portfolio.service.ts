@@ -61,51 +61,76 @@ export class PortfolioService {
     }
   }
 
-  async updatePortfolio(dto) {
-    try {
-      let portfolio = await this.portfolioModel.findOne({
-        _id: dto.id,
-      });
-      if (!portfolio) {
-        throw new Error('no portfolio found');
-      }
+  // /**
+  //  * @description updateportfolio of the user
+  //  * @param dto {name
+  //         expertise
+  //         courses
+  //         descrtiption
+  //         email
+  //         phone
+  //         website
+  //         location
+  //         company
+  //         banner
+  //         image
+  //         expert}
+  //  * @returns
+  //  */
+  // async updatePortfolio(dto) {
+  //   try {
+  //     let portfolio = await this.portfolioModel.findOne({
+  //       _id: dto.id,
+  //     });
+  //     if (!portfolio) {
+  //       throw new NotFoundException('no portfolio found');
+  //     }
 
-      if (portfolio.user !== dto.user._id.toString()) {
-        throw new Error("you can't update this portfolio");
-      }
-      if (dto.user) {
-        delete dto.user;
-      }
+  //     if (portfolio.user !== dto.user._id.toString()) {
+  //       throw new Error("you can't update this portfolio");
+  //     }
+  //     if (dto.user) {
+  //       delete dto.user;
+  //     }
 
-      if (dto.courses) {
-        let index = dto.index;
-        let course = dto.course;
-        await this.portfolioModel.findOneAndUpdate(
-          { _id: dto.id, 'courses.index': index },
-          { $set: { 'courses.$.course': course } },
-          {
-            new: true,
-          },
-        );
-      }
+  //     if (dto.courses) {
+  //       let index = dto.index;
+  //       let course = dto.course;
+  //       await this.portfolioModel.findOneAndUpdate(
+  //         { _id: dto.id, 'courses.index': index },
+  //         { $set: { 'courses.$.course': course } },
+  //         {
+  //           new: true,
+  //         },
+  //       );
+  //     }
 
-      await this.portfolioModel.findOneAndUpdate(
-        dto.id,
-        { $set: dto },
-        {
-          new: true,
-        },
-      );
+  //     await this.portfolioModel.findOneAndUpdate(
+  //       dto.id,
+  //       { $set: dto },
+  //       {
+  //         new: true,
+  //       },
+  //     );
 
-      return {
-        message: 'Your profile updated',
-        success: true,
-      };
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
+  //     return {
+  //       message: 'Your profile updated',
+  //       success: true,
+  //     };
+  //   } catch (error) {
+  //     throw new Error(error.message);
+  //   }
+  // }
+  /**
+   * @description getAllportfolio default sort by expert true
+   * @param getAllPortFolioDto{NoParams}
+   * @returns array of object of portfolio {
+   * name
+   * image
+   * courses
+   * description
+   * }
+   */
   async getAllPortfolio(getAllPortFolioDto) {
     try {
       // const sort =
@@ -133,7 +158,7 @@ export class PortfolioService {
         expert: true,
       });
       if (!expertPortfolio) {
-        throw new Error('No Expert Portfolio found with this id');
+        throw new NotFoundException('No Expert Portfolio found with this id');
       }
 
       return expertPortfolio;
