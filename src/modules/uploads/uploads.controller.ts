@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFile,
@@ -9,6 +10,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage, Multer } from 'multer';
 import { Auth, GetUserId } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
+import { SessionsService } from '../sessions/sessions.service';
 import { UploadsService } from './uploads.service';
 import { editFileName, imageFileFilter } from './utils';
 
@@ -17,6 +19,7 @@ export class UploadsController {
   constructor(
     private readonly uploadService: UploadsService,
     private readonly authService: AuthService,
+    private readonly sesssionService: SessionsService,
   ) {}
 
   @Post('/UploadAsset')
@@ -31,17 +34,23 @@ export class UploadsController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadAFile(@UploadedFile() file: Multer.File) {
-    // try {
-    //   const response = {
-    //     originalname: file.originalname,
-    //     filename: file.filename,
-    //   };
-    //   return response;
-    // } catch (error) {
-    //   throw new Error(error.message);
-    // }
-    return await this.uploadService.uploadAFile(file);
+  async uploadAFile(@UploadedFile() file: Multer.File, @Body() body) {
+    try {
+      const { originalname, filename } = await this.uploadService.uploadAFile(
+        file,
+      );
+      console.log(body);
+      await this.sesssionService.uploadImage({
+        _id: body.sessionId,
+        headerImage: filename,
+      });
+      return {
+        message: 'session image uploaded successully',
+        success: true,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   @Post('/multiple')

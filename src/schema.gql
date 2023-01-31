@@ -238,7 +238,7 @@ type GetSessionByIdDef {
 }
 
 input GetSessionByIdDto {
-  """Input sort order"""
+  """Id of the session"""
   id: String!
 }
 

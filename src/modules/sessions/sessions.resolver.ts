@@ -6,6 +6,7 @@ import {
   GetSessionByIdDto,
   SessionDto,
   UploadImageDto,
+  UploadSessionImageDto,
 } from './dto/session.dto';
 import { SessionsService } from './sessions.service';
 import {
@@ -39,7 +40,7 @@ export class SessionsResolver {
       sessionDto.owner = user._id;
       return await this.sessionService.createSession(sessionDto);
     } catch (error) {
-      throw error;
+      throw new Error(error.message);
     }
   }
 
@@ -88,15 +89,19 @@ export class SessionsResolver {
   }
 
   // @Auth()
-  // @Mutation(() => MessageDef, { name: 'uploadImage' })
+  // @Mutation(() => MessageDef, { name: 'uploadSessionImage' })
   // async uploadImage(
-  //   @Args('input') uploadImageDto: UploadImageDto,
+  //   @Args('input') uploadSessionImageDto: UploadSessionImageDto,
   //   @GetUserId() user,
   // ) {
-  //   const dto = {
-  //     ...uploadImageDto,
-  //     userId: user._id,
-  //   };
-  //   return await this.sessionService.uploadImage(dto);
+  //   try {
+  //     const dto = {
+  //       ...uploadSessionImageDto,
+  //       userId: user._id,
+  //     };
+  //     return await this.sessionService.uploadImage(dto);
+  //   } catch (error) {
+  //     throw new Error(error.message);
+  //   }
   // }
 }

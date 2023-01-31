@@ -50,10 +50,6 @@ export class UploadsService {
         originalname: file.originalname,
         filename: file.filename,
       };
-      // await this.sessionService.uploadImage({
-      //   headerImage: response.filename,
-      //   userId: userId,
-      // });
       return response;
     } catch (error) {
       throw new Error(error.message);
