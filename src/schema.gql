@@ -373,9 +373,6 @@ input SubContent {
   """Content of the blog"""
   content: String!
 
-  """images array"""
-  images: [String!]
-
   """title of blog"""
   title: String!
 }

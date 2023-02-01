@@ -26,11 +26,6 @@ export class SubContent {
   @Field(() => String, { nullable: false, description: 'Content of the blog' })
   @MinLength(10)
   content: string;
-
-  @Field(() => [String], { nullable: true, description: 'images array' })
-  @IsOptional()
-  @IsArray()
-  images: string[];
 }
 @InputType()
 export class CreateBlogDto {

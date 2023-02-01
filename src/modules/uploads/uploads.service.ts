@@ -15,7 +15,7 @@ export class UploadsService {
 
   /**
    * @description upload image in server
-   * @param file 
+   * @param file
    * @returns fileName
    */
   //@author mohdzaid
@@ -31,29 +31,23 @@ export class UploadsService {
     }
   }
 
-  
   /**
    * @description upload images in server
-   * @param files 
+   * @param files
    * @returns filesName
    */
   //@author mohdzaid
   async uploadFiles(files) {
     try {
-      try {
-        const response = [];
-        files.forEach((file) => {
-          const fileResponse = {
-            originalname: file.originalname,
-            filename: file.filename,
-          };
-          response.push(fileResponse);
-        });
-
-        return response;
-      } catch (error) {
-        throw new Error(error.message);
-      }
+      const response = [];
+      files.forEach((file) => {
+        const fileResponse = {
+          originalname: file.originalname,
+          filename: file.filename,
+        };
+        response.push(fileResponse);
+      });
+      return response;
     } catch (error) {
       throw new Error(error.message);
     }

@@ -199,11 +199,37 @@ export class BlogService {
     }
   }
 
+  /**
+   * @description get blog by id
+   * @param param0 [blogId]
+   * @returns {sucess,message}
+   */
+  //author MohdZaid
   async getBlogById(blogId) {
     const blog = await this.blogModel.findById(blogId);
     if (!blog) {
       throw new Error('No blog found');
     }
     return blog;
+  }
+
+  /**
+   * @description get blog and push array of images
+   * @param param0 [blogId,imageArr]
+   */
+  //author MohdZaid
+
+  async uploadArrayOfImage({ id, imageArr }) {
+    await Promise.all(
+      imageArr.map(async (img) => {
+        await this.blogModel.findByIdAndUpdate(
+          id,
+          {
+            $push: { 'subContent.0.images': img },
+          },
+          { new: true },
+        );
+      }),
+    );
   }
 }

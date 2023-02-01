@@ -127,7 +127,8 @@ export class UploadsController {
    * @returns message success
    */
   //@author mohdzaid
-  @Post('/multiple')
+  @Post('/multiple/:blogId')
+  @Auth()
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
     FilesInterceptor('files', 20, {
@@ -138,7 +139,36 @@ export class UploadsController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadFiles(@UploadedFiles() files) {
-    return await this.uploadService.uploadFiles(files);
+  async uploadFiles(
+    @UploadedFiles() files,
+    @GetUserId() user,
+    @Param('blogId') blogId,
+  ) {
+    try {
+      const blog = await this.blogService.getBlogById(blogId);
+      if (blog.owner !== user._id.toString()) {
+        throw new Error("you can't upload this image");
+      }
+      const response = await this.uploadService.uploadFiles(files);
+
+      // response.map()
+      let fileName = response.map((file) => {
+        return file.filename;
+      });
+      await this.blogService.uploadArrayOfImage({
+        id: blogId,
+        imageArr: fileName,
+      });
+
+      return {
+        message: 'Images uploaded successfully',
+        success: true,
+      };
+    } catch (error) {
+      return {
+        error: error.message,
+        success: false,
+      };
+    }
   }
 }
