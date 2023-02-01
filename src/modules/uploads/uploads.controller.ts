@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Param,
   Post,
   UploadedFile,
   UploadedFiles,
@@ -10,6 +11,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage, Multer } from 'multer';
 import { Auth, GetUserId } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
+import { BlogService } from '../blog/blog.service';
 import { SessionsService } from '../sessions/sessions.service';
 import { UploadsService } from './uploads.service';
 import { editFileName, imageFileFilter } from './utils';
@@ -20,9 +22,16 @@ export class UploadsController {
     private readonly uploadService: UploadsService,
     private readonly authService: AuthService,
     private readonly sesssionService: SessionsService,
+    private readonly blogService: BlogService,
   ) {}
 
-  @Post('/UploadAsset')
+  /**
+   * @description upload images onmongodb database
+   * @param files sessionId
+   * @returns message success
+   */
+  //@author mohdzaid
+  @Post('/UploadAsset/:sessionId')
   @Auth()
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
@@ -34,14 +43,16 @@ export class UploadsController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadAFile(@UploadedFile() file: Multer.File, @Body() body) {
+  async uploadAFile(
+    @UploadedFile() file: Multer.File,
+    @Param('sessionId') sessionId,
+  ) {
     try {
       const { originalname, filename } = await this.uploadService.uploadAFile(
         file,
       );
-      console.log(body);
       await this.sesssionService.uploadImage({
-        _id: body.sessionId,
+        _id: sessionId,
         headerImage: filename,
       });
       return {
@@ -53,6 +64,52 @@ export class UploadsController {
     }
   }
 
+  /**
+   * @description upload images onmongodb database
+   * @param files sessionId
+   * @returns message success
+   */
+  //@author mohdzaid
+  @Post('/bannerimage/:blogId')
+  @Auth()
+  @UseInterceptors(
+    // created interceptor for reading saving file in local storage.
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './src/modules/uploads/files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadBannerImage(
+    @UploadedFile() file: Multer.File,
+    @Param('blogId') blogId,
+  ) {
+    try {
+      
+      const { originalname, filename } = await this.uploadService.uploadAFile(
+        file,
+      );
+      await this.blogService.uploadBannerImage({
+        id: blogId,
+        bannerImage: filename,
+      });
+      return {
+        message: 'session image uploaded successfully',
+        success: true,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description upload images on mongodb database
+   * @param files sessionId
+   * @returns message success
+   */
+  //@author mohdzaid
   @Post('/multiple')
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
@@ -68,55 +125,3 @@ export class UploadsController {
     return await this.uploadService.uploadFiles(files);
   }
 }
-
-// import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
-// import { FileInterceptor } from '@nestjs/platform-express';
-// import { S3 } from 'aws-sdk';
-// import * as mongoose from 'mongoose';
-
-// @Controller('upload')
-// export class UploadController {
-//     private s3: S3;
-//     private imageSchema: mongoose.Schema;
-//     private Image: mongoose.Model<mongoose.Document>;
-
-//     constructor() {
-//         this.s3 = new S3({
-//             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//         });
-//         this.imageSchema = new mongoose.Schema({
-//             url: String
-//         });
-//         this.Image = mongoose.model('Image', this.imageSchema);
-//     }
-
-//     @Post()
-//     @UseInterceptors(FileInterceptor('file'))
-//     async uploadFile(@UploadedFile() file) {
-//         const params = {
-//             Bucket: 'my-bucket',
-//             Key: `path/to/${file.originalname}`,
-//             Body: file.buffer,
-//         };
-
-//         // Upload the file to S3
-//         await this.s3.upload(params).promise();
-
-//         // Get a presigned URL for the uploaded file
-//         const url = await this.s3.getSignedUrlPromise('getObject', {
-//             Bucket: 'my-bucket',
-//             Key: `path/to/${file.originalname}`,
-//             Expires: 600,
-//         });
-
-//         // Save the URL to the database
-//         const image = new this.Image({ url });
-//         await image.save();
-
-//         return {
-//             message: 'File uploaded successfully',
-//             url,
-//         };
-//     }
-// }

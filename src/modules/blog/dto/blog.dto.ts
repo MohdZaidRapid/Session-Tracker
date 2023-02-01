@@ -39,14 +39,6 @@ export class CreateBlogDto {
   @IsString()
   title: string;
 
-  @Field({
-    nullable: false,
-    description: 'bannerImage of the blog',
-  })
-  @IsString()
-  @IsNotEmpty()
-  bannerImage: string;
-
   @Optional()
   owner: string;
 
@@ -134,4 +126,22 @@ export class GetAllPortfolioDto {
   @IsOptional()
   @IsString()
   name: string;
+}
+
+@InputType()
+export class BannerImageDto {
+  @Field({
+    nullable: false,
+    description: 'id of the blog',
+  })
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+  @Field({
+    nullable: false,
+    description: 'bannerImage of the blog',
+  })
+  @IsString()
+  @IsNotEmpty()
+  bannerImage: string;
 }

@@ -73,7 +73,6 @@ export class SessionsService {
   }
 
   async uploadImage({ _id, headerImage }) {
-    console.log(_id, headerImage);
     try {
       await this.sessionModel.findByIdAndUpdate(_id, {
         $set: { headerImage: headerImage },
@@ -83,55 +82,5 @@ export class SessionsService {
     }
   }
 
-  //   async generatePresignedURL(
-  //     generatePresignedURLDto: GeneratePresignedURLDto
-  // ) {
-  //     try {
-  //         const { fileName, folderPath, contentType } =
-  //             generatePresignedURLDto;
-  //         AWS.config.update({
-  //             accessKeyId: this.configService.get('AWS_S3_ACCESS_KEY'),
-  //             secretAccessKey: this.configService.get('AWS_S3_KEY_SECRET'),
-  //             region: this.configService.get('AWS_S3_REGION'),
-  //             signatureVersion: 'v4'
-  //         });
-  //         const s3 = new AWS.S3();
-  //         const date = new Date()
-  //             .toISOString()
-  //             .split('T')[0]
-  //             .replace(/-/g, '/');
-  //         const originalFileName = fileName.replace(/[^a-zA-Z0-9]/g, '_');
-  //         const key =
-  //             date +
-  //             '/' +
-  //             originalFileName +
-  //             '-' +
-  //             uuid() +
-  //             '.' +
-  //             fileName.split('.')[1];
-  //         const url = await s3.getSignedUrlPromise('putObject', {
-  //             Bucket: this.configService.get('AWS_S3_BUCKET'),
-  //             Key: key,
-  //             ContentType: contentType,
-  //             Expires: 360
-  //         });
-  //         return {
-  //             presignedURL: url,
-  //             key: key
-  //         };
-  //     } catch (error) {
-  //         this.logger.error(
-  //             'error',
-  //             `USER-MS - generatePresignedURL - for ${JSON.stringify(
-  //                 generatePresignedURLDto
-  //             )} - error - ${JSON.stringify(error)}`
-  //         );
-  //         await this.responseHandlerService.response(
-  //             error,
-  //             HttpStatus.INTERNAL_SERVER_ERROR,
-  //             GrpcStatus.INTERNAL,
-  //             null
-  //         );
-  //     }
-  // }
+  
 }

@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BlogSchema } from './Schema/blog.schema';
 import { ContentSchema } from './Schema/contents.schema';
 import { AuthModule } from '../auth/auth.module';
+import { BlogController } from './blog.controller';
 
 @Module({
   imports: [
@@ -16,5 +17,6 @@ import { AuthModule } from '../auth/auth.module';
   ],
   providers: [BlogResolver, BlogService],
   exports: [BlogService, BlogResolver,BlogModule],
+  controllers: [BlogController],
 })
 export class BlogModule {}

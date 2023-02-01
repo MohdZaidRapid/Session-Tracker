@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateContentDto, CreateBlogDto } from './dto/blog.dto';
+import {
+  CreateContentDto,
+  CreateBlogDto,
+  BannerImageDto,
+} from './dto/blog.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog } from './interface/blog.interface';
@@ -177,4 +181,23 @@ export class BlogService {
       throw new Error(error.message);
     }
   }
+
+  /**
+   * @description uploadImage
+   * @param param0 [blogId]
+   * @returns {sucess,message}
+   */
+  //author MohdZaid
+  async uploadBannerImage(bannerImageDto: BannerImageDto) {
+    try {
+      const { bannerImage, id } = bannerImageDto;
+     await this.blogModel.findByIdAndUpdate(id, {
+        $set: { bannerImage: bannerImage },
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  
 }
