@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateContentDto, CreateBlogDto } from './dto/blog.dto';
+import {
+  CreateContentDto,
+  CreateBlogDto,
+  BannerImageDto,
+} from './dto/blog.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog } from './interface/blog.interface';
@@ -176,5 +180,56 @@ export class BlogService {
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  /**
+   * @description uploadImage
+   * @param param0 [blogId]
+   * @returns {sucess,message}
+   */
+  //author MohdZaid
+  async uploadBannerImage(bannerImageDto: BannerImageDto) {
+    try {
+      const { bannerImage, id } = bannerImageDto;
+      await this.blogModel.findByIdAndUpdate(id, {
+        $set: { bannerImage: bannerImage },
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description get blog by id
+   * @param param0 [blogId]
+   * @returns {sucess,message}
+   */
+  //author MohdZaid
+  async getBlogById(blogId) {
+    const blog = await this.blogModel.findById(blogId);
+    if (!blog) {
+      throw new Error('No blog found');
+    }
+    return blog;
+  }
+
+  /**
+   * @description get blog and push array of images
+   * @param param0 [blogId,imageArr]
+   */
+  //author MohdZaid
+
+  async uploadArrayOfImage({ id, imageArr }) {
+    await Promise.all(
+      imageArr.map(async (img) => {
+        await this.blogModel.findByIdAndUpdate(
+          id,
+          {
+            $push: { 'subContent.0.images': img },
+          },
+          { new: true },
+        );
+      }),
+    );
   }
 }

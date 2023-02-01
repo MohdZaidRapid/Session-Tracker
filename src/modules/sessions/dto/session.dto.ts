@@ -50,7 +50,7 @@ export class UploadImageDto {
 
 @InputType()
 export class GetSessionByIdDto {
-  @Field({ nullable: false, description: 'Input sort order' })
+  @Field({ nullable: false, description: 'Id of the session' })
   @IsNotEmpty()
   @IsString()
   id: string;
@@ -69,4 +69,17 @@ export class GeneratePresignedURLDto {
   @IsString()
   @IsNotEmpty()
   contentType: string;
+}
+
+@InputType()
+export class UploadSessionImageDto {
+  @Field({ nullable: true, description: 'header Image  of the session' })
+  @IsOptional()
+  @IsString()
+  readonly headerImage: string;
+
+  @Field({ nullable: true, description: 'id  of the session' })
+  @IsOptional()
+  @IsString()
+  readonly id: string;
 }

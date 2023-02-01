@@ -108,9 +108,6 @@ type ContentDef {
 }
 
 input CreateBlogDto {
-  """bannerImage of the blog"""
-  bannerImage: String!
-
   """category of the blog"""
   category: String
 
@@ -238,7 +235,7 @@ type GetSessionByIdDef {
 }
 
 input GetSessionByIdDto {
-  """Input sort order"""
+  """Id of the session"""
   id: String!
 }
 
@@ -375,9 +372,6 @@ type SnippetDef {
 input SubContent {
   """Content of the blog"""
   content: String!
-
-  """images array"""
-  images: [String!]
 
   """title of blog"""
   title: String!

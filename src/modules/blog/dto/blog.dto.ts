@@ -26,11 +26,6 @@ export class SubContent {
   @Field(() => String, { nullable: false, description: 'Content of the blog' })
   @MinLength(10)
   content: string;
-
-  @Field(() => [String], { nullable: true, description: 'images array' })
-  @IsOptional()
-  @IsArray()
-  images: string[];
 }
 @InputType()
 export class CreateBlogDto {
@@ -38,14 +33,6 @@ export class CreateBlogDto {
   @IsNotEmpty()
   @IsString()
   title: string;
-
-  @Field({
-    nullable: false,
-    description: 'bannerImage of the blog',
-  })
-  @IsString()
-  @IsNotEmpty()
-  bannerImage: string;
 
   @Optional()
   owner: string;
@@ -134,4 +121,22 @@ export class GetAllPortfolioDto {
   @IsOptional()
   @IsString()
   name: string;
+}
+
+@InputType()
+export class BannerImageDto {
+  @Field({
+    nullable: false,
+    description: 'id of the blog',
+  })
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+  @Field({
+    nullable: false,
+    description: 'bannerImage of the blog',
+  })
+  @IsString()
+  @IsNotEmpty()
+  bannerImage: string;
 }

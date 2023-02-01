@@ -13,69 +13,41 @@ export class UploadsService {
     private configService: ConfigService,
   ) {}
 
-  // async upload(file) {
-  //   const { originalname } = file;
-  //   const bucketS3 = 'my-aws-bucket';
-  //   await this.uploadS3(file.buffer, bucketS3, originalname);
-  // }
-
-  // async uploadS3(file, bucket, name) {
-  //   const s3 = this.getS3();
-  //   const params = {
-  //     Bucket: bucket,
-  //     Key: String(name),
-  //     Body: file,
-  //   };
-  //   return new Promise((resolve, reject) => {
-  //     s3.upload(params, (err, data) => {
-  //       if (err) {
-  //         Logger.error(err);
-  //         reject(err.message);
-  //       }
-  //       resolve(data);
-  //     });
-  //   });
-  // }
-
-  // getS3() {
-  //   return new S3({
-  //     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  //   });
-  // }
-
+  /**
+   * @description upload image in server
+   * @param file
+   * @returns fileName
+   */
+  //@author mohdzaid
   async uploadAFile(file) {
     try {
       const response = {
         originalname: file.originalname,
         filename: file.filename,
       };
-      // await this.sessionService.uploadImage({
-      //   headerImage: response.filename,
-      //   userId: userId,
-      // });
       return response;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
+  /**
+   * @description upload images in server
+   * @param files
+   * @returns filesName
+   */
+  //@author mohdzaid
   async uploadFiles(files) {
     try {
-      try {
-        const response = [];
-        files.forEach((file) => {
-          const fileResponse = {
-            originalname: file.originalname,
-            filename: file.filename,
-          };
-          response.push(fileResponse);
-        });
-
-        return response;
-      } catch (error) {
-        throw new Error(error.message);
-      }
+      const response = [];
+      files.forEach((file) => {
+        const fileResponse = {
+          originalname: file.originalname,
+          filename: file.filename,
+        };
+        response.push(fileResponse);
+      });
+      return response;
     } catch (error) {
       throw new Error(error.message);
     }
