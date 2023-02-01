@@ -51,10 +51,10 @@ export class UploadsController {
     @GetUserId() user,
   ) {
     try {
-      const session = await this.sesssionService.getSessionById({
-        id: sessionId,
-      });
-      if (session.owner !== user._id) {
+      const session = await this.sesssionService.getSessionByOnwerId(sessionId);
+      if (session.owner !== user._id.toString()) {
+        console.log(session.owner);
+        console.log(user._id.toString());
         throw new Error("you can't upload this image");
       }
       const { originalname, filename } = await this.uploadService.uploadAFile(
