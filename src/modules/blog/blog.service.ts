@@ -191,7 +191,7 @@ export class BlogService {
   async uploadBannerImage(bannerImageDto: BannerImageDto) {
     try {
       const { bannerImage, id } = bannerImageDto;
-     await this.blogModel.findByIdAndUpdate(id, {
+      await this.blogModel.findByIdAndUpdate(id, {
         $set: { bannerImage: bannerImage },
       });
     } catch (error) {
@@ -199,5 +199,11 @@ export class BlogService {
     }
   }
 
-  
+  async getBlogById(blogId) {
+    const blog = await this.blogModel.findById(blogId);
+    if (!blog) {
+      throw new Error('No blog found');
+    }
+    return blog;
+  }
 }

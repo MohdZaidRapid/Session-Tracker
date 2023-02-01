@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  NotFoundException,
   Param,
   Post,
   UploadedFile,
@@ -13,6 +14,7 @@ import { Auth, GetUserId } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { BlogService } from '../blog/blog.service';
 import { SessionsService } from '../sessions/sessions.service';
+import { Owner } from '../sessions/typeDef/resolver-type';
 import { UploadsService } from './uploads.service';
 import { editFileName, imageFileFilter } from './utils';
 
@@ -46,8 +48,15 @@ export class UploadsController {
   async uploadAFile(
     @UploadedFile() file: Multer.File,
     @Param('sessionId') sessionId,
+    @GetUserId() user,
   ) {
     try {
+      const session = await this.sesssionService.getSessionById({
+        id: sessionId,
+      });
+      if (session.owner !== user._id) {
+        throw new Error("you can't upload this image");
+      }
       const { originalname, filename } = await this.uploadService.uploadAFile(
         file,
       );
@@ -60,7 +69,10 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      throw new Error(error.message);
+      return {
+        message: error.message,
+        success: false,
+      };
     }
   }
 
@@ -85,9 +97,13 @@ export class UploadsController {
   async uploadBannerImage(
     @UploadedFile() file: Multer.File,
     @Param('blogId') blogId,
+    @GetUserId() user,
   ) {
     try {
-      
+      const blog = await this.blogService.getBlogById(blogId);
+      if (blog.owner !== user._id.toString()) {
+        throw new Error("you can't upload this image");
+      }
       const { originalname, filename } = await this.uploadService.uploadAFile(
         file,
       );
@@ -96,11 +112,14 @@ export class UploadsController {
         bannerImage: filename,
       });
       return {
-        message: 'session image uploaded successfully',
+        message: 'Blog image uploaded successfully',
         success: true,
       };
     } catch (error) {
-      throw new Error(error.message);
+      return {
+        message: error.message,
+        success: false,
+      };
     }
   }
 
