@@ -100,7 +100,7 @@ export class UploadsController {
     try {
       const blog = await this.blogService.getBlogById(blogId);
       if (blog.owner !== user._id.toString()) {
-        throw new Error("you can't upload this image");
+        throw new Error('you are authorized to upload this image to this id');
       }
       const { originalname, filename } = await this.uploadService.uploadAFile(
         file,
@@ -147,7 +147,7 @@ export class UploadsController {
     try {
       const blog = await this.blogService.getBlogById(blogId);
       if (blog.owner !== user._id.toString()) {
-        throw new Error("you can't upload this image");
+        throw new Error('you are authorized to upload this image to this id');
       }
       const response = await this.uploadService.uploadFiles(files);
 
