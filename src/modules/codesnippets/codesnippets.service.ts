@@ -66,7 +66,7 @@ export class CodesnippetsService {
    * @param GetSnippetByIdDto {
    * id:snippetId
   }
-   * @returns {_id,codesnippets,description,title}
+   * @returns {_id,codeSnippets,description,title}
    */
   //author MohdZaid
   async getSnippetById(getSnippetByIdDto) {

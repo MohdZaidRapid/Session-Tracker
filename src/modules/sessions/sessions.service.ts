@@ -72,6 +72,12 @@ export class SessionsService {
     }
   }
 
+  /**
+   * @description api to upload header image by taking session id and header image
+   * @param _id headerImage
+   * @returns {success message}
+   */
+  //author MohdZaid
   async uploadImage({ _id, headerImage }) {
     try {
       await this.sessionModel.findByIdAndUpdate(_id, {
@@ -82,6 +88,12 @@ export class SessionsService {
     }
   }
 
+  /**
+   * @descriptionit will restrict to user to upload imag eon other user account
+   * @param id 
+   * @returns {success message}
+   */
+  //author MohdZaid
   async getSessionByOnwerId(id) {
     try {
       const session = await this.sessionModel.findById(id);

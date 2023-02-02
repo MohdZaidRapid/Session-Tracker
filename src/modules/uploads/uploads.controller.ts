@@ -53,7 +53,7 @@ export class UploadsController {
     try {
       const session = await this.sesssionService.getSessionByOnwerId(sessionId);
       if (session.owner !== user._id.toString()) {
-        throw new Error("you can't upload this image");
+        throw new Error("you can't upload image to this id");
       }
       const { originalname, filename } = await this.uploadService.uploadAFile(
         file,
@@ -75,8 +75,8 @@ export class UploadsController {
   }
 
   /**
-   * @description upload images onmongodb database
-   * @param files sessionId
+   * @description upload images on database
+   * @param files blogId
    * @returns message success
    */
   //@author mohdzaid

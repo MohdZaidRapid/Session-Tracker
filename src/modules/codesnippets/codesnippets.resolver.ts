@@ -7,7 +7,7 @@ import {
   GetAllCodeSnippetsDto,
   GetSnippetByIdDto,
 } from './dto/CodeSnippets.dto';
-import { SnippetDef } from './typeDef/resolver-type';
+import { GetSnippetByIdDef, SnippetDef } from './typeDef/resolver-type';
 
 @Resolver()
 export class CodesnippetsResolver {
@@ -54,11 +54,11 @@ export class CodesnippetsResolver {
    * @param GetSnippetByIdDto {
    * id:snippetId
   }
-   * @returns {_id,codesnippets,description,title}
+   * @returns {_id,codeSnippets,description,title}
    */
   //author MohdZaid
   @Auth()
-  @Mutation(() => SnippetDef, { name: 'getSnippetById' })
+  @Mutation(() => GetSnippetByIdDef, { name: 'getSnippetById' })
   async getSnippetById(
     @Args('input') getSnippetByIdDto: GetSnippetByIdDto,
     @GetUserId() user,
