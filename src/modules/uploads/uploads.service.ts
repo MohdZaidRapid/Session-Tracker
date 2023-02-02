@@ -24,6 +24,7 @@ export class UploadsService {
       const response = {
         originalname: file.originalname,
         filename: file.filename,
+        filepath: file.path,
       };
       return response;
     } catch (error) {

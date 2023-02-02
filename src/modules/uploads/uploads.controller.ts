@@ -1,15 +1,18 @@
 import {
   Body,
   Controller,
+  Get,
   NotFoundException,
   Param,
   Post,
+  Res,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage, Multer } from 'multer';
+import { join } from 'path';
 import { Auth, GetUserId } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { BlogService } from '../blog/blog.service';
@@ -35,6 +38,7 @@ export class UploadsController {
    * @returns message success
    */
   //@author mohdzaid
+
   @Post('/UploadAsset/:sessionId')
   @Auth()
   @UseInterceptors(
@@ -57,9 +61,9 @@ export class UploadsController {
       if (session.owner !== user._id.toString()) {
         throw new Error("you can't upload image to this id");
       }
-      const { originalname, filename } = await this.uploadService.uploadAFile(
-        file,
-      );
+      const { originalname, filename, filepath } =
+        await this.uploadService.uploadAFile(file);
+      console.log(filepath);
       await this.sesssionService.uploadImage({
         _id: sessionId,
         headerImage: filename,
@@ -276,5 +280,18 @@ export class UploadsController {
         success: false,
       };
     }
+  }
+
+  /**
+   * @description upload images on mongodb database
+   * @param files sessionId
+   * @returns message success
+   */
+  //@author mohdzaid
+  @Get('/get-image/:imagename')
+  @Auth()
+  async getImage(@Param('imagename') imagename, @Res() res) {
+    const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
+    res.sendFile(image);
   }
 }
