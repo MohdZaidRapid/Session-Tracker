@@ -63,7 +63,6 @@ export class UploadsController {
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
-      console.log(filepath);
       await this.sesssionService.uploadImage({
         _id: sessionId,
         headerImage: filename,
