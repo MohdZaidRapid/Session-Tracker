@@ -125,11 +125,6 @@ export class UpdatePorfolioDto {
   @IsOptional()
   banner: string;
 
-  @Field({ nullable: true, description: 'image of the user' })
-  @IsOptional()
-  @IsString()
-  image: string;
-
   @Field({ nullable: true, description: 'expertise of the user' })
   expert: boolean;
 
@@ -151,6 +146,40 @@ export class GetAllPortFolioDto {
 @InputType()
 export class GetExpertPortfolioDto {
   @Field({ nullable: true, description: 'id of the portfolio user' })
+  @IsOptional()
+  @IsString()
+  id: string;
+}
+
+@InputType()
+export class PortfolioImageDto {
+  @Field({ nullable: true, description: 'portfolio image of the user' })
+  @IsOptional()
+  @IsString()
+  image: string;
+
+  @Field({ nullable: true, description: 'id of the portfolio' })
+  @IsOptional()
+  @IsString()
+  id: string;
+}
+
+@InputType()
+export class GetPortfolioByIdDto {
+  @Field({ nullable: true, description: 'id of the portfolio' })
+  @IsOptional()
+  @IsString()
+  id: string;
+}
+
+@InputType()
+export class PortfolioBannerDto {
+  @Field({ nullable: true, description: 'portfolio image of the user' })
+  @IsOptional()
+  @IsString()
+  banner: string;
+
+  @Field({ nullable: true, description: 'id of the portfolio' })
   @IsOptional()
   @IsString()
   id: string;
