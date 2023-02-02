@@ -239,6 +239,20 @@ input GetSessionByIdDto {
   id: String!
 }
 
+type GetSnippetByIdDef {
+  """id of the snippet"""
+  _id: String!
+
+  """description of the snippet"""
+  codeSnippets: String!
+
+  """description of the snippet"""
+  description: String!
+
+  """title of the snippet"""
+  title: String!
+}
+
 input GetSnippetByIdDto {
   """description of the code"""
   id: String = "1"
@@ -265,7 +279,7 @@ type Mutation {
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
   getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPortfolioDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
-  getSnippetById(input: GetSnippetByIdDto!): SnippetDef!
+  getSnippetById(input: GetSnippetByIdDto!): GetSnippetByIdDef!
   signIn(input: SignInDto!): UserTokenData!
   signUp(input: SignupDto!): UserTokenData!
   updateUserInfo(input: UserInfoDto!): MessageDef!
