@@ -23,6 +23,12 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
+ /**
+   * @description create jwt payload with user info and convert to jwt token
+   * @param  { user{email}}  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   async createJwtpayload(user) {
     const data = {
       email: user.email,
@@ -36,11 +42,18 @@ export class AuthService {
     };
   }
 
+   /**
+   * @description it verify token  status it is valid or not if valid return user
+   * @param  { token  }
+   * @returns { user}
+   */
+  //author MohdZaid
   async verifyToken(token: string) {
     const payload = await this.jwtService.verify(token);
     const user = await this.userModel.findOne({ email: payload.email });
     return user;
   }
+
   /**
    * @description Create User return User
    * @param CreateUserDto {phone email password username portfolio}
@@ -161,7 +174,7 @@ export class AuthService {
   }
 
   /**
-   * @description reset Password
+   * @description send reset Password link to email when user will open that link it so he/she can change there password
    * @param  { email  }
    * @returns {message success}
    */
@@ -195,6 +208,13 @@ export class AuthService {
       throw new Error(error.message);
     }
   }
+
+   /**
+   * @description reset Password
+   * @param  { email  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   async findUserByRefresheToken(token) {
     const user = await this.userModel.findOne({
       refreshToken: token,
@@ -202,6 +222,12 @@ export class AuthService {
     return user;
   }
 
+   /**
+   * @description reset Password
+   * @param  { email  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   async confirmUserMail(token) {
     const decoded = this.jwtService.verify(token);
     const user = await this.userModel.findOne({ email: decoded.email });
@@ -213,6 +239,12 @@ export class AuthService {
     return user;
   }
 
+   /**
+   * @description it update user profile 
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   async updateUserInfo(userInfoDto) {
     const user = await this.userModel.findOne(userInfoDto.userId);
     if (!user) {

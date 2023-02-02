@@ -44,11 +44,23 @@ export class AuthResolver {
     return checkDto;
   }
 
+  /**
+   * @description send reset Password link to email when user will open that link it so he/she can change there password
+   * @param  { email  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   @Mutation(() => MessageDef, { name: 'forgotPassword' })
   async forgotPassword(@Args('input') forgotPasswordDto: ForgotPasswordDto) {
     return await this.authService.forgotPassword(forgotPasswordDto);
   }
 
+  /**
+   * @description it update user profile
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
   @Mutation(() => MessageDef, { name: 'updateUserInfo' })
   @Auth()
   async updateUserInfo(

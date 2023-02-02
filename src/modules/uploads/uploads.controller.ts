@@ -75,8 +75,8 @@ export class UploadsController {
   }
 
   /**
-   * @description upload images onmongodb database
-   * @param files sessionId
+   * @description upload images on database
+   * @param files blogId
    * @returns message success
    */
   //@author mohdzaid
