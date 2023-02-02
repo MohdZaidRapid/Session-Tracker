@@ -258,8 +258,6 @@ export class UploadsController {
         );
       }
       const response = await this.uploadService.uploadFiles(files);
-
-      // response.map()
       let fileName = response.map((file) => {
         return file.filename;
       });

@@ -193,7 +193,7 @@ export class PortfolioService {
       const { id } = getPortfolioByIdDto;
       const portfolio = await this.portfolioModel.findById(id);
       if (!portfolio) {
-        throw new NotFoundException('No portfolio found witht this id ');
+        throw new NotFoundException('No portfolio found with this id ');
       }
       return portfolio;
     } catch (error) {
