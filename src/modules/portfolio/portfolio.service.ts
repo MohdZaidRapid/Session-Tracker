@@ -237,7 +237,7 @@ export class PortfolioService {
     }
   }
 
-  async getPortfolioImageById({portfolioId}) {
+  async getPortfolioImageById({ portfolioId }) {
     console.log(portfolioId);
     try {
       const portfolio = await this.portfolioModel.findOne({ _id: portfolioId });

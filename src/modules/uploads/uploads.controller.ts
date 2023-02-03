@@ -65,7 +65,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.sesssionService.uploadImage({
         _id: sessionId,
-        headerImage: filename,
+        headerImage: filepath,
       });
       return {
         message: 'session image uploaded successfully',
@@ -111,10 +111,9 @@ export class UploadsController {
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
-      console.log(filepath);
       await this.blogService.uploadBannerImage({
         id: blogId,
-        bannerImage: filename,
+        bannerImage: filepath,
       });
       return {
         message: 'Blog image uploaded successfully',
@@ -160,12 +159,11 @@ export class UploadsController {
           'you are not authorized to upload this image to this id',
         );
       }
-      const { originalname, filename } = await this.uploadService.uploadAFile(
-        file,
-      );
+      const { originalname, filename, filepath } =
+        await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioImage({
         id: portfolioId,
-        image: filename,
+        image: filepath,
       });
       return {
         message: 'Portfolio image uploaded successfully',
@@ -237,7 +235,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioBannerImage({
         id: portfolioId,
-        banner: filename,
+        banner: filepath,
       });
       return {
         message: 'Portfolio banner image uploaded successfully',
@@ -283,7 +281,7 @@ export class UploadsController {
       }
       const response = await this.uploadService.uploadFiles(files);
       let fileName = response.map((file) => {
-        return file.filename;
+        return file.filepath;
       });
       await this.blogService.uploadArrayOfImage({
         id: blogId,
@@ -302,35 +300,35 @@ export class UploadsController {
     }
   }
 
-  /**
-   * @description upload images on mongodb database
-   * @param files imagename
-   * @returns image you want
-   */
-  //@author mohdzaid
-  @Get('/get-image/:imagename')
-  @Auth()
-  async getImage(@Param('imagename') imagename, @Res() res) {
-    // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
-    const image = join('localhost:3000/' + imagename);
-    res.send(image);
-  }
-
-  /**
-   * @description get al images of blogs you want database
-   * @param files imagename
-   * @returns image you want
-   */
-  //@author mohdzaid
-  @Get('/get-images/:blogId')
+  // /**
+  //  * @description upload images on mongodb database
+  //  * @param files imagename
+  //  * @returns image you want
+  //  */
+  // //@author mohdzaid
+  // @Get('/get-image/:imagename')
   // @Auth()
-  async getImages(@Res() res, @Param('blogId') blogId) {
-    const imagesArr = await this.blogService.getAllImagesArr(blogId);
-    const allImages = imagesArr.map((img) => {
-      const url = 'localhost:3000/';
-      const images = url + img;
-      return images;
-    });
-    res.send(allImages);
-  }
+  // async getImage(@Param('imagename') imagename, @Res() res) {
+  //   // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
+  //   const image = join('localhost:3000/' + imagename);
+  //   res.send(image);
+  // }
+
+  // /**
+  //  * @description get al images of blogs you want database
+  //  * @param files imagename
+  //  * @returns image you want
+  //  */
+  // //@author mohdzaid
+  // @Get('/get-images/:blogId')
+  // // @Auth()
+  // async getImages(@Res() res, @Param('blogId') blogId) {
+  //   const imagesArr = await this.blogService.getAllImagesArr(blogId);
+  //   const allImages = imagesArr.map((img) => {
+  //     const url = 'localhost:3000/';
+  //     const images = url + img;
+  //     return images;
+  //   });
+  //   res.send(allImages);
+  // }
 }
