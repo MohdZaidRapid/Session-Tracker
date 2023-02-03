@@ -307,10 +307,9 @@ export class UploadsController {
     const imagesArr = await this.blogService.getAllImagesArr(blogId);
     // console.log(imagesArr);
     const allImages = imagesArr.map((img) => {
-      const images = join('localhost:3000/' + img);
+      const images = 'localhost:3000/' + img;
       return images;
     });
-
     res.send(allImages);
   }
 }
