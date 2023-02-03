@@ -65,7 +65,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.sesssionService.uploadImage({
         _id: sessionId,
-        headerImage: filepath,
+        headerImage: filename,
       });
       return {
         message: 'session image uploaded successfully',
@@ -113,7 +113,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.blogService.uploadBannerImage({
         id: blogId,
-        bannerImage: filepath,
+        bannerImage: filename,
       });
       return {
         message: 'Blog image uploaded successfully',
@@ -163,7 +163,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioImage({
         id: portfolioId,
-        image: filepath,
+        image: filename,
       });
       return {
         message: 'Portfolio image uploaded successfully',
@@ -235,7 +235,7 @@ export class UploadsController {
         await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioBannerImage({
         id: portfolioId,
-        banner: filepath,
+        banner: filename,
       });
       return {
         message: 'Portfolio banner image uploaded successfully',
@@ -281,7 +281,7 @@ export class UploadsController {
       }
       const response = await this.uploadService.uploadFiles(files);
       let fileName = response.map((file) => {
-        return file.filepath;
+        return file.filename;
       });
       await this.blogService.uploadArrayOfImage({
         id: blogId,
@@ -300,35 +300,56 @@ export class UploadsController {
     }
   }
 
-  // /**
-  //  * @description upload images on mongodb database
-  //  * @param files imagename
-  //  * @returns image you want
-  //  */
-  // //@author mohdzaid
-  // @Get('/get-image/:imagename')
-  // @Auth()
-  // async getImage(@Param('imagename') imagename, @Res() res) {
-  //   // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
-  //   const image = join('localhost:3000/' + imagename);
-  //   res.send(image);
-  // }
+  /**
+   * @description upload images on mongodb database
+   * @param files imagename
+   * @returns image you want
+   */
+  //@author mohdzaid
+  @Get('/get-image/:imagename')
+  @Auth()
+  async getImage(@Param('imagename') imagename, @Res() res) {
+    // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
+    const image = join('localhost:3000/' + imagename);
+    res.send(image);
+  }
 
-  // /**
-  //  * @description get al images of blogs you want database
-  //  * @param files imagename
-  //  * @returns image you want
-  //  */
-  // //@author mohdzaid
-  // @Get('/get-images/:blogId')
-  // // @Auth()
-  // async getImages(@Res() res, @Param('blogId') blogId) {
-  //   const imagesArr = await this.blogService.getAllImagesArr(blogId);
-  //   const allImages = imagesArr.map((img) => {
-  //     const url = 'localhost:3000/';
-  //     const images = url + img;
-  //     return images;
-  //   });
-  //   res.send(allImages);
-  // }
+  /**
+   * @description get al images of blogs you want database
+   * @param files imagename
+   * @returns image you want
+   */
+  //@author mohdzaid
+  @Get('/get-images/:blogId')
+  // @Auth()
+  async getImages(@Res() res, @Param('blogId') blogId) {
+    const imagesArr = await this.blogService.getAllImagesArr(blogId);
+    const allImages = imagesArr.map((img) => {
+      const url = 'localhost:3000/';
+      const images = url + img;
+      return images;
+    });
+    res.send(allImages);
+  }
+
+  /**
+   * @description get al images of blogs you want database
+   * @param files imagename
+   * @returns image you want
+   */
+  //@author mohdzaid
+  @Get('/get-banner-image/:portfolioId')
+  // @Auth()
+  async bannerImage(@Res() res, @Param('portfolioId') portfolioId) {
+    try {
+      const portfolio = await this.portfolioService.getPortfolioImageById({
+        portfolioId: portfolioId,
+      });
+      const url = 'localhost:3000/';
+      const image = url + portfolio.image;
+      res.send(image);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }

@@ -24,7 +24,7 @@ export class UploadsService {
       const response = {
         originalname: file.originalname,
         filename: file.filename,
-        filepath: `localhost:3000/${file.filename}`,
+        filepath: file.filepath,
       };
       return response;
     } catch (error) {
@@ -45,7 +45,7 @@ export class UploadsService {
         const fileResponse = {
           originalname: file.originalname,
           filename: file.filename,
-          filepath:`localhost:3000/${file.filename}`
+          filepath: `localhost:3000/${file.filename}`,
         };
         response.push(fileResponse);
       });
