@@ -283,14 +283,52 @@ export class UploadsController {
 
   /**
    * @description upload images on mongodb database
-   * @param files sessionId
-   * @returns message success
+   * @param files imagename
+   * @returns image you want
    */
   //@author mohdzaid
   @Get('/get-image/:imagename')
   @Auth()
   async getImage(@Param('imagename') imagename, @Res() res) {
-    const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
-    res.sendFile(image);
+    // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
+    const image = join('localhost:3000/' + imagename);
+    res.send(image);
+  }
+
+  /**
+   * @description upload images on mongodb database
+   * @param files imagename
+   * @returns image you want
+   */
+  //@author mohdzaid
+  @Get('/get-images/:blogId')
+  // @Auth()
+  async getImages(@Res() res, @Param('blogId') blogId) {
+    const imagesArr = await this.blogService.getAllImagesArr(blogId);
+    // console.log(imagesArr);
+    const allImages = imagesArr.map((img) => {
+      const images = join('localhost:3000/' + img);
+      return images;
+    });
+
+    res.send(allImages);
   }
 }
+
+// console.log(allImages);
+//   console.log(allImages);
+//   let html = `
+//   <html>
+//     <body>
+// `;
+//   for (const image of allImages) {
+//     html += `
+//     <img src="${image}" alt="${image}">
+//   `;
+//   }
+//   html += `
+//     </body>
+//   </html>
+// `;
+// res.header('Content-Type', 'text/html');
+// res.send({ messsage: 'done' });

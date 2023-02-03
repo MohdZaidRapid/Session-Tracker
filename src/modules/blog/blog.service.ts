@@ -232,4 +232,10 @@ export class BlogService {
       }),
     );
   }
+
+  async getAllImagesArr(blogId) {
+    const imgArr = await this.blogModel.findOne({ _id: blogId });
+    const images = imgArr.subContent[0].images;
+    return images;
+  }
 }
