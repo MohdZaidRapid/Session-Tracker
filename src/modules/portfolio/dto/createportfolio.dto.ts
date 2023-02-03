@@ -61,14 +61,14 @@ export class CreatePortfolioDto {
   @IsOptional()
   company: string;
 
-  @Field({ nullable: true, description: 'banner of the user' })
-  @IsOptional()
-  banner: string;
+  // @Field({ nullable: true, description: 'banner of the user' })
+  // @IsOptional()
+  // banner: string;
 
-  @Field({ nullable: true, description: 'image of the user' })
-  @IsOptional()
-  @IsString()
-  image: string;
+  // @Field({ nullable: true, description: 'image of the user' })
+  // @IsOptional()
+  // @IsString()
+  // image: string;
 
   @Field({ nullable: true, description: 'expertise of the user' })
   @IsOptional()

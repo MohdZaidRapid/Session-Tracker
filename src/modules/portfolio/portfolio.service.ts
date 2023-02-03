@@ -209,10 +209,14 @@ export class PortfolioService {
    */
 
   async uploadPortfolioImage(portfolioImageDto: PortfolioImageDto) {
-    const { image, id } = portfolioImageDto;
-    await this.portfolioModel.findByIdAndUpdate(id, {
-      $set: { image: image },
-    });
+    try {
+      const { image, id } = portfolioImageDto;
+      await this.portfolioModel.findByIdAndUpdate(id, {
+        $set: { image: image },
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   /**
@@ -223,9 +227,26 @@ export class PortfolioService {
    */
 
   async uploadPortfolioBannerImage(portfolioBannerDto: PortfolioBannerDto) {
-    const { banner, id } = portfolioBannerDto;
-    await this.portfolioModel.findByIdAndUpdate(id, {
-      $set: { banner: banner },
-    });
+    try {
+      const { banner, id } = portfolioBannerDto;
+      await this.portfolioModel.findByIdAndUpdate(id, {
+        $set: { banner: banner },
+      });
+    } catch (error) {
+      throw new Error(error.messge);
+    }
+  }
+
+  async getPortfolioImageById({portfolioId}) {
+    console.log(portfolioId);
+    try {
+      const portfolio = await this.portfolioModel.findOne({ _id: portfolioId });
+      if (!portfolio) {
+        throw new Error('No portfolio found with this id');
+      }
+      return portfolio;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }

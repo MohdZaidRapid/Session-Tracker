@@ -39,7 +39,7 @@ export class UploadsController {
    */
   //@author mohdzaid
 
-  @Post('/UploadAsset/:sessionId')
+  @Post('uploadAsset/:sessionId')
   @Auth()
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
@@ -109,9 +109,9 @@ export class UploadsController {
           'you are not authorized to upload this image to this id',
         );
       }
-      const { originalname, filename } = await this.uploadService.uploadAFile(
-        file,
-      );
+      const { originalname, filename, filepath } =
+        await this.uploadService.uploadAFile(file);
+      console.log(filepath);
       await this.blogService.uploadBannerImage({
         id: blogId,
         bannerImage: filename,
@@ -180,6 +180,28 @@ export class UploadsController {
   }
 
   /**
+   * @description get al images of blogs you want database
+   * @param files imagename
+   * @returns image you want
+   */
+  //@author mohdzaid
+  @Get('/get-portfolio-image/:portfolioId')
+  // @Auth()
+  async getPortfolioImage(@Res() res, @Param('portfolioId') portfolioId) {
+    const portfolio = await this.portfolioService.getPortfolioImageById({
+      portfolioId: portfolioId,
+    });
+    if (!portfolio) {
+      throw new Error('no portfolio found wuth this id');
+    }
+    if (portfolio.image) {
+      const url = 'localhost:3000/';
+      const image = url + portfolio.image;
+      res.send(image);
+    }
+  }
+
+  /**
    * @description upload images on database
    * @param files portfolio Id
    * @returns message success
@@ -211,9 +233,8 @@ export class UploadsController {
           'you are not authorized to upload this image to this id',
         );
       }
-      const { originalname, filename } = await this.uploadService.uploadAFile(
-        file,
-      );
+      const { originalname, filename, filepath } =
+        await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioBannerImage({
         id: portfolioId,
         banner: filename,
@@ -296,7 +317,7 @@ export class UploadsController {
   }
 
   /**
-   * @description upload images on mongodb database
+   * @description get al images of blogs you want database
    * @param files imagename
    * @returns image you want
    */
@@ -305,29 +326,11 @@ export class UploadsController {
   // @Auth()
   async getImages(@Res() res, @Param('blogId') blogId) {
     const imagesArr = await this.blogService.getAllImagesArr(blogId);
-    // console.log(imagesArr);
     const allImages = imagesArr.map((img) => {
-      const images = 'localhost:3000/' + img;
+      const url = 'localhost:3000/';
+      const images = url + img;
       return images;
     });
     res.send(allImages);
   }
 }
-
-// console.log(allImages);
-//   console.log(allImages);
-//   let html = `
-//   <html>
-//     <body>
-// `;
-//   for (const image of allImages) {
-//     html += `
-//     <img src="${image}" alt="${image}">
-//   `;
-//   }
-//   html += `
-//     </body>
-//   </html>
-// `;
-// res.header('Content-Type', 'text/html');
-// res.send({ messsage: 'done' });
