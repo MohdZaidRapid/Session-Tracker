@@ -260,7 +260,7 @@ export class UploadsController {
    * @returns message success
    */
   //@author mohdzaid
-  @Post('/multiple/:blogId')
+  @Post('/multiple-blog-image/:blogId')
   @Auth()
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
@@ -325,8 +325,8 @@ export class UploadsController {
    * @returns image you want
    */
   //@author mohdzaid
-  @Get('/get-images/:blogId')
-  // @Auth()
+  @Get('/get-blog-images/:blogId')
+  @Auth()
   async getImages(@Res() res, @Param('blogId') blogId) {
     const imagesArr = await this.blogService.getAllImagesArr(blogId);
     const allImages = imagesArr.map((img) => {
