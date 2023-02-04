@@ -23,7 +23,7 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
- /**
+  /**
    * @description create jwt payload with user info and convert to jwt token
    * @param  { user{email}}  }
    * @returns {message success}
@@ -42,7 +42,7 @@ export class AuthService {
     };
   }
 
-   /**
+  /**
    * @description it verify token  status it is valid or not if valid return user
    * @param  { token  }
    * @returns { user}
@@ -209,7 +209,7 @@ export class AuthService {
     }
   }
 
-   /**
+  /**
    * @description reset Password
    * @param  { email  }
    * @returns {message success}
@@ -222,7 +222,7 @@ export class AuthService {
     return user;
   }
 
-   /**
+  /**
    * @description reset Password
    * @param  { email  }
    * @returns {message success}
@@ -239,8 +239,8 @@ export class AuthService {
     return user;
   }
 
-   /**
-   * @description it update user profile 
+  /**
+   * @description it update user profile
    * @param  { user information  }
    * @returns {message success}
    */
@@ -250,7 +250,6 @@ export class AuthService {
     if (!user) {
       throw new Error('No user found with this id');
     }
-
     if (user) {
       const { userId, ...otherProperties } = userInfoDto;
       let password = otherProperties.password;

@@ -21,6 +21,13 @@ export class AuthController {
       if (!user) {
         return new Error('No user found or token expires');
       }
+      let isMatch = await bcrypt.compare(
+        ResetPasswordDto.password,
+        user.password,
+      );
+      if (isMatch) {
+        throw new Error("Password can't be equal to previous password");
+      }
       user.password = ResetPasswordDto.password;
       user.refreshToken = undefined;
       user.resetPasswordExpiresIn = undefined;
@@ -30,7 +37,10 @@ export class AuthController {
         message: 'Password changed successfully',
       };
     } catch (error) {
-      throw new Error(error.message);
+      return {
+        statusCode: 500,
+        message: error.message,
+      };
     }
   }
 
