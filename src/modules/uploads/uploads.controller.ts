@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   NotFoundException,
   Param,
   Post,
@@ -39,7 +41,7 @@ export class UploadsController {
    */
   //@author mohdzaid
 
-  @Post('uploadAsset/:sessionId')
+  @Post('upload-session-image/:sessionId')
   @Auth()
   @UseInterceptors(
     // created interceptor for reading saving file in local storage.
@@ -72,10 +74,13 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      return {
-        message: error.message,
-        success: false,
-      };
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: error.message,
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
