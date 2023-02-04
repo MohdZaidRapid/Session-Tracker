@@ -127,9 +127,6 @@ input CreateContentDto {
 }
 
 input CreatePortfolioDto {
-  """banner of the user"""
-  banner: String
-
   """company of the user"""
   company: String
 
@@ -144,9 +141,6 @@ input CreatePortfolioDto {
 
   """name of the expertise"""
   expertise: String
-
-  """image of the user"""
-  image: String
 
   """location of the user"""
   location: String

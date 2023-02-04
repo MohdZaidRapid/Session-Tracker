@@ -4,7 +4,12 @@ import { profile } from 'console';
 import { Model } from 'mongoose';
 import { BlogService } from '../blog/blog.service';
 import { BlogDto } from '../blog/dto/blog.dto';
-import { CreatePortfolioDto } from './dto/createportfolio.dto';
+import {
+  CreatePortfolioDto,
+  GetPortfolioByIdDto,
+  PortfolioBannerDto,
+  PortfolioImageDto,
+} from './dto/createportfolio.dto';
 import { Portfolio } from './interface/portfolio.interface';
 
 @Injectable()
@@ -151,6 +156,16 @@ export class PortfolioService {
     }
   }
 
+  /**
+   * @description getAllportfolio default sort by expert true
+   * @param GetExpertPortfolioDto{id}
+   * @returns array of object of portfolio {
+   * name
+   * image
+   * courses
+   * description
+   * }
+   */
   async getExpertPortfolio({ id }) {
     try {
       const expertPortfolio = await this.portfolioModel.findOne({
@@ -162,6 +177,73 @@ export class PortfolioService {
       }
 
       return expertPortfolio;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description upload portfolio image
+   * @param {id}GetPortfolioByIdDto
+   * @returns {message success}
+   * }
+   */
+  async getPortfolioById(getPortfolioByIdDto: GetPortfolioByIdDto) {
+    try {
+      const { id } = getPortfolioByIdDto;
+      const portfolio = await this.portfolioModel.findById(id);
+      if (!portfolio) {
+        throw new NotFoundException('No portfolio found with this id ');
+      }
+      return portfolio;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description upload portfolio image
+   * @param PortfolioImageDto{image}
+   * @returns {message success}
+   * }
+   */
+
+  async uploadPortfolioImage(portfolioImageDto: PortfolioImageDto) {
+    try {
+      const { image, id } = portfolioImageDto;
+      await this.portfolioModel.findByIdAndUpdate(id, {
+        $set: { image: image },
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  /**
+   * @description upload portfolio image
+   * @param PortfolioImageDto{image}
+   * @returns {message success}
+   * }
+   */
+
+  async uploadPortfolioBannerImage(portfolioBannerDto: PortfolioBannerDto) {
+    try {
+      const { banner, id } = portfolioBannerDto;
+      await this.portfolioModel.findByIdAndUpdate(id, {
+        $set: { banner: banner },
+      });
+    } catch (error) {
+      throw new Error(error.messge);
+    }
+  }
+
+  async getPortfolioImageById({ portfolioId }) {
+    try {
+      const portfolio = await this.portfolioModel.findOne({ _id: portfolioId });
+      if (!portfolio) {
+        throw new Error('No portfolio found with this id');
+      }
+      return portfolio;
     } catch (error) {
       throw new Error(error.message);
     }

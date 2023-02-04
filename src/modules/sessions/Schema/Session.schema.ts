@@ -11,7 +11,7 @@ export const SessionSchema = new mongoose.Schema<Session>(
       type: String,
       nullable: true,
       ref: 'user',
-    },
+    }, 
     video: { type: String, default: null },
   },
   { timestamps: true },

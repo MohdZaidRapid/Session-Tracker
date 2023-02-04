@@ -62,7 +62,7 @@ export class RestAuthGuard implements CanActivate {
       this.configService.get('JWT_SECRET_KEY'),
       async (err, tokenInfo: any) => {
         if (err) {
-          console.log('err');
+          console.log(err.message);
         } else {
           let user = null;
           try {
