@@ -425,13 +425,10 @@ export class UploadsController {
   @Get('/get-video/:sessionId')
   @Auth()
   async getVideo(@Res() res, @Param('sessionId') sessionId) {
-    console.log(sessionId);
     const session = await this.sesssionService.getSessionByOnwerId(sessionId);
-    console.log(session);
     if (session && session.video) {
       const url = 'localhost:3000/';
       const video = url + session.video;
-      console.log(video);
       res.send(video);
     }
   }
