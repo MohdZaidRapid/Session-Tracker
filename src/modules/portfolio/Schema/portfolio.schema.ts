@@ -16,6 +16,7 @@ export const PortfolioSchema = new mongoose.Schema<Portfolio>({
   description: { type: String, default: null },
   email: { type: String, default: null },
   phone: { type: String, default: null },
+  location: { type: String, default: null },
   website: { type: String, default: null },
   company: { type: String, default: null },
   banner: { type: String, default: null },

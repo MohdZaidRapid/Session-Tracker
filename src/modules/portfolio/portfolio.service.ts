@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { InjectModel } from '@nestjs/mongoose';
 import { profile } from 'console';
 import { Model } from 'mongoose';
@@ -245,7 +246,7 @@ export class PortfolioService {
       }
       return portfolio;
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error);
     }
   }
 }

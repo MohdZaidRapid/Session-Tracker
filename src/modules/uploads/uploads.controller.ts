@@ -74,13 +74,10 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: error.message,
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      return {
+        errror: error.message,
+        success: false,
+      };
     }
   }
 
@@ -113,6 +110,9 @@ export class UploadsController {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
@@ -164,6 +164,9 @@ export class UploadsController {
           'you are not authorized to upload this image to this id',
         );
       }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
+      }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioImage({
@@ -189,18 +192,20 @@ export class UploadsController {
    */
   //@author mohdzaid
   @Get('/get-portfolio-image/:portfolioId')
-  // @Auth()
+  @Auth()
   async getPortfolioImage(@Res() res, @Param('portfolioId') portfolioId) {
-    const portfolio = await this.portfolioService.getPortfolioImageById({
-      portfolioId: portfolioId,
-    });
-    if (!portfolio) {
-      throw new Error('no portfolio found wuth this id');
-    }
-    if (portfolio.image) {
+    try {
+      const portfolio = await this.portfolioService.getPortfolioImageById({
+        portfolioId: portfolioId,
+      });
+      if (!portfolio || !portfolio.image) {
+        throw new Error('no portfolio or image found with this id');
+      }
       const url = 'localhost:3000/';
       const image = url + portfolio.image;
-      res.send(image);
+      res.status(201).send(image);
+    } catch (err) {
+      res.status(404).send(err.message);
     }
   }
 
@@ -235,6 +240,9 @@ export class UploadsController {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
@@ -279,10 +287,16 @@ export class UploadsController {
   ) {
     try {
       const blog = await this.blogService.getBlogById(blogId);
+      if (!blog) {
+        throw new Error('no blog found');
+      }
       if (blog.owner !== user._id.toString()) {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!files) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const response = await this.uploadService.uploadFiles(files);
       let fileName = response.map((file) => {
@@ -298,9 +312,10 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
+      // res.status(400).send({ message: error.message, success: false });
       return {
-        error: error.message,
-        success: false,
+        message: error.message,
+        succees: false,
       };
     }
   }
@@ -328,13 +343,20 @@ export class UploadsController {
   @Get('/get-blog-images/:blogId')
   @Auth()
   async getImages(@Res() res, @Param('blogId') blogId) {
-    const imagesArr = await this.blogService.getAllImagesArr(blogId);
-    const allImages = imagesArr.map((img) => {
-      const url = 'localhost:3000/';
-      const images = url + img;
-      return images;
-    });
-    res.send(allImages);
+    try {
+      const imagesArr = await this.blogService.getAllImagesArr(blogId);
+      if (!imagesArr) {
+        throw new Error('No image fouind');
+      }
+      const allImages = imagesArr.map((img) => {
+        const url = 'localhost:3000/';
+        const images = url + img;
+        return images;
+      });
+      res.send(allImages);
+    } catch (error) {
+      res.status(400).send({ message: error.message, success: false });
+    }
   }
 
   /**
@@ -344,17 +366,25 @@ export class UploadsController {
    */
   //@author mohdzaid
   @Get('/get-banner-image/:portfolioId')
-  // @Auth()
+  @Auth()
   async bannerImage(@Res() res, @Param('portfolioId') portfolioId) {
     try {
       const portfolio = await this.portfolioService.getPortfolioImageById({
         portfolioId: portfolioId,
       });
+      if (!portfolio) {
+        return {
+          message: 'no found',
+        };
+      }
       const url = 'localhost:3000/';
       const image = url + portfolio.image;
-      res.send(image);
+      res.status(200).send({
+        image,
+        success: true,
+      });
     } catch (error) {
-      throw new Error(error.message);
+      res.status(400).send({ message: error.message, success: false });
     }
   }
 }

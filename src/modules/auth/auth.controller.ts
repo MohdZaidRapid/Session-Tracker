@@ -13,7 +13,7 @@ export class AuthController {
 
   @Post('reset-password/:token')
   async getProduct(
-    @Args() ResetPasswordDto: ResetPasswordDto,
+    @Args() resetPasswordDto: ResetPasswordDto,
     @Param('token') token,
   ) {
     try {
@@ -21,7 +21,14 @@ export class AuthController {
       if (!user) {
         return new Error('No user found or token expires');
       }
-      user.password = ResetPasswordDto.password;
+      let isMatch = await bcrypt.compare(
+        resetPasswordDto.password,
+        user.password,
+      );
+      if (isMatch) {
+        throw new Error("New password can't be equal to previous password");
+      }
+      user.password = resetPasswordDto.password;
       user.refreshToken = undefined;
       user.resetPasswordExpiresIn = undefined;
       await user.save();
@@ -30,7 +37,10 @@ export class AuthController {
         message: 'Password changed successfully',
       };
     } catch (error) {
-      throw new Error(error.message);
+      return {
+        statusCode: 500,
+        message: error.message,
+      };
     }
   }
 
@@ -44,7 +54,10 @@ export class AuthController {
         message: 'account confirm successfully',
       };
     } catch (error) {
-      throw new Error(error.message);
+      return {
+        error: error.message,
+        status: false,
+      };
     }
   }
 }

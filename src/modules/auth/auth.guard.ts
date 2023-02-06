@@ -57,40 +57,46 @@ export class AuthGuard implements CanActivate {
   }
 
   async validateToken(auth: string) {
-    if (auth.split(' ')[0] !== 'Bearer') {
-      throw new NotFoundException('no bearer found');
-    }
+    try {
+      if (auth.split(' ')[0] !== 'Bearer') {
+        throw new NotFoundException('no bearer found');
+      }
 
-    const token = auth.split(' ')[1];
+      const token = auth.split(' ')[1];
 
-    let reqUser = null;
-    await jwt.verify(
-      token,
-      this.configService.get('JWT_SECRET_KEY'),
-      async (err, tokenInfo: any) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          let user = null;
-          try {
-            user = await this.authService.findByEmail({
-              email: tokenInfo.email,
-            });
-          } catch (e) {
-            user = null;
+      let reqUser = null;
+      await jwt.verify(
+        token,
+        this.configService.get('JWT_SECRET_KEY'),
+        async (err, tokenInfo: any) => {
+          if (err) {
+            throw new Error(err.message);
+          } else {
+            let user = null;
+            try {
+              user = await this.authService.findByEmail({
+                email: tokenInfo.email,
+              });
+            } catch (e) {
+              user = null;
+              throw new Error(err.message);
+            }
+
+            if (user) {
+              reqUser = user;
+              return reqUser;
+            }
           }
-
-          if (user) {
-            reqUser = user;
-            return reqUser;
-          }
-        }
-      },
-    );
-    if (reqUser) {
-      return reqUser;
-    } else {
-      return null;
+        },
+      );
+      if (reqUser) {
+        return reqUser;
+      } else {
+        return null;
+        
+      }
+    } catch (err) {
+      throw err;
     }
   }
 }

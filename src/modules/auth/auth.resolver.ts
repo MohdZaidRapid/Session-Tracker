@@ -52,7 +52,11 @@ export class AuthResolver {
   //author MohdZaid
   @Mutation(() => MessageDef, { name: 'forgotPassword' })
   async forgotPassword(@Args('input') forgotPasswordDto: ForgotPasswordDto) {
-    return await this.authService.forgotPassword(forgotPasswordDto);
+    try {
+      return await this.authService.forgotPassword(forgotPasswordDto);
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 
   /**

@@ -23,7 +23,7 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
- /**
+  /**
    * @description create jwt payload with user info and convert to jwt token
    * @param  { user{email}}  }
    * @returns {message success}
@@ -42,7 +42,7 @@ export class AuthService {
     };
   }
 
-   /**
+  /**
    * @description it verify token  status it is valid or not if valid return user
    * @param  { token  }
    * @returns { user}
@@ -209,7 +209,7 @@ export class AuthService {
     }
   }
 
-   /**
+  /**
    * @description reset Password
    * @param  { email  }
    * @returns {message success}
@@ -222,25 +222,34 @@ export class AuthService {
     return user;
   }
 
-   /**
+  /**
    * @description reset Password
    * @param  { email  }
    * @returns {message success}
    */
   //author MohdZaid
   async confirmUserMail(token) {
-    const decoded = this.jwtService.verify(token);
-    const user = await this.userModel.findOne({ email: decoded.email });
-    if (!user) {
-      throw new Error('Your token expired or user not found');
+    try {
+      const decoded = this.jwtService.verify(token);
+      const user = await this.userModel.findOne({ email: decoded.email });
+      if (user.confirmEmail) {
+        if (!user) {
+          throw new Error('Your token expired or user not found');
+        }
+        throw new Error(
+          'user already confirm now logged in what are you waiting for !!!!',
+        );
+      }
+      user.confirmEmail = true;
+      await user.save();
+      return user;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    user.confirmEmail = true;
-    await user.save();
-    return user;
   }
 
-   /**
-   * @description it update user profile 
+  /**
+   * @description it update user profile
    * @param  { user information  }
    * @returns {message success}
    */
@@ -250,7 +259,6 @@ export class AuthService {
     if (!user) {
       throw new Error('No user found with this id');
     }
-
     if (user) {
       const { userId, ...otherProperties } = userInfoDto;
       let password = otherProperties.password;
