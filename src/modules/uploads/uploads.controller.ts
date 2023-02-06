@@ -22,7 +22,7 @@ import { PortfolioService } from '../portfolio/portfolio.service';
 import { SessionsService } from '../sessions/sessions.service';
 import { Owner } from '../sessions/typeDef/resolver-type';
 import { UploadsService } from './uploads.service';
-import { editFileName, imageFileFilter } from './utils';
+import { editFileName, imageFileFilter, videoFileFilter } from './utils';
 
 @Controller('uploads')
 export class UploadsController {
@@ -329,7 +329,7 @@ export class UploadsController {
   @Get('/get-image/:imagename')
   @Auth()
   async getImage(@Param('imagename') imagename, @Res() res) {
-    // const image = join(process.cwd(), 'src/modules/uploads/files/' + imagename);
+    // const image = join(process.cwd(), 'src/modules/uploads/files/' + im  agename);
     const image = join('localhost:3000/' + imagename);
     res.send(image);
   }
@@ -346,7 +346,7 @@ export class UploadsController {
     try {
       const imagesArr = await this.blogService.getAllImagesArr(blogId);
       if (!imagesArr) {
-        throw new Error('No image fouind');
+        throw new Error('No image found');
       }
       const allImages = imagesArr.map((img) => {
         const url = 'localhost:3000/';
@@ -374,7 +374,7 @@ export class UploadsController {
       });
       if (!portfolio) {
         return {
-          message: 'no found',
+          message: 'not found',
         };
       }
       const url = 'localhost:3000/';
@@ -385,6 +385,54 @@ export class UploadsController {
       });
     } catch (error) {
       res.status(400).send({ message: error.message, success: false });
+    }
+  }
+
+  @Post('/uploadvideo/:sessionId')
+  @Auth()
+  @UseInterceptors(
+    // created interceptor for reading saving file in local storage.
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './src/modules/uploads/files',
+        filename: editFileName,
+      }),
+      fileFilter: videoFileFilter,
+    }),
+  )
+  async findSessionByIdAndUpdate(
+    @UploadedFile() file,
+    @GetUserId() user,
+    @Param('sessionId') sessionId,
+  ) {
+    try {
+      if (!file) {
+        throw new Error('no file found');
+      }
+      await this.sesssionService.findSessionByIdAndUpdate({
+        id: sessionId,
+        video: file.filename,
+      });
+      return {
+        success: true,
+        message: 'video uploaded successfully',
+      };
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  @Get('/get-video/:sessionId')
+  @Auth()
+  async getVideo(@Res() res, @Param('sessionId') sessionId) {
+    console.log(sessionId);
+    const session = await this.sesssionService.getSessionByOnwerId(sessionId);
+    console.log(session);
+    if (session && session.video) {
+      const url = 'localhost:3000/';
+      const video = url + session.video;
+      console.log(video);
+      res.send(video);
     }
   }
 }
