@@ -74,8 +74,10 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      console.log("error",error);
-      throw new Error(error.message)
+      return {
+        errror: error.message,
+        success: false,
+      };
     }
   }
 
@@ -108,6 +110,9 @@ export class UploadsController {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
@@ -159,6 +164,9 @@ export class UploadsController {
           'you are not authorized to upload this image to this id',
         );
       }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
+      }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
       await this.portfolioService.uploadPortfolioImage({
@@ -190,18 +198,14 @@ export class UploadsController {
       const portfolio = await this.portfolioService.getPortfolioImageById({
         portfolioId: portfolioId,
       });
-      if (!portfolio) {
-        throw new Error('no portfolio found with this id');
+      if (!portfolio || !portfolio.image) {
+        throw new Error('no portfolio or image found with this id');
       }
-      if (portfolio.image) {
-        const url = 'localhost:3000/';
-        const image = url + portfolio.image;
-        res.send(image);
-      }
+      const url = 'localhost:3000/';
+      const image = url + portfolio.image;
+      res.status(201).send(image);
     } catch (err) {
-      console.log(err);
-      console.log('err');
-      res.status(400).send({ message: err.message });
+      res.status(404).send(err.message);
     }
   }
 
@@ -236,6 +240,9 @@ export class UploadsController {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!file) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const { originalname, filename, filepath } =
         await this.uploadService.uploadAFile(file);
@@ -287,6 +294,9 @@ export class UploadsController {
         throw new Error(
           'you are not authorized to upload this image to this id',
         );
+      }
+      if (!files) {
+        throw new Error('no file found.Please provide image to upload');
       }
       const response = await this.uploadService.uploadFiles(files);
       let fileName = response.map((file) => {

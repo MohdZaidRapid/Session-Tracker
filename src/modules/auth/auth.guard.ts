@@ -93,9 +93,10 @@ export class AuthGuard implements CanActivate {
         return reqUser;
       } else {
         return null;
+        
       }
     } catch (err) {
-      throw new Error(err.message);
+      throw err;
     }
   }
 }
