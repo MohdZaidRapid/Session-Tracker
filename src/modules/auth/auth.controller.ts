@@ -26,7 +26,7 @@ export class AuthController {
         user.password,
       );
       if (isMatch) {
-        throw new Error("Password can't be equal to previous password");
+        throw new Error("New password can't be equal to previous password");
       }
       user.password = resetPasswordDto.password;
       user.refreshToken = undefined;
