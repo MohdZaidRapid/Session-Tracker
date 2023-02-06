@@ -77,7 +77,7 @@ export class BlogService {
         success: true,
       };
     } catch (error) {
-      return new Error(error.message);
+      throw new Error(error.message);
     }
   }
 
@@ -103,7 +103,7 @@ export class BlogService {
       }
       return blog;
     } catch (error) {
-      return new Error(error.message);
+      throw new Error(error.message);
     }
   }
   /**
@@ -138,7 +138,7 @@ export class BlogService {
       }
       return blog;
     } catch (error) {
-      return new Error(error.message);
+      throw new Error(error.message);
     }
   }
 

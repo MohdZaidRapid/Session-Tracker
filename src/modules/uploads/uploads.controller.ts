@@ -74,13 +74,8 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: error.message,
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      console.log("error",error);
+      throw new Error(error.message)
     }
   }
 

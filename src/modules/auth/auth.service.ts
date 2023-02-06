@@ -229,14 +229,23 @@ export class AuthService {
    */
   //author MohdZaid
   async confirmUserMail(token) {
-    const decoded = this.jwtService.verify(token);
-    const user = await this.userModel.findOne({ email: decoded.email });
-    if (!user) {
-      throw new Error('Your token expired or user not found');
+    try {
+      const decoded = this.jwtService.verify(token);
+      const user = await this.userModel.findOne({ email: decoded.email });
+      if (user.confirmEmail) {
+        if (!user) {
+          throw new Error('Your token expired or user not found');
+        }
+        throw new Error(
+          'user already confirm now logged in what are you waiting for !!!!',
+        );
+      }
+      user.confirmEmail = true;
+      await user.save();
+      return user;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    user.confirmEmail = true;
-    await user.save();
-    return user;
   }
 
   /**

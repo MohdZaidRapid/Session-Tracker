@@ -70,7 +70,7 @@ export class AuthGuard implements CanActivate {
         this.configService.get('JWT_SECRET_KEY'),
         async (err, tokenInfo: any) => {
           if (err) {
-            throw err;
+            throw new Error(err.message);
           } else {
             let user = null;
             try {
@@ -95,7 +95,7 @@ export class AuthGuard implements CanActivate {
         return null;
       }
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err.message);
     }
   }
 }
