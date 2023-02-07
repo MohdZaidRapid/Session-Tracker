@@ -1,6 +1,7 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { VideoDto } from './dto/session.dto';
 import { Session } from './interfaces/session.interface';
 
 @Injectable()
@@ -89,8 +90,8 @@ export class SessionsService {
   }
 
   /**
-   * @descriptionit will restrict to user to upload imag eon other user account
-   * @param id 
+   * @descriptionit will restrict to user to upload image on other user account
+   * @param id
    * @returns {success message}
    */
   //author MohdZaid
@@ -100,6 +101,21 @@ export class SessionsService {
       if (!session) {
         throw new NotFoundException('No session found with this id');
       }
+      return session;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async findSessionByIdAndUpdate({ id, video }: VideoDto) {
+    try {
+      const session = await this.sessionModel.findByIdAndUpdate(
+        id,
+        {
+          video: video,
+        },
+        { new: true },
+      );
       return session;
     } catch (error) {
       throw new Error(error.message);

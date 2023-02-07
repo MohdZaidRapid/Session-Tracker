@@ -19,3 +19,13 @@ export const imageFileFilter = (req, file, callback) => {
   }
   callback(null, true);
 };
+
+export const videoFileFilter = (req, file, callback) => {
+  if (!file.originalname.match(/\.(mp4)$/)) {
+    return callback(
+      new Error('Only image files(mp4) are allowed!'),
+      false,
+    );
+  }
+  callback(null, true);
+};

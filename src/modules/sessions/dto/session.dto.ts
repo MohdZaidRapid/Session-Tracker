@@ -23,12 +23,6 @@ export class SessionDto {
 
   @IsOptional()
   owner: string;
-
-  @Field({ nullable: true, description: 'Video  of the session' })
-  @IsOptional()
-  @IsString()
-  @MinLength(1)
-  readonly video: string;
 }
 
 @InputType()
@@ -77,6 +71,19 @@ export class UploadSessionImageDto {
   @IsOptional()
   @IsString()
   readonly headerImage: string;
+
+  @Field({ nullable: true, description: 'id  of the session' })
+  @IsOptional()
+  @IsString()
+  readonly id: string;
+}
+
+@InputType()
+export class VideoDto {
+  @Field({ nullable: true, description: 'Video  of the session' })
+  @IsOptional()
+  @IsString()
+  readonly video: string;
 
   @Field({ nullable: true, description: 'id  of the session' })
   @IsOptional()

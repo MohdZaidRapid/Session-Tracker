@@ -339,9 +339,6 @@ input SessionDto {
 
   """title of the session"""
   title: String!
-
-  """Video  of the session"""
-  video: String
 }
 
 input SignInDto {
