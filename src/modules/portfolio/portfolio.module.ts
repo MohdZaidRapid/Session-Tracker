@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PortfolioResolver } from './portfolio.resolver';
 import { PortfolioService } from './portfolio.service';
 import { PortfolioController } from './portfolio.controller';
@@ -11,10 +11,12 @@ import { BlogModule } from '../blog/blog.module';
   imports: [
     MongooseModule.forFeature([{ name: 'portfolio', schema: PortfolioSchema }]),
     AuthModule,
-    BlogModule
+    // BlogModule,
+    forwardRef(() => BlogModule)
   ],
   providers: [PortfolioResolver, PortfolioService],
   controllers: [PortfolioController],
+  // forwardRef(() => CatsModule)
   exports: [PortfolioModule, PortfolioResolver, PortfolioService],
 })
 export class PortfolioModule {}

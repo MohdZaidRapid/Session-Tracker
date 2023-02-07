@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { InjectModel } from '@nestjs/mongoose';
 import { profile } from 'console';
@@ -16,6 +21,7 @@ import { Portfolio } from './interface/portfolio.interface';
 @Injectable()
 export class PortfolioService {
   constructor(
+    @Inject(forwardRef(() => BlogService))
     private readonly blogService: BlogService,
     @InjectModel('portfolio') private readonly portfolioModel: Model<Portfolio>,
   ) {}
@@ -248,5 +254,21 @@ export class PortfolioService {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async getPortfolioByOwnerandUpdate(blog) {
+    const portfolio = await this.portfolioModel.findOneAndUpdate(
+      { user: blog.owner },
+      {
+        $push: {
+          blogs: {
+            title: blog.title,
+            bannerImage: blog.bannerImage,
+          },
+        },
+      },
+      { new: true },
+    );
+    return portfolio;
   }
 }
