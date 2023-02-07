@@ -271,4 +271,18 @@ export class PortfolioService {
     );
     return portfolio;
   }
+
+  async updatePortfolioBlogimage(blog) {
+    const portfolio = await this.portfolioModel.findOneAndUpdate(
+      { user: blog.owner },
+      {
+        $set: {
+          blogs: {
+            bannerImage: blog.bannerImage,
+          },
+        },
+      },
+      { new: true },
+    );
+  }
 }

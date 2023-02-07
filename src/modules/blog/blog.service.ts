@@ -83,7 +83,7 @@ export class BlogService {
       await this.portfoliService.getPortfolioByOwnerandUpdate(blog);
       await blog.save();
       return {
-        message: 'blog created successfully', 
+        message: 'blog created successfully',
         success: true,
       };
     } catch (error) {
@@ -201,9 +201,14 @@ export class BlogService {
   async uploadBannerImage(bannerImageDto: BannerImageDto) {
     try {
       const { bannerImage, id } = bannerImageDto;
-      await this.blogModel.findByIdAndUpdate(id, {
-        $set: { bannerImage: bannerImage },
-      });
+      const blog = await this.blogModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { bannerImage: bannerImage },
+        },
+        { new: true },
+      );
+      await this.portfoliService.updatePortfolioBlogimage(blog);
     } catch (error) {
       throw new Error(error.message);
     }
