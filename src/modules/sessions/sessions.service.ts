@@ -90,7 +90,7 @@ export class SessionsService {
   }
 
   /**
-   * @descriptionit will restrict to user to upload imag eon other user account
+   * @descriptionit will restrict to user to upload image on other user account
    * @param id
    * @returns {success message}
    */
@@ -108,8 +108,6 @@ export class SessionsService {
   }
 
   async findSessionByIdAndUpdate({ id, video }: VideoDto) {
-    console.log(id);
-    console.log(video)
     try {
       const session = await this.sessionModel.findByIdAndUpdate(
         id,
@@ -118,7 +116,6 @@ export class SessionsService {
         },
         { new: true },
       );
-      console.log(session);
       return session;
     } catch (error) {
       throw new Error(error.message);

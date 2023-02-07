@@ -409,16 +409,26 @@ export class UploadsController {
       if (!file) {
         throw new Error('no file found');
       }
-      await this.sesssionService.findSessionByIdAndUpdate({
+
+      const session = await this.sesssionService.findSessionByIdAndUpdate({
         id: sessionId,
         video: file.filename,
       });
+      if (!session || !session.owner) {
+        throw new Error('no session found with this id');
+      }
+      if (session.owner !== user._id.toString()) {
+        throw new Error("you can't upload image to this id");
+      }
       return {
         success: true,
         message: 'video uploaded successfully',
       };
     } catch (err) {
-      throw new Error(err.message);
+      return {
+        error: err.message,
+        success: false,
+      };
     }
   }
 
