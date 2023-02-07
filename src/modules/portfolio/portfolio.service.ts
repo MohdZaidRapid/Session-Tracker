@@ -279,6 +279,7 @@ export class PortfolioService {
         $set: {
           blogs: {
             bannerImage: blog.bannerImage,
+            title: blog.title,
           },
         },
       },
