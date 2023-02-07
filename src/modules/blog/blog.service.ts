@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   CreateContentDto,
   CreateBlogDto,
@@ -8,6 +13,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog } from './interface/blog.interface';
 import { Content } from './interface/contents.interface';
+import { PortfolioService } from '../portfolio/portfolio.service';
+import { PortfolioResolver } from '../portfolio/portfolio.resolver';
 
 @Injectable()
 export class BlogService {
@@ -16,6 +23,8 @@ export class BlogService {
     private readonly blogModel: Model<Blog>,
     @InjectModel('content')
     private readonly contentModel: Model<Content>,
+    @Inject(forwardRef(() => PortfolioService))
+    private readonly portfoliService: PortfolioService,
   ) {}
 
   /**
@@ -71,6 +80,7 @@ export class BlogService {
   async createBlog(createBlogDto: CreateBlogDto) {
     try {
       const blog = await this.blogModel.create(createBlogDto);
+      await this.portfoliService.getPortfolioByOwnerandUpdate(blog);
       await blog.save();
       return {
         message: 'blog created successfully',
@@ -191,9 +201,14 @@ export class BlogService {
   async uploadBannerImage(bannerImageDto: BannerImageDto) {
     try {
       const { bannerImage, id } = bannerImageDto;
-      await this.blogModel.findByIdAndUpdate(id, {
-        $set: { bannerImage: bannerImage },
-      });
+      const blog = await this.blogModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { bannerImage: bannerImage },
+        },
+        { new: true },
+      );
+      await this.portfoliService.updatePortfolioBlogimage(blog);
     } catch (error) {
       throw new Error(error.message);
     }
