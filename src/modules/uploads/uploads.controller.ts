@@ -161,7 +161,7 @@ export class UploadsController {
       });
       if (portfolio.user !== user._id.toString()) {
         throw new Error(
-          'you are not authorized to upload this image to this id',
+          'you are not authorized to upload  image to this id',
         );
       }
       if (!file) {
