@@ -80,7 +80,7 @@ export class BlogService {
   async createBlog(createBlogDto: CreateBlogDto) {
     try {
       const blog = await this.blogModel.create(createBlogDto);
-      const portfolio = await this.portfoliService.getPortfolioByOwnerandUpdate(blog);
+      await this.portfoliService.getPortfolioByOwnerandUpdate(blog);
       await blog.save();
       return {
         message: 'blog created successfully', 
