@@ -273,17 +273,37 @@ export class PortfolioService {
   }
 
   async updatePortfolioBlogimage(blog) {
-    const portfolio = await this.portfolioModel.findOneAndUpdate(
-      { user: blog.owner },
-      {
-        $set: {
-          blogs: {
-            bannerImage: blog.bannerImage,
-            title: blog.title,
-          },
-        },
-      },
-      { new: true },
-    );
+    const portfolio = await this.portfolioModel.findOne({ user: blog.owner });
+    if (portfolio) {
+      const blogIndex = portfolio.blogs.findIndex(
+        (b) => b.seq === blog._id.toString(),
+      );
+      if (blogIndex === -1 || null) {
+        portfolio.blogs.push({
+          title: blog.title,
+          bannerImage: blog.bannerImage,
+          seq: blog._id,
+        });
+      } else {
+        portfolio.blogs[blogIndex] = {
+          title: blog.title,
+          bannerImage: blog.bannerImage,
+          seq: blog._id,
+        };
+      }
+      await portfolio.save();
+    }
+
+    //   {
+    //     $pull: { blogs: { title: blog.title } },
+    //     $push: {
+    //       blogs: {
+    //         bannerImage: blog.bannerImage,
+    //         title: blog.title,
+    //       },
+    //     },
+    //   },
+    //   { upsert:true,new: true },
+    // );
   }
 }
