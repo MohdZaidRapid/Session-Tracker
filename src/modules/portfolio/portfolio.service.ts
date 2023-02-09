@@ -65,6 +65,7 @@ export class PortfolioService {
       };
     } else {
       const portfolio = await this.portfolioModel.create(createPortfolioDto);
+      
       await portfolio.save();
       return {
         message: 'Your portfolio created successfully',
@@ -278,7 +279,7 @@ export class PortfolioService {
       const blogIndex = portfolio.blogs.findIndex(
         (b) => b.seq === blog._id.toString(),
       );
-      if (blogIndex === -1 || null) {
+      if (blogIndex === -1 || blogIndex === null) {
         portfolio.blogs.push({
           title: blog.title,
           bannerImage: blog.bannerImage,
@@ -293,17 +294,5 @@ export class PortfolioService {
       }
       await portfolio.save();
     }
-
-    //   {
-    //     $pull: { blogs: { title: blog.title } },
-    //     $push: {
-    //       blogs: {
-    //         bannerImage: blog.bannerImage,
-    //         title: blog.title,
-    //       },
-    //     },
-    //   },
-    //   { upsert:true,new: true },
-    // );
   }
 }
