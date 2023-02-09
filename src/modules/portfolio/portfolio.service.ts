@@ -51,21 +51,34 @@ export class PortfolioService {
     const user = await this.portfolioModel.findOne({
       user: createPortfolioDto.user,
     });
-
+    // console.log('create', createPortfolioDto.blogs);
+    // createPortfolioDto.blogs.map((blog) => {
+    //   console.log(blog._id);
+    // });
     if (user) {
       await this.portfolioModel.findOneAndUpdate(
         { user: createPortfolioDto.user },
-        { $set: createPortfolioDto },
+        {
+          $set: {
+            company: createPortfolioDto.company,
+            courses: createPortfolioDto.courses,
+            description: createPortfolioDto.description,
+            expert: createPortfolioDto.expert,
+            expertise: createPortfolioDto.expertise,
+            location: createPortfolioDto.location,
+            website: createPortfolioDto.website,
+          },
+        },
         { new: true },
       );
-
       return {
         message: 'Your portfolio updated successfully',
         success: true,
       };
     } else {
+      // console.log(createPortfolioDto);
       const portfolio = await this.portfolioModel.create(createPortfolioDto);
-      
+
       await portfolio.save();
       return {
         message: 'Your portfolio created successfully',
