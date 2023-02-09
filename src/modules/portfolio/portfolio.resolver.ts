@@ -33,8 +33,14 @@ export class PortfolioResolver {
     getAllBlogs = await this.blogService.findAllBlog({
       owner: createPortfolioDto.user,
     });
+    let newBlogsArray = getAllBlogs.map((blog) => {
+      let newBlog = { ...blog };
+      newBlog.seq = blog._id;
+      delete blog._id;
+      return newBlog;
+    });
     const dto: any = {
-      blogs: getAllBlogs,
+      blogs: newBlogsArray,
       ...createPortfolioDto,
     };
     const data = await this.portfolioService.createPortfolio(dto);

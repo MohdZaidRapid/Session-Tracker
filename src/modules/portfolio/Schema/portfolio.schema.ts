@@ -11,6 +11,7 @@ export const PortfolioSchema = new mongoose.Schema<Portfolio>({
     {
       title: { type: String, default: null },
       bannerImage: { type: String, default: null },
+      seq: { type: String, default: null }
     },
   ],
   description: { type: String, default: null },
