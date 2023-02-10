@@ -15,7 +15,8 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage, Multer } from 'multer';
 import { join } from 'path';
-import { Auth, GetUserId } from '../auth/auth.guard';
+// import { Auth, GetUserId } from '../auth/auth.guard';
+import { Auth, GetUserId } from '../auth/rest-auth.guards';
 import { AuthService } from '../auth/auth.service';
 import { BlogService } from '../blog/blog.service';
 import { PortfolioService } from '../portfolio/portfolio.service';
@@ -74,6 +75,7 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
+      console.log('errorororoororo', error.message);
       return {
         errror: error.message,
         success: false,
@@ -329,9 +331,16 @@ export class UploadsController {
   @Get('/get-image/:imagename')
   @Auth()
   async getImage(@Param('imagename') imagename, @Res() res) {
+    try {
+      const image = join('localhost:3000/' + imagename);
+      res.send(image);
+    } catch (err) {
+      console.log('err', err, 'err');
+      return {
+        message: err.message,
+      };
+    }
     // const image = join(process.cwd(), 'src/modules/uploads/files/' + im  agename);
-    const image = join('localhost:3000/' + imagename);
-    res.send(image);
   }
 
   /**

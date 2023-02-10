@@ -79,9 +79,8 @@ export class AuthGuard implements CanActivate {
               });
             } catch (e) {
               user = null;
-              throw new Error(err.message);
+              throw new Error(e.message);
             }
-
             if (user) {
               reqUser = user;
               return reqUser;
@@ -92,7 +91,7 @@ export class AuthGuard implements CanActivate {
       if (reqUser) {
         return reqUser;
       } else {
-        return null;
+        throw new Error('Unauthorized');
       }
     } catch (err) {
       throw err;

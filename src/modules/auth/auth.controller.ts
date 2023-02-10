@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { Args } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -6,6 +6,8 @@ import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
 import { User } from './interface/user.interface';
 import { ResetPasswordDto } from './dto/forgotPassword';
+import { SignInDto } from './dto/sign.dto';
+import { Auth } from './rest-auth.guards';
 
 @Controller('auth')
 export class AuthController {
@@ -57,6 +59,32 @@ export class AuthController {
       return {
         error: error.message,
         status: false,
+      };
+    }
+  }
+
+  @Post('/signin')
+  async signInUser(@Args() signInDto: SignInDto) {
+    try {
+      const user = await this.authService.signInUser(signInDto);
+      const { token } = await this.authService.createJwtpayload(user);
+      return { user, token };
+    } catch (err) {
+      return {
+        message: err.message,
+      };
+    }
+  }
+
+  @Get('/user')
+  @Auth()
+  async GetString() {
+    try {
+      let str = 'hello';
+      return { str };
+    } catch (err) {
+      return {
+        message: err.message,
       };
     }
   }

@@ -8,16 +8,17 @@ import {
   Logger,
   Inject,
   createParamDecorator,
-  SetMetadata,
+  UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 
 import { Reflector } from '@nestjs/core';
+import { SetMetadata } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { AuthService } from 'src/modules/auth/auth.service';
 import { Role } from './roles/Roles';
+import { AuthService } from './auth.service';
 
 export const ROLES_KEY = 'roles';
 
@@ -25,8 +26,8 @@ export const ROLES_KEY = 'roles';
 export class RestAuthGuard implements CanActivate {
   constructor(
     private readonly authService: AuthService,
-    private reflector: Reflector,
     private configService: ConfigService,
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -38,9 +39,7 @@ export class RestAuthGuard implements CanActivate {
     if (req.headers && req.headers.authorization) {
       req.user = await this.validateToken(req.headers.authorization);
 
-      if (!req.user) {
-        throw new Error('no user or request token timeout');
-      }
+      if (req.user.isBlocked === true) return false;
       if (!requiredRoles) {
         return true;
       } else {
@@ -56,13 +55,14 @@ export class RestAuthGuard implements CanActivate {
     }
 
     const token = auth.split(' ')[1];
+
     let reqUser = null;
     await jwt.verify(
       token,
       this.configService.get('JWT_SECRET_KEY'),
       async (err, tokenInfo: any) => {
         if (err) {
-          console.log(err.message);
+          throw new NotFoundException(err.message);
         } else {
           let user = null;
           try {
@@ -71,8 +71,10 @@ export class RestAuthGuard implements CanActivate {
             });
           } catch (e) {
             user = null;
+            return {
+              error: 'e.message',
+            };
           }
-
           if (user) {
             reqUser = user;
             return reqUser;
@@ -80,11 +82,12 @@ export class RestAuthGuard implements CanActivate {
         }
       },
     );
-
     if (reqUser) {
       return reqUser;
     } else {
-      return null;
+      return {
+        error: 'unauthorized',
+      };
     }
   }
 }

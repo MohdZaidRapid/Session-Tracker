@@ -75,7 +75,7 @@ export class CodesnippetsService {
         getSnippetByIdDto.id,
       );
       if (!snippet) {
-        throw new NotFoundException("can't found snippet with this id");
+        throw new NotFoundException("can't find snippet with this id");
       }
       return snippet;
     } catch (error) {
