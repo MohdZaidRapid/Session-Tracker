@@ -87,21 +87,4 @@ export class SessionsResolver {
       throw new Error(error.message);
     }
   }
-
-  // @Auth()
-  // @Mutation(() => MessageDef, { name: 'uploadSessionImage' })
-  // async uploadImage(
-  //   @Args('input') uploadSessionImageDto: UploadSessionImageDto,
-  //   @GetUserId() user,
-  // ) {
-  //   try {
-  //     const dto = {
-  //       ...uploadSessionImageDto,
-  //       userId: user._id,
-  //     };
-  //     return await this.sessionService.uploadImage(dto);
-  //   } catch (error) {
-  //     throw new Error(error.message);
-  //   }
-  // }
 }
