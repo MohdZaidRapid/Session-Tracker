@@ -52,7 +52,6 @@ export class AuthGuard implements CanActivate {
         return requiredRoles.includes(req.user.role);
       }
     }
-
     return false;
   }
 

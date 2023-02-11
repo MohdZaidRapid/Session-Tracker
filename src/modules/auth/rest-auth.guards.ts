@@ -86,7 +86,7 @@ export class RestAuthGuard implements CanActivate {
       return reqUser;
     } else {
       return {
-        error: 'unauthorized',
+        error: 'Unauthorized',
       };
     }
   }
