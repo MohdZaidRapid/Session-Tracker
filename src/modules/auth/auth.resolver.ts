@@ -32,9 +32,9 @@ export class AuthResolver {
   //author MohdZaid
   @Mutation(() => UserTokenData, { name: 'signIn' })
   async signInUser(@Args('input') signInDto: SignInDto) {
-    const user = await this.authService.signInUser(signInDto);
-    const { token } = await this.authService.createJwtpayload(user);
-    return { user, token };
+    const {user,token} = await this.authService.signInUser(signInDto);
+
+    return { user,token };
   }
 
   @Mutation(() => String, { name: 'check' })

@@ -60,6 +60,10 @@ export class UploadsController {
     @GetUserId() user,
   ) {
     try {
+      console.log(user);
+      if (!file) {
+        throw new Error('no file name found');
+      }
       const session = await this.sesssionService.getSessionByOnwerId(sessionId);
       if (session.owner !== user._id.toString()) {
         throw new Error("you can't upload image to this id");

@@ -61,6 +61,7 @@ export class RestAuthGuard implements CanActivate {
       token,
       this.configService.get('JWT_SECRET_KEY'),
       async (err, tokenInfo: any) => {
+        console.log(tokenInfo);
         if (err) {
           throw new NotFoundException(err.message);
         } else {
@@ -72,12 +73,16 @@ export class RestAuthGuard implements CanActivate {
           } catch (e) {
             user = null;
             return {
-              error: 'e.message',
+              error: e.message,
             };
           }
           if (user) {
-            reqUser = user;
-            return reqUser;
+            if (user.token.includes(token)) {
+              reqUser = user;
+              return reqUser;
+            } else {
+              throw new Error('The token provided does not belong to any existing user. Please log in to access this resource.');
+            }
           }
         }
       },

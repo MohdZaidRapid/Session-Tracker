@@ -69,7 +69,11 @@ export class AuthService {
         throw new ConflictException('account with this email already exists');
       }
       let user = await this.userModel.create(signupDto);
-
+      const { token } = await this.createJwtpayload(user);
+      if (!user.token) {
+        user.token = [];
+      }
+      user.token.push(token);
       await user.save();
       user = JSON.parse(JSON.stringify(user));
 
@@ -79,7 +83,6 @@ export class AuthService {
       if (!user) {
         throw new NotFoundException("Can't create user something went wrong");
       }
-      const { token } = await this.createJwtpayload(user);
       this.mailService.confirmMail(
         user.email,
         `http://localhost:3000/auth/confirm-mail/${token}`,
@@ -118,13 +121,22 @@ export class AuthService {
           'user not found Please check your email or password',
         );
       }
+      const { token } = await this.createJwtpayload(user);
+      if (!user.token) {
+        user.token = [];
+      }
+      user.token.push(token);
+      user.save();
       user = JSON.parse(JSON.stringify(user));
       if (user?.password || user?.password !== null) {
         delete user.password;
       }
-
+      const userData = {
+        user: user,
+        token: token,
+      };
       if (user && isMatch) {
-        return user;
+        return userData;
       }
       return null;
     } catch (error) {
@@ -279,5 +291,9 @@ export class AuthService {
       message: 'user updated successfully',
       success: true,
     };
+  }
+
+  async signout(token) {
+    await this.userModel.findOne({});
   }
 }

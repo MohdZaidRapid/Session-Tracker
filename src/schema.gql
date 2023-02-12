@@ -359,6 +359,9 @@ input SignupDto {
   """phone of the user"""
   phone: String
 
+  """token of the user"""
+  token: String
+
   """name of the user"""
   username: String!
 }
