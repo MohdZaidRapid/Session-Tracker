@@ -76,16 +76,15 @@ export class AuthController {
     }
   }
 
-  @Get('/user')
-  @Auth()
-  async GetString() {
-    try {
-      let str = 'hello';
-      return { str };
-    } catch (err) {
-      return {
-        message: err.message,
-      };
-    }
-  }
+  // @Get('/signout')
+  // @Auth()
+  // async signout() {
+  //   try {
+  //     if()
+  //   } catch (err) {
+  //     return {
+  //       message: err.message,
+  //     };
+  //   }
+  // }
 }

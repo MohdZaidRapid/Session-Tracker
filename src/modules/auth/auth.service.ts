@@ -87,7 +87,7 @@ export class AuthService {
         user.email,
         `http://localhost:3000/auth/confirm-mail/${token}`,
       );
-      return { 
+      return {
         user: user,
         token: token,
         message: 'We have sent an Email,Please verify your email to logged in',
@@ -293,7 +293,18 @@ export class AuthService {
     };
   }
 
-  async signout(token) {
-    await this.userModel.findOne({});
+  async signOut(user) {
+    console.log(user)
+    try {
+      user.token = [];
+      await user.save();
+
+      return {
+        message: 'user logged out successfully',
+        success: true,
+      };
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }

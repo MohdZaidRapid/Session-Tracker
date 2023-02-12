@@ -32,9 +32,9 @@ export class AuthResolver {
   //author MohdZaid
   @Mutation(() => UserTokenData, { name: 'signIn' })
   async signInUser(@Args('input') signInDto: SignInDto) {
-    const {user,token} = await this.authService.signInUser(signInDto);
+    const { user, token } = await this.authService.signInUser(signInDto);
 
-    return { user,token };
+    return { user, token };
   }
 
   @Mutation(() => String, { name: 'check' })
@@ -76,5 +76,18 @@ export class AuthResolver {
       userId: user._id,
     };
     return await this.authService.updateUserInfo(dto);
+  }
+
+  /**
+   * @description it update user profile
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
+
+  @Mutation(() => MessageDef, { name: 'logout' })
+  @Auth()
+  async logout(@GetUserId() user) {
+    return await this.authService.signOut(user);
   }
 }
