@@ -60,7 +60,6 @@ export class UploadsController {
     @GetUserId() user,
   ) {
     try {
-      console.log(user);
       if (!file) {
         throw new Error('no file name found');
       }
@@ -79,9 +78,9 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      console.log('errorororoororo', error.message);
+      console.log(error, 'errororr');
       return {
-        errror: error.message,
+        error: error.message,
         success: false,
       };
     }

@@ -87,7 +87,7 @@ export class AuthService {
         user.email,
         `http://localhost:3000/auth/confirm-mail/${token}`,
       );
-      return {
+      return { 
         user: user,
         token: token,
         message: 'We have sent an Email,Please verify your email to logged in',
