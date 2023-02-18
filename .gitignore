@@ -38,3 +38,5 @@ lerna-debug.log*
 
 src/schema.gql
 */schema.gql
+
+src/modules/uploads/files
