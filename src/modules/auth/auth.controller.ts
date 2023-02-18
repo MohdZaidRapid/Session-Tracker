@@ -66,26 +66,25 @@ export class AuthController {
   @Post('/signin')
   async signInUser(@Args() signInDto: SignInDto) {
     try {
-      const user = await this.authService.signInUser(signInDto);
-      const { token } = await this.authService.createJwtpayload(user);
+      const { user, token } = await this.authService.signInUser(signInDto);
+      // const { token } = await this.authService.createJwtpayload(user);
       return { user, token };
     } catch (err) {
       return {
-        message: err.message,
+        message: err.message, 
       };
     }
   }
 
-  @Get('/user')
-  @Auth()
-  async GetString() {
-    try {
-      let str = 'hello';
-      return { str };
-    } catch (err) {
-      return {
-        message: err.message,
-      };
-    }
-  }
+  // @Get('/signout')
+  // @Auth()
+  // async signout() {
+  //   try {
+  //     if()
+  //   } catch (err) {
+  //     return {
+  //       message: err.message,
+  //     };
+  //   }
+  // }
 }

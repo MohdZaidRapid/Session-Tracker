@@ -30,13 +30,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const { req } = ctx.getContext();
-    const requiredRoles = this.reflector.get<Role[]>(
-      ROLES_KEY,
-      context.getHandler(),
-    );
-    // if (!req.user) {
-    //   new Error('Not Authorized');
-    // }
 
     if (req.headers && req.headers.authorization) {
       req.user = await this.validateToken(req.headers.authorization);
@@ -46,19 +39,14 @@ export class AuthGuard implements CanActivate {
       if (!req.user.confirmEmail) {
         throw new Error('Please verify your email to access this');
       }
-      if (!requiredRoles) {
-        return true;
-      } else {
-        return requiredRoles.includes(req.user.role);
-      }
+      return true;
     }
     return false;
   }
-
   async validateToken(auth: string) {
     try {
       if (auth.split(' ')[0] !== 'Bearer') {
-        throw new NotFoundException('no bearer found');
+        throw new Error('no bearer found');
       }
 
       const token = auth.split(' ')[1];
@@ -81,8 +69,12 @@ export class AuthGuard implements CanActivate {
               throw new Error(e.message);
             }
             if (user) {
-              reqUser = user;
-              return reqUser;
+              if (user.token.includes(token)) {
+                reqUser = user;
+                return reqUser;
+              } else {
+                throw new Error('Please logged in ');
+              }
             }
           }
         },

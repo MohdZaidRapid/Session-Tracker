@@ -6,7 +6,7 @@ import { Auth, GetUserId } from './auth.guard';
 import { User, UserTokenData } from './type-def/resolver-type';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { ForgotPasswordDto } from './dto/forgotPassword';
-import { UserInfoDto } from './dto/User.dto';
+import { GetAllUserDto, UserInfoDto } from './dto/User.dto';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -32,8 +32,8 @@ export class AuthResolver {
   //author MohdZaid
   @Mutation(() => UserTokenData, { name: 'signIn' })
   async signInUser(@Args('input') signInDto: SignInDto) {
-    const user = await this.authService.signInUser(signInDto);
-    const { token } = await this.authService.createJwtpayload(user);
+    const { user, token } = await this.authService.signInUser(signInDto);
+
     return { user, token };
   }
 
@@ -76,5 +76,33 @@ export class AuthResolver {
       userId: user._id,
     };
     return await this.authService.updateUserInfo(dto);
+  }
+
+  /**
+   * @description it update user profile
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
+
+  @Mutation(() => MessageDef, { name: 'logout' })
+  @Auth()
+  async logout(@GetUserId() user) {
+    return await this.authService.signOut(user);
+  }
+
+  /**
+   * @description it update user profile
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
+  @Mutation(() => [User], { name: 'getAllUsers' })
+  @Auth()
+  async getAllUser(
+    @Args('input') getAllUserDto: GetAllUserDto,
+    @GetUserId() user,
+  ) {
+    return await this.authService.getAllUsers(getAllUserDto);
   }
 }

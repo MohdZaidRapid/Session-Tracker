@@ -19,6 +19,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { Role } from './roles/Roles';
 import { AuthService } from './auth.service';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 export const ROLES_KEY = 'roles';
 
@@ -38,56 +39,64 @@ export class RestAuthGuard implements CanActivate {
     );
     if (req.headers && req.headers.authorization) {
       req.user = await this.validateToken(req.headers.authorization);
-
-      if (req.user.isBlocked === true) return false;
-      if (!requiredRoles) {
-        return true;
-      } else {
-        return requiredRoles.includes(req.user.role);
+      if (!req.user) {
+        throw new Error('no user or request token timeout');
       }
+      if (!req.user.confirmEmail) {
+        throw new Error('Please verify your email to access this');
+      }
+      return true;
     }
     return false;
   }
 
   async validateToken(auth: string) {
-    if (auth.split(' ')[0] !== 'Bearer') {
-      throw new NotFoundException('no bearer found');
-    }
-
-    const token = auth.split(' ')[1];
-
-    let reqUser = null;
-    await jwt.verify(
-      token,
-      this.configService.get('JWT_SECRET_KEY'),
-      async (err, tokenInfo: any) => {
-        if (err) {
-          throw new NotFoundException(err.message);
-        } else {
-          let user = null;
-          try {
-            user = await this.authService.findByEmail({
-              email: tokenInfo.email,
-            });
-          } catch (e) {
-            user = null;
-            return {
-              error: 'e.message',
-            };
+    try {
+      if (auth.split(' ')[0] !== 'Bearer') {
+        throw new NotFoundException('no bearer found');
+      }
+      const token = auth.split(' ')[1];
+      let reqUser = null;
+      await jwt.verify(
+        token,
+        this.configService.get('JWT_SECRET_KEY'),
+        async (err, tokenInfo: any) => {
+          if (err) {
+            throw new NotFoundException(err.message);
+          } else {
+            let user = null;
+            try {
+              user = await this.authService.findByEmail({
+                email: tokenInfo.email,
+              });
+            } catch (e) {
+              user = null;
+              return {
+                error: e.message,
+              };
+            }
+            if (user) {
+              if (user.token.includes(token)) {
+                reqUser = user;
+                return reqUser;
+              } else {
+                throw new NotFoundException(
+                  'The token provided does not belong to any existing user. Please log in to access this resource.',
+                );
+              }
+            }
           }
-          if (user) {
-            reqUser = user;
-            return reqUser;
-          }
-        }
-      },
-    );
-    if (reqUser) {
-      return reqUser;
-    } else {
-      return {
-        error: 'Unauthorized',
-      };
+        },
+      );
+      if (reqUser) {
+        return reqUser;
+      } else {
+        return {
+          error: 'Unauthorized',
+        };
+      }
+    } catch (err) {
+      throw err;
     }
   }
 }

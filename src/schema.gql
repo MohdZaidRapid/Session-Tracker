@@ -169,6 +169,20 @@ input GetAllSessionDto {
   sort: Float = 1
 }
 
+input GetAllUserDto {
+  """limit"""
+  limit: Float = 10
+
+  """offset"""
+  offset: Float = 0
+
+  """enter sortOrder ->  (-1 for descending & 1 for ascending)"""
+  sortOrder: Float = 1
+
+  """username string"""
+  username: String
+}
+
 input GetBlogByIdDto {
   """id of the blog"""
   id: String!
@@ -271,9 +285,11 @@ type Mutation {
   forgotPassword(input: ForgotPasswordDto!): MessageDef!
   getAllPortfolio: [PortfolioDef!]!
   getAllSnippets(input: GetAllCodeSnippetsDto!): [SnippetDef!]!
+  getAllUsers(input: GetAllUserDto!): [User!]!
   getExpertPortfolio(input: GetExpertPortfolioDto!): GetExpertPortfolioDef!
   getSessionById(input: GetSessionByIdDto!): GetSessionByIdDef!
   getSnippetById(input: GetSnippetByIdDto!): GetSnippetByIdDef!
+  logout: MessageDef!
   signIn(input: SignInDto!): UserTokenData!
   signUp(input: SignupDto!): UserTokenData!
   updateUserInfo(input: UserInfoDto!): MessageDef!
@@ -359,6 +375,9 @@ input SignupDto {
   """phone of the user"""
   phone: String
 
+  """token of the user"""
+  token: String
+
   """name of the user"""
   username: String!
 }
@@ -395,7 +414,7 @@ type SubContentData {
 
 type User {
   """email of the user"""
-  email: String!
+  email: String
 
   """password of the user"""
   password: String

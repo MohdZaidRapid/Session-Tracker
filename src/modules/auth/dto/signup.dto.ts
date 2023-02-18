@@ -36,4 +36,10 @@ export class SignupDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  @Field({
+    nullable: true,
+    description: 'token of the user',
+  })
+  token: string;
 }

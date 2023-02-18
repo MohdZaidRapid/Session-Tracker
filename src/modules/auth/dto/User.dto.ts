@@ -2,6 +2,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import {
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -39,4 +40,34 @@ export class UserInfoDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+}
+
+@InputType()
+export class GetAllUserDto {
+  @Field({ nullable: true, description: 'limit', defaultValue: 10 })
+  @IsOptional()
+  @IsNumber()
+  readonly limit: number;
+
+  @Field({ nullable: true, description: 'offset', defaultValue: 0 })
+  @IsOptional()
+  @IsNumber()
+  readonly offset: number;
+
+  @Field({
+    nullable: true,
+    description: 'enter sortOrder ->  (-1 for descending & 1 for ascending)',
+    defaultValue: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  readonly sortOrder: number;
+
+  @Field({
+    nullable: true,
+    description: 'username string',
+  })
+  @IsOptional()
+  @IsString()
+  readonly username: string;
 }

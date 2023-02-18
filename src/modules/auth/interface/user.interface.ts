@@ -5,7 +5,7 @@ export interface User extends Document {
   phone: string;
   password: string | undefined;
   email: string;
-  token: string;
+  token: string[];
   username: string;
   refreshToken: string;
   resetPasswordExpiresIn: string;
