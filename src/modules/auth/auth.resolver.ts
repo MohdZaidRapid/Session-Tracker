@@ -91,6 +91,18 @@ export class AuthResolver {
     return await this.authService.signOut(user);
   }
 
-  
-
+  /**
+   * @description it update user profile
+   * @param  { user information  }
+   * @returns {message success}
+   */
+  //author MohdZaid
+  @Mutation(() => [User], { name: 'getAllUsers' })
+  @Auth()
+  async getAllUser(
+    @Args('input') getAllUserDto: GetAllUserDto,
+    @GetUserId() user,
+  ) {
+    return await this.authService.getAllUsers(getAllUserDto);
+  }
 }

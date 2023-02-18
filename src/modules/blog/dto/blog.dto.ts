@@ -3,6 +3,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import {
   IsArray,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MinLength,
@@ -139,4 +140,34 @@ export class BannerImageDto {
   @IsString()
   @IsNotEmpty()
   bannerImage: string;
+}
+
+@InputType()
+export class GetAllBlogsDto {
+  @Field({ nullable: true, description: 'limit', defaultValue: 100 })
+  @IsOptional()
+  @IsNumber()
+  readonly limit: number;
+
+  @Field({ nullable: true, description: 'offset', defaultValue: 0 })
+  @IsOptional()
+  @IsNumber()
+  readonly offset: number;
+
+  @Field({
+    nullable: true,
+    description: 'enter sortOrder ->  (-1 for descending & 1 for ascending)',
+    defaultValue: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  readonly sortOrder: number;
+
+  @Field({
+    nullable: true,
+    description: 'title string',
+  })
+  @IsOptional()
+  @IsString()
+  readonly title: string;
 }

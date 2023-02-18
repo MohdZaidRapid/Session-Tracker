@@ -311,7 +311,7 @@ export class AuthService {
     try {
       let { limit, sortOrder, offSet, username } = getAllUserDto;
 
-      limit = limit | 100;
+      limit = limit || 100;
       offSet = offSet | 0;
       if (offSet < 0) {
         offSet = 0;
