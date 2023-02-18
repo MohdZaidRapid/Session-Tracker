@@ -261,4 +261,39 @@ export class BlogService {
       throw new Error(err.message);
     }
   }
+
+  async getAllBlogs(getAllBlogsDto) {
+    try {
+      let { limit, sortOrder, offset, title } = getAllBlogsDto;
+
+      offset = offset || 0;
+      if (offset < 0) {
+        offset = 0;
+      }
+      const sort: any = {
+        createdAt: sortOrder ? sortOrder : -1,
+      };
+
+      const matches: any = {};
+      const orQuery = [];
+      if (title) {
+        orQuery.push({ title: title });
+      }
+
+      if (orQuery.length > 0) {
+        matches['$and'] = orQuery;
+      }
+
+      let blogs = await this.blogModel
+        .find(matches)
+        .populate('owner')
+        .limit(limit)
+        .sort(sort)
+        .skip(offset);
+      
+      return blogs;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
 }

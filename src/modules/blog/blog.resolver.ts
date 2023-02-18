@@ -8,6 +8,7 @@ import {
   CommentsDto,
   BlogDto,
   GetAllPortfolioDto,
+  GetAllBlogsDto,
 } from './dto/blog.dto';
 import { MessageDef } from '../sessions/typeDef/resolver-type';
 import { Blog, BlogByIdDef, ContentDef } from './typeDef/resolver-type';
@@ -123,5 +124,16 @@ export class BlogResolver {
     commentsDto.name = user.username;
 
     return await this.blogService.addComment(commentsDto);
+  }
+
+  /**
+   * @description get list of  all Bolg array of object
+   * @param  {NoParam}
+   * @returns { _id banner Image category createdAt description title }
+   */
+  // author MohdZaid
+  @Query(() => [Blog], { name: 'fetchAllBlog' })
+  async getAllBlogs(@Args('input') getAllBlogsDto: GetAllBlogsDto) {
+    return await this.blogService.getAllBlogs(getAllBlogsDto);
   }
 }

@@ -105,19 +105,4 @@ export class AuthResolver {
   ) {
     return await this.authService.getAllUsers(getAllUserDto);
   }
-
-  /**
-   * @description it update user profile
-   * @param  { user information  }
-   * @returns {message success}
-   */
-  //author MohdZaid
-  @Mutation(() => [User], { name: 'getAllUser' })
-  @Auth()
-  async getAllUsers(
-    @Args('input') getAllUserDto: GetAllUserDto,
-    @GetUserId() user,
-  ) {
-    return await this.authService.getAllUsers(getAllUserDto);
-  }
 }
