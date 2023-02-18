@@ -73,7 +73,7 @@ export class AuthGuard implements CanActivate {
                 reqUser = user;
                 return reqUser;
               } else {
-                throw new Error('Token not found for this user');
+                throw new Error('Please logged in ');
               }
             }
           }

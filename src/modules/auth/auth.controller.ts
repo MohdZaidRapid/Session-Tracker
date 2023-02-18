@@ -71,7 +71,7 @@ export class AuthController {
       return { user, token };
     } catch (err) {
       return {
-        message: err.message,
+        message: err.message, 
       };
     }
   }

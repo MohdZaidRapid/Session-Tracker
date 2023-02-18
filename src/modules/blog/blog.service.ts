@@ -106,11 +106,12 @@ export class BlogService {
       if (blogDto.owner) {
         query.owner = blogDto.owner;
       }
-
       const blog = await this.blogModel.find(query).populate('owner');
+
       if (!blog || blog.length <= 0) {
         throw new NotFoundException('Blog not found');
       }
+
       return blog;
     } catch (error) {
       throw new Error(error.message);

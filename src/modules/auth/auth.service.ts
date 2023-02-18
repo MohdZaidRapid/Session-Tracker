@@ -294,7 +294,6 @@ export class AuthService {
   }
 
   async signOut(user) {
-    console.log(user)
     try {
       user.token = [];
       await user.save();
@@ -303,6 +302,48 @@ export class AuthService {
         message: 'user logged out successfully',
         success: true,
       };
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async getAllUsers(getAllUserDto) {
+    try {
+      let { limit, sortOrder, offSet, username } = getAllUserDto;
+
+      limit = limit | 100;
+      offSet = offSet | 0;
+      if (offSet < 0) {
+        offSet = 0;
+      }
+      const sort: any = {
+        createdAt: sortOrder ? sortOrder : -1,
+      };
+
+      const matches: any = {};
+      const orQuery = [];
+      if (username) {
+        orQuery.push({ username: username });
+      }
+
+      if (orQuery.length > 0) {
+        matches['$and'] = orQuery;
+      }
+
+      let users = await this.userModel
+        .find(matches)
+        .sort(sort)
+        .limit(limit)
+        .skip(offSet);
+
+      users = await Promise.all(
+        users.map((user) => {
+          user = JSON.parse(JSON.stringify(user));
+          delete user.password;
+          return user;
+        }),
+      );
+      return users;
     } catch (err) {
       throw new Error(err.message);
     }

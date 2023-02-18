@@ -13,7 +13,7 @@ export class User {
   @IsString()
   readonly phone: number;
 
-  @Field({ nullable: false, description: 'email of the user' })
+  @Field({ nullable: true, description: 'email of the user' })
   @IsString()
   readonly email: string;
 
@@ -26,6 +26,8 @@ export class User {
   @IsNotEmpty()
   readonly username: string;
 }
+
+
 
 @ObjectType()
 export class UserTokenData {

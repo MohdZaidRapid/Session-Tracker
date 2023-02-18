@@ -78,7 +78,7 @@ export class UploadsController {
         success: true,
       };
     } catch (error) {
-      console.log(error, 'errororr');
+      // console.log(error, 'errororr');
       return {
         error: error.message,
         success: false,

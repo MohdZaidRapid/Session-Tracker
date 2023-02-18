@@ -73,7 +73,6 @@ export class PortfolioService {
       };
     } else {
       const portfolio = await this.portfolioModel.create(createPortfolioDto);
-
       await portfolio.save();
       return {
         message: 'Your portfolio created successfully',
@@ -206,6 +205,7 @@ export class PortfolioService {
           blogs: {
             title: blog.title,
             bannerImage: blog.bannerImage,
+            seq: blog._id.toString(),
           },
         },
       },
@@ -215,12 +215,13 @@ export class PortfolioService {
   }
 
   async updatePortfolioBlogimage(blog) {
+    console.log(blog);
     const portfolio = await this.portfolioModel.findOne({ user: blog.owner });
     if (portfolio) {
       const blogIndex = portfolio.blogs.findIndex(
         (b) => b.seq === blog._id.toString(),
       );
-      if (blogIndex === -1 || blogIndex === null) {
+      if (!blogIndex) {
         portfolio.blogs.push({
           title: blog.title,
           bannerImage: blog.bannerImage,
