@@ -70,16 +70,16 @@ export class BlogResolver {
     return data;
   }
 
-  /**
-   * @description get list of  all Bolg array of object
-   * @param  {NoParam}
-   * @returns { _id banner Image category createdAt description title }
-   */
-  // author MohdZaid
-  @Query(() => [Blog], { name: 'getAllBlogs' })
-  async findAll(@Args('input') blogDto: BlogDto) {
-    return await this.blogService.findAllBlog(blogDto);
-  }
+  // /**
+  //  * @description get list of  all Bolg array of object
+  //  * @param  {NoParam}
+  //  * @returns { _id banner Image category createdAt description title }
+  //  */
+  // // author MohdZaid
+  // @Query(() => [Blog], { name: 'getAllBlogs' })
+  // async findAll(@Args('input') blogDto: BlogDto) {
+  //   return await this.blogService.findAllBlog(blogDto);
+  // }
 
   /**
    * @description get list of  all Bolg array of object
@@ -126,13 +126,14 @@ export class BlogResolver {
     return await this.blogService.addComment(commentsDto);
   }
 
-  /**
-   * @description get list of  all Bolg array of object
-   * @param  {NoParam}
-   * @returns { _id banner Image category createdAt description title }
-   */
-  // author MohdZaid
+  // /**
+  //  * @description get list of  all Bolg array of object
+  //  * @param  {NoParam}
+  //  * @returns { _id banner Image category createdAt description title }
+  //  */
+  // // author MohdZaid
   @Query(() => [Blog], { name: 'fetchAllBlog' })
+  @Auth()
   async getAllBlogs(@Args('input') getAllBlogsDto: GetAllBlogsDto) {
     return await this.blogService.getAllBlogs(getAllBlogsDto);
   }
