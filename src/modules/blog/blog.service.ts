@@ -290,7 +290,7 @@ export class BlogService {
         .limit(limit)
         .sort(sort)
         .skip(offset);
-      
+        // find({$and:[{}]})
       return blogs;
     } catch (err) {
       throw new Error(err.message);
